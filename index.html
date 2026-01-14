@@ -23,7 +23,7 @@
     
     <!-- Schema.org Organization -->
     <script type="application/ld+json">
-    {{
+    {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Bench Energy",
@@ -32,7 +32,7 @@
             "https://t.me/benchenergy"
         ],
         "description": "Coal market news and analysis. Follow @benchenergy on Telegram for daily updates."
-    }}
+    }
     </script>
     
     <style>
@@ -103,6 +103,18 @@
             text-align: center;
             color: #666;
         }
+        .footer a {
+            color: #1976D2;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer .developer-credit {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #888;
+        }
     </style>
 </head>
 <body>
@@ -133,13 +145,22 @@
     
     <div class="articles-list">
         <h2>Latest Articles</h2>
-        <p>Articles will appear here automatically as they are published.</p>
-        <p>Check back soon for the latest coal market news!</p>
+        <div class="article-item">
+            <a href="posts/bharat-coking-coal-ipo-sees-record-demand-amid-volatile-markets.html">Bharat Coking Coal IPO Sees Record Demand Amid Volatile Markets</a>
+            <div class="article-meta">Published: January 14, 2026</div>
+        </div>
+        <div class="article-item">
+            <a href="posts/bharat-coking-coal-ipo-allotment-status-live-pre-listing-signals-hint-at-what-in.html">Bharat Coking Coal IPO Allotment Status Live: Pre-Listing Signals Hint at What Investors Might See Next - The Economic Times</a>
+            <div class="article-meta">Published: January 14, 2026</div>
+        </div>
     </div>
     
     <div class="footer">
         <p>© 2026 Bench Energy. All rights reserved.</p>
         <p><a href="https://t.me/benchenergy" target="_blank" rel="noopener noreferrer">Telegram Channel</a></p>
+        <p class="developer-credit">
+            Website developed by <a href="https://www.pixidstudio.online/" target="_blank" rel="noopener noreferrer">PIXID Studio</a>
+        </p>
     </div>
 </body>
 </html>
