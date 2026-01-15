@@ -12,26 +12,87 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://marfa77.github.io/bench-energy-news/">
-    <meta property="og:title" content="Bench Energy News - Coal Market Updates">
-    <meta property="og:description" content="Latest news and analysis about coal market. Follow @benchenergy on Telegram for real-time updates.">
+    <meta property="og:title" content="Bench Energy News - Coal Market Updates | Telegram @benchenergy">
+    <meta property="og:description" content="Latest news and analysis about coal market from Bench Energy. Follow our Telegram channel @benchenergy for real-time market insights, freight rates, and energy industry updates.">
     <meta property="og:site_name" content="Bench Energy">
+    <meta property="og:image" content="https://marfa77.github.io/bench-energy-news/assets/bench-energy-logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Bench Energy News - Coal Market Updates">
-    <meta name="twitter:description" content="Latest news and analysis about coal market. Follow @benchenergy on Telegram.">
+    <meta name="twitter:title" content="Bench Energy News - Coal Market Updates | Telegram @benchenergy">
+    <meta name="twitter:description" content="Latest news and analysis about coal market from Bench Energy. Follow @benchenergy on Telegram for real-time updates.">
+    <meta name="twitter:image" content="https://marfa77.github.io/bench-energy-news/assets/bench-energy-logo.png">
+    <meta name="twitter:site" content="@benchenergy">
     
-    <!-- Schema.org Organization -->
+    <!-- Schema.org Organization + WebSite + CollectionPage -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Bench Energy",
-        "url": "https://marfa77.github.io/bench-energy-news/",
-        "sameAs": [
-            "https://t.me/benchenergy"
-        ],
-        "description": "Coal market news and analysis. Follow @benchenergy on Telegram for daily updates."
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://marfa77.github.io/bench-energy-news/#organization",
+                "name": "Bench Energy",
+                "url": "https://marfa77.github.io/bench-energy-news/",
+                "sameAs": [
+                    "https://t.me/benchenergy"
+                ],
+                "description": "Coal market news and analysis. Follow @benchenergy on Telegram for daily updates.",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://marfa77.github.io/bench-energy-news/assets/bench-energy-logo.png"
+                }
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://marfa77.github.io/bench-energy-news/#website",
+                "url": "https://marfa77.github.io/bench-energy-news/",
+                "name": "Bench Energy News",
+                "description": "Latest news and analysis about coal market from Bench Energy",
+                "publisher": {
+                    "@id": "https://marfa77.github.io/bench-energy-news/#organization"
+                },
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": {
+                        "@type": "EntryPoint",
+                        "urlTemplate": "https://marfa77.github.io/bench-energy-news/?q={search_term_string}"
+                    },
+                    "query-input": "required name=search_term_string"
+                }
+            },
+            {
+                "@type": "CollectionPage",
+                "@id": "https://marfa77.github.io/bench-energy-news/#webpage",
+                "url": "https://marfa77.github.io/bench-energy-news/",
+                "name": "Bench Energy News - Coal Market Updates",
+                "description": "Latest news and analysis about coal market from Bench Energy",
+                "isPartOf": {
+                    "@id": "https://marfa77.github.io/bench-energy-news/#website"
+                },
+                "about": {
+                    "@id": "https://marfa77.github.io/bench-energy-news/#organization"
+                },
+                "breadcrumb": {
+                    "@id": "https://marfa77.github.io/bench-energy-news/#breadcrumb"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": "https://marfa77.github.io/bench-energy-news/#breadcrumb",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://marfa77.github.io/bench-energy-news/"
+                    }
+                ]
+            }
+        ]
     }
     </script>
     
@@ -145,6 +206,10 @@
     
     <div class="articles-list">
         <h2>Latest Articles</h2>
+        <div class="article-item">
+            <a href="posts/coal-shipments-to-china-fall-10-with-further-decline-on-the-horizon.html">Coal shipments to China fall 10% with further decline on the horizon</a>
+            <div class="article-meta">Published: January 15, 2026</div>
+        </div>
         <div class="article-item">
             <a href="posts/coal-power-falls-in-china-and-india-as-record-clean-energy-additions-reshape-glo.html">Coal power falls in China and India as record clean energy additions reshape global outlook</a>
             <div class="article-meta">Published: January 15, 2026</div>
