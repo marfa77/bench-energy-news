@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://marfa77.github.io/bench-energy-news/posts/bimco-shipping-number-of-the-week-coal-shipments-to-china-fall-10-with-further-d.html</loc>
-    <lastmod>2026-01-16</lastmod>
+    <loc>https://marfa77.github.io/bench-energy-news/</loc>
+    <lastmod>2026-01-11</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/bharat-coking-coal-ipo-allotment-status-live-pre-listing-signals-hint-at-what-in.html</loc>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/bharat-coking-coal-ipo-sees-record-demand-amid-volatile-markets.html</loc>
+    <lastmod>2026-01-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/coal-power-falls-in-china-and-india-as-record-clean-energy-additions-reshape-glo.html</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/coal-shipments-to-china-fall-10-with-further-decline-on-the-horizon.html</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/coal-fired-power-declines-in-india-china-as-use-of-green-energy-surges.html</loc>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
