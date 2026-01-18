@@ -542,6 +542,47 @@ def git_add_commit_push(repo_path: str, files: list, commit_message: str):
         
         log_success(f"Коммит создан: {commit_message}")
         
+        # Git pull перед push для синхронизации
+        log_info(f"ШАГ 8.2.5: Синхронизация с удаленным репозиторием (pull)...")
+        # Сохраняем текущее состояние и делаем stash для неотслеживаемых файлов
+        stash_result = subprocess.run(
+            ["git", "stash", "--include-untracked"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            env={**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+        )
+        
+        pull_result = subprocess.run(
+            ["git", "pull", "--rebase", "origin", GITHUB_BRANCH],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            env={**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+        )
+        
+        # Восстанавливаем stash (если был создан)
+        if stash_result.returncode == 0:
+            subprocess.run(
+                ["git", "stash", "pop"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env={**os.environ, "GIT_TERMINAL_PROMPT": "0"}
+            )
+        
+        if pull_result.returncode != 0:
+            if "fatal: couldn't find remote ref" in pull_result.stderr:
+                log_warning("Ветка не найдена на удаленном репозитории (возможно, первая публикация)")
+            elif "Already up to date" in pull_result.stdout or "Already up to date" in pull_result.stderr:
+                log_info("   Репозиторий уже синхронизирован")
+            elif "could not detach HEAD" in pull_result.stderr or "would be overwritten" in pull_result.stderr:
+                log_warning("Конфликты при pull (пропускаю синхронизацию, продолжим с текущим состоянием)")
+            else:
+                log_warning(f"Предупреждение git pull: {pull_result.stderr[:200]}")
+        else:
+            log_info("   Репозиторий синхронизирован с удаленным")
+        
         # Git push с аутентификацией через токен
         log_info(f"ШАГ 8.3: Отправка в GitHub (push)...")
         if GITHUB_TOKEN:
@@ -922,6 +963,34 @@ def publish_to_web(news_data: Dict, web_version: str, image_path: Optional[Path]
             log_warning(f"ШАГ 7: Ошибка при обновлении index.html: {e}")
             # Не прерываем процесс, продолжаем публикацию
         
+        # Обновляем RSS feed
+        log_info(f"📡 ШАГ 7.5: Генерация RSS feed...")
+        try:
+            generate_rss_script = repo_path / "generate_rss.py"
+            if generate_rss_script.exists():
+                # Запускаем скрипт из корня репозитория
+                result = subprocess.run(
+                    ["python3", str(generate_rss_script)],
+                    cwd=str(repo_path),
+                    capture_output=True,
+                    text=True,
+                    timeout=30
+                )
+                if result.returncode == 0:
+                    log_success("ШАГ 7.5: RSS feed обновлен")
+                    if result.stdout:
+                        # Выводим только важные сообщения из скрипта
+                        for line in result.stdout.split('\n'):
+                            if 'Found' in line or 'Successfully' in line or '✓' in line or 'RSS Feed URL' in line:
+                                log_info(f"   {line}")
+                else:
+                    log_warning(f"ШАГ 7.5: Ошибка генерации RSS feed: {result.stderr}")
+            else:
+                log_warning("ШАГ 7.5: Скрипт generate_rss.py не найден, пропускаю генерацию RSS feed")
+        except Exception as e:
+            log_warning(f"ШАГ 7.5: Ошибка при генерации RSS feed: {e}")
+            # Не прерываем процесс, продолжаем публикацию
+        
         # Git операции
         log_info(f"📤 ШАГ 8: Отправка в GitHub...")
         commit_message = f"Add news: {news_data.get('title', '')[:50]}"
@@ -955,6 +1024,12 @@ def publish_to_web(news_data: Dict, web_version: str, image_path: Optional[Path]
         if index_file.exists():
             files_to_add.append("index.html")
             log_info(f"   📋 Добавляю в git: index.html")
+        
+        # feed.xml: если был обновлен скриптом generate_rss.py
+        feed_file = repo_path / "feed.xml"
+        if feed_file.exists():
+            files_to_add.append("feed.xml")
+            log_info(f"   📡 Добавляю в git: feed.xml")
         
         log_info(f"ШАГ 8: Всего файлов для коммита: {len(files_to_add)}")
         success = git_add_commit_push(str(repo_path), files_to_add, commit_message)
