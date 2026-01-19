@@ -1,0 +1,48 @@
+```yaml
+name: Sync Notion to GitHub Pages
+
+on:
+  schedule:
+    # Запускается каждый час
+    - cron: '0 * * * *'
+  workflow_dispatch:  # Позволяет запускать вручную
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          cd bot
+          pip install -r requirements.txt
+          pip install notion-client requests
+      
+      - name: Sync Notion to GitHub Pages
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          GITHUB_REPO_PATH: ${{ github.workspace }}
+          SITE_URL: https://marfa77.github.io/bench-energy-news
+        run: |
+          cd bot
+          python3 notion_sync.py
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add posts/ sitemap.xml index.html feed.xml
+          git diff --staged --quiet || git commit -m "Auto-sync: Update from Notion [skip ci]"
+          git push
+```
