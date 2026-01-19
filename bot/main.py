@@ -592,36 +592,43 @@ async def process_news(news: dict):
         linkedin_post_id = None
         print(f"\n💼 Публикация в LinkedIn отключена")
         
-        # 3. Web (GitHub Pages)
+        # 3. Notion (единый источник правды)
+        web_status = False
+        web_article_url = None
+        notion_page_id = None
         try:
-            print(f"\n🌐 Публикация на веб-сайт (GitHub Pages)...")
-            # Для GitHub Pages передаем путь к локальному изображению
-            # Функция сама скопирует его в assets/ и создаст публичный URL
-            image_path_for_web = media_path if media_path and media_path.exists() else None
+            print(f"\n📝 Публикация в Notion...")
+            from notion_publisher import create_notion_page
             
-            web_article_url = publish_to_web(news, web_version, image_path_for_web)
-            if web_article_url:
-                print(f"✅ Опубликовано на GitHub Pages: {web_article_url}")
-                
-                # 4. Google Indexing API (после успешного пуша в GitHub)
-                # Вызываем только если публикация на веб прошла успешно
-                try:
-                    print(f"\n🔍 Отправка в Google Indexing API...")
-                    indexing_success = submit_to_google_indexing(web_article_url)
-                    if indexing_success:
-                        print(f"✅ URL отправлен в Google Indexing: {web_article_url}")
-                    else:
-                        print(f"⚠️  Google Indexing пропущен (ключ не найден или ошибка)")
-                except Exception as e:
-                    print(f"⚠️  Ошибка отправки в Google Indexing: {e}")
-                    import traceback
-                    print(traceback.format_exc())
+            # Получаем URL изображения для Notion
+            image_url_for_notion = None
+            if media_path and media_path.exists():
+                # Для Notion нужен публичный URL, поэтому сначала публикуем изображение
+                # Временно используем прямой путь или загружаем в публичное хранилище
+                # Пока используем None, можно добавить загрузку в S3/CDN позже
+                pass
+            
+            notion_page_id = create_notion_page(news, tg_version, web_version, image_url_for_notion)
+            if notion_page_id:
+                print(f"✅ Опубликовано в Notion: {notion_page_id}")
+                # Формируем URL для Notion страницы (будет доступен после синхронизации)
+                # Временный URL, реальный будет после синхронизации через GitHub Actions
+                web_article_url = f"notion:{notion_page_id}"
+                web_status = True  # Notion публикация считается успешной публикацией на веб
             else:
-                print(f"❌ Не удалось опубликовать на веб-сайт")
+                print(f"❌ Не удалось опубликовать в Notion")
+                web_status = False
         except Exception as e:
-            print(f"❌ Ошибка публикации на веб-сайт: {e}")
+            print(f"❌ Ошибка публикации в Notion: {e}")
             import traceback
             print(traceback.format_exc())
+            web_status = False
+        
+        # 4. Синхронизация Notion → GitHub Pages (опционально, можно запускать отдельно)
+        # Это можно делать по расписанию или через webhook
+        # Для автоматизации создан отдельный скрипт notion_sync.py
+        # GitHub Actions workflow автоматически синхронизирует каждый час
+        # После синхронизации web_article_url будет обновлен на реальный URL GitHub Pages
         
         # Удаляем изображение после публикации на всех платформах
         if media_path and media_path.exists():

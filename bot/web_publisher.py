@@ -130,17 +130,27 @@ def create_ai_summary(news_title: str, news_summary: str) -> str:
     return summary
 
 
-def create_schema_org_markup(news_data: Dict, article_url: str) -> str:
+def create_schema_org_markup(news_data: Dict, article_url: str, html_content: str = "") -> str:
     """
-    Создает Schema.org разметку NewsArticle для SEO.
+    Создает расширенную Schema.org разметку NewsArticle для SEO и LLM.
     
     Args:
         news_data: Словарь с данными новости
         article_url: URL опубликованной статьи
+        html_content: HTML контент статьи (для улучшенной оптимизации)
         
     Returns:
         JSON-LD разметка
     """
+    # Используем улучшенную SEO оптимизацию если доступна
+    try:
+        from seo_optimizer import generate_enhanced_schema_org
+        return generate_enhanced_schema_org(news_data, article_url, html_content)
+    except ImportError:
+        # Fallback на базовую версию
+        pass
+    
+    # Базовая версия (fallback)
     schema = {
         "@context": "https://schema.org",
         "@type": "NewsArticle",
@@ -240,8 +250,8 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
     slug = create_slug(title)
     article_url = f"{SITE_URL}/posts/{slug}.html"
     
-    # Schema.org разметка
-    schema_markup = create_schema_org_markup(news_data, article_url)
+    # Schema.org разметка (с улучшенной SEO оптимизацией)
+    schema_markup = create_schema_org_markup(news_data, article_url, web_version)
     
     # Экранируем HTML в title и summary для мета-тегов
     import html
