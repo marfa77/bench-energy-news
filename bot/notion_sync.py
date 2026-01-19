@@ -311,6 +311,14 @@ def sync_notion_to_github():
     print("🔄 СИНХРОНИЗАЦИЯ NOTION → GITHUB PAGES")
     print("=" * 80)
     
+    # Проверяем переменные окружения
+    if not NOTION_API_KEY or not NOTION_DATABASE_ID:
+        error_msg = "❌ ОШИБКА: NOTION_API_KEY или NOTION_DATABASE_ID не установлены"
+        print(error_msg)
+        print(f"   NOTION_API_KEY: {'установлен' if NOTION_API_KEY else 'НЕ установлен'}")
+        print(f"   NOTION_DATABASE_ID: {'установлен' if NOTION_DATABASE_ID else 'НЕ установлен'}")
+        raise ValueError("NOTION_API_KEY или NOTION_DATABASE_ID не установлены")
+    
     # Получаем все страницы из Notion
     pages = fetch_notion_pages()
     
