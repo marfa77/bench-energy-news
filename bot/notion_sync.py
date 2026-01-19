@@ -347,6 +347,7 @@ def sync_notion_to_github():
     for page in pages:
         try:
             article_data = extract_page_content(page)
+            print(f"📄 Обработка: {article_data.get('title', 'Unknown')[:50]}...")
             
             # Создаем HTML статью
             news_data = {
@@ -365,6 +366,7 @@ def sync_notion_to_github():
             
             # Сохраняем HTML файл
             html_file = posts_dir / f"{slug}.html"
+            print(f"💾 Сохранение: {html_file}")
             with open(html_file, 'w', encoding='utf-8') as f:
                 f.write(html_content)
             
