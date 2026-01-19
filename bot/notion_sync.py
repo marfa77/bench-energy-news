@@ -431,4 +431,10 @@ def update_rss_from_articles(articles: List[Dict], repo_path: Path):
         )
 
 if __name__ == "__main__":
-    sync_notion_to_github()
+    try:
+        sync_notion_to_github()
+    except Exception as e:
+        print(f"❌ КРИТИЧЕСКАЯ ОШИБКА: {e}")
+        import traceback
+        traceback.print_exc()
+        exit(1)
