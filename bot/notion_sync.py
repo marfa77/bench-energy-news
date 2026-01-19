@@ -327,11 +327,20 @@ def sync_notion_to_github():
         return
     
     repo_path = Path(GITHUB_REPO_PATH).expanduser().resolve()
+    print(f"📁 Репозиторий: {repo_path}")
+    print(f"📁 GITHUB_REPO_PATH: {GITHUB_REPO_PATH}")
+    
     posts_dir = repo_path / "posts"
     posts_dir.mkdir(exist_ok=True)
+    print(f"📁 Posts директория: {posts_dir}")
     
     # Импортируем функции из web_publisher для генерации HTML
-    from web_publisher import create_html_article, create_schema_org_markup
+    try:
+        from web_publisher import create_html_article, create_schema_org_markup
+        print("✅ Импорт web_publisher успешен")
+    except ImportError as e:
+        print(f"❌ Ошибка импорта web_publisher: {e}")
+        raise
     
     articles_data = []
     
@@ -374,12 +383,15 @@ def sync_notion_to_github():
             traceback.print_exc()
     
     # Обновляем sitemap
+    print("🗺️  Обновление sitemap.xml...")
     update_sitemap_from_articles(articles_data, repo_path)
     
     # Обновляем index.html
+    print("📄 Обновление index.html...")
     update_index_from_articles(articles_data, repo_path)
     
     # Обновляем RSS feed
+    print("📡 Обновление RSS feed...")
     update_rss_from_articles(articles_data, repo_path)
     
     print("=" * 80)
