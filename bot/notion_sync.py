@@ -453,10 +453,32 @@ def update_rss_from_articles(articles: List[Dict], repo_path: Path):
         )
 
 if __name__ == "__main__":
+    import sys
+    from datetime import datetime
+    
+    print("=" * 80)
+    print("🚀 ЗАПУСК СИНХРОНИЗАЦИИ NOTION → GITHUB PAGES")
+    print("=" * 80)
+    print(f"📅 Время запуска: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"🐍 Python версия: {sys.version.split()[0]}")
+    print(f"📁 Текущая директория: {os.getcwd()}")
+    print(f"📁 GITHUB_REPO_PATH: {GITHUB_REPO_PATH}")
+    print("=" * 80)
+    print()
+    
     try:
         sync_notion_to_github()
+        print()
+        print("=" * 80)
+        print("✅ СИНХРОНИЗАЦИЯ УСПЕШНО ЗАВЕРШЕНА")
+        print(f"📅 Время завершения: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print("=" * 80)
     except Exception as e:
+        print()
+        print("=" * 80)
         print(f"❌ КРИТИЧЕСКАЯ ОШИБКА: {e}")
+        print("=" * 80)
         import traceback
         traceback.print_exc()
+        print("=" * 80)
         exit(1)
