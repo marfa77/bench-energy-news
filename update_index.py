@@ -2,6 +2,7 @@
 """
 Script to automatically update index.html with articles from posts/ directory.
 Scans posts/ folder, extracts article metadata, and updates the articles list in index.html.
+Generates Telegram-style cards with previews.
 """
 
 import os
@@ -11,7 +12,7 @@ from pathlib import Path
 from html import unescape
 
 def extract_article_metadata(html_file_path):
-    """Extract title and published date from HTML article file."""
+    """Extract title, description, image, source, and published date from HTML article file."""
     try:
         with open(html_file_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -24,6 +25,35 @@ def extract_article_metadata(html_file_path):
             title = re.sub(r'\s*\|\s*Bench Energy\s*$', '', title, flags=re.IGNORECASE)
         else:
             title = Path(html_file_path).stem.replace('-', ' ').title()
+        
+        # Extract description
+        desc_match = re.search(r'<meta name="description" content="([^"]+)"', content)
+        description = desc_match.group(1) if desc_match else title[:200] + "..."
+        description = unescape(description)
+        
+        # Extract image
+        og_image_match = re.search(r'<meta property="og:image" content="([^"]+)"', content)
+        image_url = og_image_match.group(1) if og_image_match else "https://marfa77.github.io/bench-energy-news/assets/default-news.jpg"
+        
+        # Extract source URL
+        source_match = re.search(r'<meta property="og:url" content="([^"]+)"', content)
+        source_url = source_match.group(1) if source_match else f"https://marfa77.github.io/bench-energy-news/posts/{Path(html_file_path).name}"
+        
+        # Extract source name from title (usually after " - " or " | ")
+        source_name = "Bench Energy"
+        if " - " in title:
+            parts = title.split(" - ")
+            if len(parts) > 1:
+                source_name = parts[-1].strip()
+        elif " | " in title:
+            parts = title.split(" | ")
+            if len(parts) > 1:
+                source_name = parts[-1].strip()
+        
+        # Extract category/keywords for hashtags
+        keywords_match = re.search(r'<meta name="keywords" content="([^"]+)"', content)
+        keywords = keywords_match.group(1) if keywords_match else "Coal"
+        hashtags = [f"#{tag.strip()}" for tag in keywords.split(',')[:5] if tag.strip() and tag.strip() not in ['Bench Energy', '@benchenergy', 'Telegram channel']]
         
         # Extract published date
         date_match = re.search(r'<meta property="article:published_time" content="([^"]+)"', content)
@@ -45,6 +75,11 @@ def extract_article_metadata(html_file_path):
         
         return {
             'title': title,
+            'description': description,
+            'image_url': image_url,
+            'source_url': source_url,
+            'source_name': source_name,
+            'hashtags': hashtags,
             'date': published_date,
             'formatted_date': formatted_date,
             'filename': Path(html_file_path).name
@@ -72,7 +107,7 @@ def get_all_articles(posts_dir):
     return articles
 
 def generate_articles_html(articles):
-    """Generate HTML for articles list."""
+    """Generate HTML for articles list with Telegram-style cards."""
     if not articles:
         return ['        <h2>Latest Articles</h2>',
                 '        <p>Articles will appear here automatically as they are published.</p>',
@@ -80,9 +115,30 @@ def generate_articles_html(articles):
     
     html_lines = ['        <h2>Latest Articles</h2>']
     for article in articles:
-        html_lines.append(f'        <div class="article-item">')
-        html_lines.append(f'            <a href="posts/{article["filename"]}">{article["title"]}</a>')
-        html_lines.append(f'            <div class="article-meta">Published: {article["formatted_date"]}</div>')
+        hashtags_html = ' '.join(article.get('hashtags', []))
+        source_name = article.get('source_name', 'Bench Energy')
+        description = article.get('description', article['title'])[:200]
+        if len(description) > 200:
+            description = description[:197] + "..."
+        
+        html_lines.append(f'        <div class="news-card">')
+        html_lines.append(f'            <div class="news-header">')
+        html_lines.append(f'                <h3 class="news-title"><a href="posts/{article["filename"]}">{article["title"]}</a></h3>')
+        html_lines.append(f'                <p class="news-description">{description}</p>')
+        if hashtags_html:
+            html_lines.append(f'                <div class="news-hashtags">{hashtags_html}</div>')
+        html_lines.append(f'                <div class="news-source">Source: <a href="{article.get("source_url", "#")}" target="_blank" rel="noopener">{source_name}</a></div>')
+        html_lines.append(f'            </div>')
+        html_lines.append(f'            <div class="news-preview-card">')
+        html_lines.append(f'                <div class="preview-source">{source_name}</div>')
+        html_lines.append(f'                <h4 class="preview-title">{article["title"]}</h4>')
+        html_lines.append(f'                <p class="preview-description">{description}</p>')
+        html_lines.append(f'                <div class="preview-image">')
+        html_lines.append(f'                    <img src="{article.get("image_url", "assets/default-news.jpg")}" alt="{article["title"]}" loading="lazy">')
+        html_lines.append(f'                </div>')
+        html_lines.append(f'                <a href="posts/{article["filename"]}" class="preview-link">📖 Read Article</a>')
+        html_lines.append(f'            </div>')
+        html_lines.append(f'            <div class="news-meta">Published: {article["formatted_date"]}</div>')
         html_lines.append(f'        </div>')
     return html_lines
 
