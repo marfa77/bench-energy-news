@@ -151,11 +151,21 @@
         .articles-list {
             margin-top: 40px;
         }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         .news-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 30px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border: 1px solid #e0e0e0;
         }
@@ -220,24 +230,6 @@
             margin: 0 0 10px 0;
             font-size: 1.1em;
             color: #1a1a1a;
-        }
-        .preview-description {
-            color: #555;
-            font-size: 0.95em;
-            margin: 10px 0;
-            line-height: 1.5;
-        }
-        .preview-image {
-            margin: 15px 0;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .preview-image img {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: cover;
-            display: block;
         }
         .preview-link {
             display: inline-block;
@@ -309,6 +301,7 @@
     
     <div class="articles-list">
         <h2>Latest Articles</h2>
+        <div class="articles-grid">
         <div class="news-card">
             <div class="news-header">
                 <h3 class="news-title"><a href="posts/bharat-coking-coal-ipo-sees-record-demand-amid-volatile-markets.html">Bharat Coking Coal IPO Sees Record Demand Amid Volatile Markets</a></h3>
@@ -318,9 +311,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Bench Energy</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Bharat Coking Coal IPO Sees Record Demand Amid Volatile Markets" loading="lazy">
-                </div>
                 <a href="posts/bharat-coking-coal-ipo-sees-record-demand-amid-volatile-markets.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -334,9 +324,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Bench Energy</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal shipments to China fall 10% with further decline on the horizon" loading="lazy">
-                </div>
                 <a href="posts/coal-shipments-to-china-fall-10-with-further-decline-on-the-horizon.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -350,9 +337,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Bench Energy</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal power falls in China and India as record clean energy additions reshape global outlook" loading="lazy">
-                </div>
                 <a href="posts/coal-power-falls-in-china-and-india-as-record-clean-energy-additions-reshape-glo.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -366,9 +350,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Bench Energy</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal-fired power declines in India, China as use of green energy surges" loading="lazy">
-                </div>
                 <a href="posts/coal-fired-power-declines-in-india-china-as-use-of-green-energy-surges.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -382,9 +363,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Argus Media</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Australia's Gladstone coal exports rise in December | Latest Market News - Argus Media" loading="lazy">
-                </div>
                 <a href="posts/australias-gladstone-coal-exports-rise-in-december-latest-market-news-argus-medi.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -398,9 +376,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">信德海事</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="BIMCO Shipping Number of the Week： Coal shipments to China fall 10% with further decline on the horizon - 信德海事" loading="lazy">
-                </div>
                 <a href="posts/bimco-shipping-number-of-the-week-coal-shipments-to-china-fall-10-with-further-d.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -414,9 +389,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">YCharts</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Australia Coal Price (Monthly) - Historical Data & Trends - YCharts" loading="lazy">
-                </div>
                 <a href="posts/australia-coal-price-monthly-historical-data-trends-ycharts.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -430,9 +402,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">PSU Connect</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal Ministry Execute Agreements with Damodar Valley Corporation for Three Commercial Coal Blocks - PSU Connect" loading="lazy">
-                </div>
                 <a href="posts/coal-ministry-execute-agreements-with-damodar-valley-corporation-for-three-comme.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -446,9 +415,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Carbon Brief</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="DeBriefed 16 January 2026: Three years of record heat; China and India coal milestone; Beijing's 2026 climate outlook - Carbon Brief" loading="lazy">
-                </div>
                 <a href="posts/debriefed-16-january-2026-three-years-of-record-heat-china-and-india-coal-milest.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -462,9 +428,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">World-Energy</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Indonesia coal exports fall Jan–Nov on weak demand, policy uncertainty - World-Energy" loading="lazy">
-                </div>
                 <a href="posts/indonesia-coal-exports-fall-jannov-on-weak-demand-policy-uncertainty-world-energ.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -478,9 +441,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">The Guardian</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal power generation falls in China and India for first time since 1970s - The Guardian" loading="lazy">
-                </div>
                 <a href="posts/coal-power-generation-falls-in-china-and-india-for-first-time-since-1970s-the-gu.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -494,9 +454,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">GlobeNewswire</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Mining Industry Review, Q3 2025 Report - Macroeconomic Trends, Commodity Trends, Development Projects Update, Capex, Demand Drivers, Regulations - GlobeNewswire" loading="lazy">
-                </div>
                 <a href="posts/mining-industry-review-q3-2025-report-macroeconomic-trends-commodity-trends-deve.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -510,9 +467,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Indonesia Miner</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Global Coal Demand in 2026 Predicted to Remain Stable - Indonesia Miner" loading="lazy">
-                </div>
                 <a href="posts/global-coal-demand-in-2026-predicted-to-remain-stable-indonesia-miner.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -526,9 +480,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">PIB</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Year End Review of Ministry of Power - 2025 - PIB" loading="lazy">
-                </div>
                 <a href="posts/year-end-review-of-ministry-of-power-2025-pib.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -542,9 +493,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Mysteel</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Mongolian coking coal import prices: DDP China border (Jan 15, 2026 17:01) | Mysteel" loading="lazy">
-                </div>
                 <a href="posts/mongolian-coking-coal-import-prices-ddp-china-border-jan-15-2026-1701-mysteel.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -558,9 +506,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Mysteel</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coking coal procurement prices: Chongqing Iron & Steel (Jan 18, 2026 19:55) | Mysteel" loading="lazy">
-                </div>
                 <a href="posts/coking-coal-procurement-prices-chongqing-iron-steel-jan-18-2026-1955-mysteel.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 19, 2026</div>
@@ -574,9 +519,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">Argus Media</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/australias-gladstone-coal-exports-rise-in-december-latest-market-news-argus-medi-1768551234.jpg" alt="Australia's Gladstone coal exports rise in December | Latest Market News - Argus Media" loading="lazy">
-                </div>
                 <a href="posts/australias-gladstone-coal-exports-rise-in-december-latest-market-news-argus-medi-1768551234.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 16, 2026</div>
@@ -590,9 +532,6 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">PSU Connect</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/default-news.jpg" alt="Coal Ministry Execute Agreements with Damodar Valley Corporation for Three Commercial Coal Blocks - PSU Connect" loading="lazy">
-                </div>
                 <a href="posts/coal-ministry-execute-agreements-with-damodar-valley-corporation-for-three-comme-1768551090.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 16, 2026</div>
@@ -606,12 +545,10 @@
             </div>
             <div class="news-preview-card">
                 <div class="preview-source">The Economic Times</div>
-                <div class="preview-image">
-                    <img src="https://marfa77.github.io/bench-energy-news/assets/bharat-coking-coal-ipo-allotment-status-live-pre-listing-signals-hint-at-what-in.jpg" alt="Bharat Coking Coal IPO Allotment Status Live: Pre-Listing Signals Hint at What Investors Might See Next - The Economic Times" loading="lazy">
-                </div>
                 <a href="posts/bharat-coking-coal-ipo-allotment-status-live-pre-listing-signals-hint-at-what-in.html" class="preview-link">📖 Read Article</a>
             </div>
             <div class="news-meta">Published: January 14, 2026</div>
+        </div>
         </div>
     </div>
     

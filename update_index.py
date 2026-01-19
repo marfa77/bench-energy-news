@@ -113,7 +113,7 @@ def generate_articles_html(articles):
                 '        <p>Articles will appear here automatically as they are published.</p>',
                 '        <p>Check back soon for the latest coal market news!</p>']
     
-    html_lines = ['        <h2>Latest Articles</h2>']
+    html_lines = ['        <h2>Latest Articles</h2>', '        <div class="articles-grid">']
     for article in articles:
         hashtags_html = ' '.join(article.get('hashtags', []))
         source_name = article.get('source_name', 'Bench Energy')
@@ -131,13 +131,11 @@ def generate_articles_html(articles):
         html_lines.append(f'            </div>')
         html_lines.append(f'            <div class="news-preview-card">')
         html_lines.append(f'                <div class="preview-source">{source_name}</div>')
-        html_lines.append(f'                <div class="preview-image">')
-        html_lines.append(f'                    <img src="{article.get("image_url", "assets/default-news.jpg")}" alt="{article["title"]}" loading="lazy">')
-        html_lines.append(f'                </div>')
         html_lines.append(f'                <a href="posts/{article["filename"]}" class="preview-link">📖 Read Article</a>')
         html_lines.append(f'            </div>')
         html_lines.append(f'            <div class="news-meta">Published: {article["formatted_date"]}</div>')
         html_lines.append(f'        </div>')
+    html_lines.append('        </div>')
     return html_lines
 
 def update_index_html(index_path, articles_html):
