@@ -131,8 +131,6 @@ def generate_articles_html(articles):
         html_lines.append(f'            </div>')
         html_lines.append(f'            <div class="news-preview-card">')
         html_lines.append(f'                <div class="preview-source">{source_name}</div>')
-        html_lines.append(f'                <h4 class="preview-title">{article["title"]}</h4>')
-        html_lines.append(f'                <p class="preview-description">{description}</p>')
         html_lines.append(f'                <div class="preview-image">')
         html_lines.append(f'                    <img src="{article.get("image_url", "assets/default-news.jpg")}" alt="{article["title"]}" loading="lazy">')
         html_lines.append(f'                </div>')
