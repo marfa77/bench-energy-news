@@ -19,9 +19,12 @@ NOTION_API_URL = "https://api.notion.com/v1"
 GITHUB_REPO_PATH = os.getenv("GITHUB_REPO_PATH", ".")
 SITE_URL = os.getenv("SITE_URL", "https://marfa77.github.io/bench-energy-news")
 
-def fetch_notion_pages() -> List[Dict]:
+def fetch_notion_pages(today_only: bool = True) -> List[Dict]:
     """
-    Получает все опубликованные страницы из Notion базы данных.
+    Получает опубликованные страницы из Notion базы данных.
+    
+    Args:
+        today_only: Если True, возвращает только новости за сегодня
     
     Returns:
         Список словарей с данными страниц
@@ -37,13 +40,29 @@ def fetch_notion_pages() -> List[Dict]:
     }
     
     # Фильтр: только опубликованные статьи
-    filter_payload = {
-        "filter": {
-            "property": "Published",
-            "checkbox": {
-                "equals": True
+    filter_conditions = {
+        "and": [
+            {
+                "property": "Published",
+                "checkbox": {
+                    "equals": True
+                }
             }
-        }
+        ]
+    }
+    
+    # Если нужны только новости за сегодня, добавляем фильтр по дате
+    if today_only:
+        today = datetime.now().date().isoformat()
+        filter_conditions["and"].append({
+            "property": "Published Date",
+            "date": {
+                "equals": today
+            }
+        })
+    
+    filter_payload = {
+        "filter": filter_conditions
     }
     
     # Сортировка по дате создания (если Published Date отсутствует)
@@ -143,14 +162,33 @@ def extract_page_content(page: Dict) -> Dict:
     if "SEO Description" in properties and properties["SEO Description"].get("rich_text"):
         seo_description = "".join([t.get("text", {}).get("content", "") for t in properties["SEO Description"]["rich_text"]])
     
-    published_date = datetime.now()
-    # Published Date может отсутствовать, используем текущую дату
+    # Извлекаем дату публикации из Notion
+    published_date = None
     if "Published Date" in properties and properties["Published Date"].get("date"):
         date_str = properties["Published Date"]["date"]["start"]
         try:
-            published_date = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
-        except:
-            pass
+            # Парсим дату (может быть только дата или дата+время)
+            if "T" in date_str:
+                published_date = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+            else:
+                # Только дата без времени
+                published_date = datetime.fromisoformat(date_str)
+        except Exception as e:
+            print(f"⚠️  Ошибка парсинга даты '{date_str}': {e}")
+    
+    # Если дата не найдена, используем created_time страницы
+    if published_date is None:
+        created_time = page.get("created_time")
+        if created_time:
+            try:
+                published_date = datetime.fromisoformat(created_time.replace("Z", "+00:00"))
+            except:
+                pass
+    
+    # Если всё ещё нет даты, используем текущую (но это не должно происходить)
+    if published_date is None:
+        print(f"⚠️  Дата публикации не найдена для страницы, используется текущая дата")
+        published_date = datetime.now()
     
     # Получаем контент страницы (blocks)
     page_id = page.get("id")
@@ -319,12 +357,16 @@ def sync_notion_to_github():
         print(f"   NOTION_DATABASE_ID: {'установлен' if NOTION_DATABASE_ID else 'НЕ установлен'}")
         raise ValueError("NOTION_API_KEY или NOTION_DATABASE_ID не установлены")
     
-    # Получаем все страницы из Notion
-    pages = fetch_notion_pages()
+    # Получаем только новости за сегодня из Notion
+    today = datetime.now().date().isoformat()
+    print(f"📅 Фильтр: только новости за {today}")
+    pages = fetch_notion_pages(today_only=True)
     
     if not pages:
-        print("⚠️  Нет опубликованных статей в Notion")
+        print(f"⚠️  Нет опубликованных статей в Notion за {today}")
         return
+    
+    print(f"✅ Найдено {len(pages)} новостей за сегодня")
     
     repo_path = Path(GITHUB_REPO_PATH).expanduser().resolve()
     print(f"📁 Репозиторий: {repo_path}")
@@ -361,7 +403,8 @@ def sync_notion_to_github():
             html_content, article_url, slug = create_html_article(
                 news_data,
                 article_data["html_content"],
-                None  # image_url - можно добавить позже
+                None,  # image_url - можно добавить позже
+                article_data["published_date"]  # Передаем дату публикации из Notion
             )
             
             # Сохраняем HTML файл

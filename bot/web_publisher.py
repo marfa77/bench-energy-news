@@ -218,7 +218,7 @@ def create_schema_org_markup(news_data: Dict, article_url: str, html_content: st
     return json.dumps(schema, indent=2, ensure_ascii=False)
 
 
-def create_html_article(news_data: Dict, web_version: str, image_url: Optional[str] = None) -> Tuple[str, str, str]:
+def create_html_article(news_data: Dict, web_version: str, image_url: Optional[str] = None, published_date: Optional[datetime] = None) -> Tuple[str, str, str]:
     """
     Создает HTML шаблон для новости с SEO оптимизацией.
     
@@ -226,6 +226,7 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
         news_data: Словарь с данными новости
         web_version: HTML контент статьи
         image_url: URL изображения (опционально)
+        published_date: Дата публикации (опционально, по умолчанию текущая дата)
         
     Returns:
         Кортеж (html_content, article_url, slug)
@@ -242,9 +243,13 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
     # Определяем изображение для OpenGraph
     og_image = image_url or f"{SITE_URL}/assets/default-news.jpg"
     
-    # Создаем дату публикации
-    pub_date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
-    pub_date_display = datetime.now().strftime("%B %d, %Y")
+    # Используем переданную дату или текущую дату
+    if published_date is None:
+        published_date = datetime.now()
+    
+    # Форматируем дату публикации
+    pub_date = published_date.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    pub_date_display = published_date.strftime("%B %d, %Y")
     
     # Создаем slug для URL
     slug = create_slug(title)
