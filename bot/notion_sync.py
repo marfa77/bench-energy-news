@@ -51,16 +51,8 @@ def fetch_notion_pages(today_only: bool = True) -> List[Dict]:
         ]
     }
     
-    # Если нужны только новости за сегодня, добавляем фильтр по дате
-    if today_only:
-        today = datetime.now().date().isoformat()
-        filter_conditions["and"].append({
-            "property": "Published Date",
-            "date": {
-                "equals": today
-            }
-        })
-    
+    # Не фильтруем по дате в запросе - получим все и отфильтруем в коде
+    # Это более надежно, так как Notion хранит даты в UTC, а нужно учитывать локальный часовой пояс
     filter_payload = {
         "filter": filter_conditions
     }
@@ -111,6 +103,47 @@ def fetch_notion_pages(today_only: bool = True) -> List[Dict]:
         except requests.exceptions.RequestException as e:
             print(f"❌ Ошибка получения страниц из Notion: {e}")
             break
+    
+    # Если нужны только новости за сегодня, фильтруем по дате с учетом часового пояса
+    if today_only:
+        from datetime import timedelta
+        today_local = datetime.now().date()
+        filtered_pages = []
+        
+        for page in all_pages:
+            properties = page.get("properties", {})
+            if "Published Date" in properties and properties["Published Date"].get("date"):
+                date_str = properties["Published Date"]["date"]["start"]
+                try:
+                    # Парсим дату из Notion (может быть с временем и часовым поясом)
+                    if "T" in date_str:
+                        # Дата с временем - парсим и конвертируем в локальное время
+                        try:
+                            page_date = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+                        except:
+                            page_date = datetime.fromisoformat(date_str)
+                        # Если есть часовой пояс, конвертируем в локальное время
+                        if page_date.tzinfo:
+                            import time
+                            from datetime import timezone
+                            # Получаем локальный часовой пояс
+                            local_offset = time.timezone if (time.daylight == 0) else time.altzone
+                            local_tz = timezone(timedelta(seconds=-local_offset))
+                            page_date_local = page_date.astimezone(local_tz)
+                        else:
+                            page_date_local = page_date
+                    else:
+                        # Только дата без времени
+                        page_date_local = datetime.fromisoformat(date_str)
+                    
+                    # Проверяем, попадает ли дата в сегодняшний день
+                    if page_date_local.date() == today_local:
+                        filtered_pages.append(page)
+                except Exception as e:
+                    print(f"⚠️  Ошибка парсинга даты '{date_str}': {e}")
+        
+        print(f"✅ Получено {len(all_pages)} страниц из Notion, отфильтровано {len(filtered_pages)} за сегодня")
+        return filtered_pages
     
     print(f"✅ Получено {len(all_pages)} страниц из Notion")
     return all_pages
