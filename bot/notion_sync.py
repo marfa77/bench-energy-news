@@ -357,16 +357,30 @@ def sync_notion_to_github():
         print(f"   NOTION_DATABASE_ID: {'установлен' if NOTION_DATABASE_ID else 'НЕ установлен'}")
         raise ValueError("NOTION_API_KEY или NOTION_DATABASE_ID не установлены")
     
-    # Получаем только новости за сегодня из Notion
-    today = datetime.now().date().isoformat()
-    print(f"📅 Фильтр: только новости за {today}")
-    pages = fetch_notion_pages(today_only=True)
+    # Получаем все новости из Notion (для обновления дат)
+    # ВАЖНО: Для обычной работы используйте today_only=True
+    import sys
+    full_sync = "--full" in sys.argv or os.getenv("FULL_SYNC", "false").lower() == "true"
+    
+    if full_sync:
+        print("🔄 РЕЖИМ ПОЛНОЙ СИНХРОНИЗАЦИИ: обновление всех новостей из Notion")
+        pages = fetch_notion_pages(today_only=False)
+    else:
+        today = datetime.now().date().isoformat()
+        print(f"📅 Фильтр: только новости за {today}")
+        pages = fetch_notion_pages(today_only=True)
     
     if not pages:
-        print(f"⚠️  Нет опубликованных статей в Notion за {today}")
+        if full_sync:
+            print("⚠️  Нет опубликованных статей в Notion")
+        else:
+            print(f"⚠️  Нет опубликованных статей в Notion за {today}")
         return
     
-    print(f"✅ Найдено {len(pages)} новостей за сегодня")
+    if full_sync:
+        print(f"✅ Найдено {len(pages)} новостей в Notion (полная синхронизация)")
+    else:
+        print(f"✅ Найдено {len(pages)} новостей за сегодня")
     
     repo_path = Path(GITHUB_REPO_PATH).expanduser().resolve()
     print(f"📁 Репозиторий: {repo_path}")
