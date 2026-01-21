@@ -60,11 +60,23 @@ def extract_article_metadata(html_file_path):
         if date_match:
             date_str = date_match.group(1)
             try:
-                # Parse ISO format date
+                # Parse ISO format date (может быть в UTC)
                 dt = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
-                published_date = dt
-                formatted_date = dt.strftime('%B %d, %Y')
-            except:
+                # Если дата имеет часовой пояс, конвертируем в локальное время для отображения
+                if dt.tzinfo:
+                    import time
+                    from datetime import timezone, timedelta
+                    # Получаем локальный часовой пояс
+                    local_offset = time.timezone if (time.daylight == 0) else time.altzone
+                    local_tz = timezone(timedelta(seconds=-local_offset))
+                    dt_local = dt.astimezone(local_tz)
+                    published_date = dt_local.replace(tzinfo=None)
+                    formatted_date = dt_local.strftime('%B %d, %Y')
+                else:
+                    published_date = dt
+                    formatted_date = dt.strftime('%B %d, %Y')
+            except Exception as e:
+                print(f"Warning: Error parsing date '{date_str}': {e}")
                 formatted_date = date_str.split('T')[0] if 'T' in date_str else date_str
                 published_date = datetime.now()  # Fallback
         else:
