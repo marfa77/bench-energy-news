@@ -48,10 +48,16 @@ OUTPUT FORMAT (strict JSON, no markdown):
 }
 
 TELEGRAM VERSION (tg_version):
-- Format: <b>⛏ [COAL] | Headline</b> + content + hashtags + source link
+- Format: <b>⛏ [COAL] | Headline</b> + content + Bench Energy Expert View + hashtags + source link
 - Max 1024 characters total (including HTML tags and source link)
 - Use HTML: <b>, <i>, <a>
 - Include category emoji and tag: ⛏ [COAL], ⚡️ [ENERGY], etc.
+- MUST include Bench Energy Expert View section before hashtags:
+  <b>🧭 Bench Energy Expert View</b>
+  • What this means: 1-2 sentences explaining deeper significance and implications
+  • Market impact: Price, supply chain, regional effects with specific timelines (1-2 bullets)
+  • Risks & opportunities: What could go wrong and what opportunities exist (1 bullet)
+  Keep expert section concise (~200-250 characters total) to fit within 1024 char limit
 - End with: #Coal #ThermalCoal #Australia #Markets #BenchEnergy
 - Source: <a href="URL">Source: Name</a>
 
@@ -191,10 +197,19 @@ Return ONLY the JSON object with tg_version, li_version, and web_version."""
             else:
                 # Fallback: создаем версии вручную
                 print(f"⚠️  Использую fallback версии")
+                # Для Telegram версии добавляем экспертное мнение
+                expert_view = "\n\n<b>🧭 Bench Energy Expert View</b>\n• Market analysis based on current trends\n• Regional impact assessment\n• Key risks and opportunities"
+                tg_content = f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:600]}{expert_view}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>"
+                # Обрезаем если превышает 1024 символа
+                if len(tg_content) > 1024:
+                    tg_content = f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:500]}{expert_view}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>"
+                    if len(tg_content) > 1024:
+                        # Еще больше обрезаем
+                        tg_content = f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:400]}{expert_view}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>"
                 return {
-                    "tg_version": f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:800]}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>",
+                    "tg_version": tg_content[:1024],
                     "li_version": f"{news_title}\n\n{news_summary}\n\n#Coal #Energy #Markets #Commodities #BenchEnergy",
-                    "web_version": f"<h1>{news_title}</h1><p>{news_summary}</p>"
+                    "web_version": f"<h1>{news_title}</h1><p>{news_summary}</p><h3>Bench Energy Expert View</h3><p><strong>What this means:</strong> Analysis of market implications.</p><p><strong>Market impact:</strong> Regional and price effects.</p><p><strong>Risks & Opportunities:</strong> Key factors to watch.</p>"
                 }
         except Exception as e:
             print(f"❌ Ошибка генерации версий (попытка {attempt + 1}/{max_retries}): {e}")
