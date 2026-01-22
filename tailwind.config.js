@@ -20,6 +20,39 @@ module.exports = {
           900: '#0a3c6f',
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: '#374151',
+            h2: {
+              borderBottom: '2px solid #e5e7eb',
+              paddingBottom: '0.5rem',
+              marginTop: '2.5rem',
+              marginBottom: '1rem',
+            },
+            h3: {
+              marginTop: '2rem',
+              marginBottom: '0.75rem',
+            },
+            blockquote: {
+              borderLeftColor: '#0066cc',
+              backgroundColor: '#f9fafb',
+              paddingLeft: '1.5rem',
+              fontStyle: 'italic',
+            },
+            code: {
+              color: '#d63384',
+            },
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+          },
+        },
+      },
     },
   },
   plugins: [
