@@ -14,8 +14,8 @@ jobs:
   sync-news:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: read
+  contents: write  # ← нужно для git push
+  pull-requests: read
     
     steps:
       - name: Checkout repository
