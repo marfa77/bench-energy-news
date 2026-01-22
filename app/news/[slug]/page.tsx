@@ -53,6 +53,8 @@ async function getArticle(slug: string) {
         articleContent = articleContent.replace(/##\s*Telegram Version\s*/gi, '');
         // Убираем лишние разделители
         articleContent = articleContent.replace(/<hr\s*\/?>\s*<hr\s*\/?>/gi, '<hr />');
+        // Убираем дублирующийся заголовок h1 из контента (заголовок уже отображается отдельно)
+        articleContent = articleContent.replace(/<h1[^>]*>.*?<\/h1>\s*/gi, '');
       }
     }
     

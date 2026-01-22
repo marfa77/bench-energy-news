@@ -346,14 +346,19 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
             margin-bottom: 20px;
         }}
         .ai-summary {{
-            background: #f5f5f5;
-            border-left: 4px solid #4CAF50;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
+            background: #f0f9f4;
+            border-left: 4px solid #22c55e;
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }}
         .ai-summary b {{
-            color: #2E7D32;
+            color: #22c55e;
+            font-weight: 700;
+            font-size: 1rem;
         }}
         .content {{
             margin: 30px 0;

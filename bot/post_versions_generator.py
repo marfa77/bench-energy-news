@@ -112,28 +112,40 @@ KEY PRINCIPLES:
 
 WEB VERSION (web_version):
 - Full HTML article structure optimized for LLM search engines (ChatGPT, Perplexity, Google AI)
+- CRITICAL: Write EXPANDED, DETAILED, COMPREHENSIVE article (800-1500 words minimum)
+- DO NOT just summarize the news - provide deep analysis, context, background, implications
 - CRITICAL: Start with an "Answer Capsule" (40-80 words) immediately after <h1> title
   Format: <div class="answer-capsule"><p>[Direct, standalone answer to: What is this news about?]</p></div>
   This answer must be self-contained and extractable without context
 - Structure content in "Goldilocks Zone" sections: Each section should be 120-180 words
+- Expand on the news with:
+  * Background context: What led to this situation? Historical trends?
+  * Market analysis: How does this fit into broader market dynamics?
+  * Regional implications: Impact on different countries/regions (China, India, Australia, Indonesia, etc.)
+  * Supply chain effects: How does this affect logistics, ports, shipping, freight?
+  * Price dynamics: What are the price implications? Which benchmarks are affected?
+  * Industry perspective: What do traders, producers, consumers need to know?
+  * Future outlook: What are the short-term and long-term implications?
 - Use explicit, unambiguous nouns and numbers (avoid vague adjectives)
   Examples: "contains 3g creatine" not "super powerful", "$245 per tonne" not "high prices"
-- Use: <h1>, <h2>, <h3>, <p>, <ul>, <li>, <blockquote>, <strong>, <em>
-- Include structured headings with clear semantic meaning
+- Use: <h2>, <h3>, <p>, <ul>, <li>, <blockquote>, <strong>, <em>
+- Include structured headings with clear semantic meaning (e.g., "Market Context", "Regional Impact", "Supply Chain Analysis")
 - Rich formatting for readability
-- MUST include Bench Energy Expert View section at the end:
-  <h3>Bench Energy Expert View</h3>
-  <p><strong>What this means:</strong> 2-3 sentences explaining deeper significance and implications</p>
-  <p><strong>Market impact:</strong> Price, supply chain, regional effects with specific timelines</p>
+- MUST include Bench Energy Expert View section at the end (comprehensive, 200-300 words):
+  <h3>🧭 Bench Energy Expert View</h3>
+  <p><strong>What this means:</strong> 3-4 sentences explaining deeper significance and implications. Provide expert analysis, not just summary.</p>
+  <p><strong>Market impact:</strong> Detailed analysis of price, supply chain, regional effects with specific timelines and numbers when available</p>
   <ul>
-    <li>Price implications: Which markets/regions will see movements? Use specific numbers when available</li>
-    <li>Supply chain effects: Logistics, ports, shipping impacts with concrete examples</li>
-    <li>Regional dynamics: China, India, Australia, Indonesia effects with specific regions mentioned</li>
+    <li>Price implications: Which markets/regions will see movements? Use specific numbers, benchmarks, and timeframes</li>
+    <li>Supply chain effects: Logistics, ports, shipping impacts with concrete examples and routes</li>
+    <li>Regional dynamics: China, India, Australia, Indonesia effects with specific regions, ports, and trade flows mentioned</li>
+    <li>Trading opportunities: What should traders watch? What are the risks and opportunities?</li>
   </ul>
-  <p><strong>Risks & Opportunities:</strong> What could go wrong and what opportunities exist</p>
+  <p><strong>Risks & Opportunities:</strong> Detailed analysis of what could go wrong and what opportunities exist. Be specific about scenarios.</p>
 - Include expert quotations and statistics when relevant (boosts citation probability by 32%)
-- Be comprehensive but concise (800-1200 characters for expert section)
-- Optimize for "Query Fan-Out": Cover multiple facets (definitions, comparisons, costs) in one article"""
+- Be comprehensive and detailed (expert section should be 200-300 words, full article 800-1500 words)
+- Optimize for "Query Fan-Out": Cover multiple facets (definitions, comparisons, costs, regional differences, historical context) in one article
+- DO NOT repeat the title as h1 in the content - the title is already provided separately"""
 
     user_prompt = f"""Generate two platform-specific versions of this coal market news:
 
@@ -143,6 +155,15 @@ Summary: {news_summary}
 
 Source: {source_name}
 URL: {source_url}
+
+IMPORTANT FOR WEB VERSION:
+- Write a COMPREHENSIVE, EXPANDED article (800-1500 words)
+- DO NOT just summarize - provide deep analysis, context, background
+- Include multiple sections with detailed explanations
+- Add historical context, market dynamics, regional impacts
+- Explain supply chain implications, price movements, trading opportunities
+- DO NOT include the title as <h1> in the content - it's already provided separately
+- MUST include detailed "Bench Energy Expert View" section at the end
 
 Return ONLY the JSON object with tg_version and web_version."""
     
