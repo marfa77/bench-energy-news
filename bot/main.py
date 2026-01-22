@@ -493,13 +493,12 @@ async def process_news(news: dict):
                 print(traceback.format_exc())
                 print(f"   Публикуем без изображения")
         
-        # Генерируем версии поста (Telegram, Web) - LinkedIn отключен
+        # Генерируем версии поста (Telegram, Web) - LinkedIn версия не генерируется
         try:
             print(f"🤖 Генерирую версии поста для всех платформ...")
             versions = generate_post_versions(news)
             
             tg_version = versions.get("tg_version", "")
-            li_version = versions.get("li_version", "")
             web_version = versions.get("web_version", "")
             
             print(f"✅ Версии поста сгенерированы")
@@ -545,7 +544,6 @@ async def process_news(news: dict):
             try:
                 analysis_text = create_coal_analysis(news)
                 category = extract_category_from_post(analysis_text)
-                li_version = analysis_text  # Используем ту же версию
                 web_version = f"<h1>{news_title}</h1><p>{news.get('summary', '')}</p>"
             except Exception as e2:
                 print(f"❌ Ошибка fallback создания поста: {e2}")
@@ -557,8 +555,6 @@ async def process_news(news: dict):
                 }
         
         # Инициализируем переменные для версий (на случай fallback)
-        if 'li_version' not in locals():
-            li_version = analysis_text
         if 'web_version' not in locals():
             web_version = f"<h1>{news_title}</h1><p>{news.get('summary', '')}</p>"
         
