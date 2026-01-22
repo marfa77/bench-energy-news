@@ -27,7 +27,8 @@ export default function BlogPage() {
     try {
       setLoading(true);
       const response = await fetch("/api/blog", {
-        cache: 'default',
+        cache: 'force-cache',
+        next: { revalidate: 900 }, // Revalidate every 15 minutes
       });
       const data = await response.json();
 

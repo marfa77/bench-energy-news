@@ -3,7 +3,7 @@ import { Client } from "@notionhq/client";
 
 // Cache for blog posts (in-memory cache)
 const postsCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 15 * 60 * 1000; // 15 minutes (increased for better performance)
 
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
           { post: cached.data },
           {
             headers: {
-              "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+              "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
             },
           }
         );
@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
         { post },
         {
           headers: {
-            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+            "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
           },
         }
       );
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
       { posts: cached.data },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+          "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
         },
       }
     );
@@ -117,38 +117,9 @@ export async function GET(request: NextRequest) {
 
   const allPages = await getAllPages(parentPageId);
   
-  // For each page, try to get first image from blocks if no cover image
-  const postsPromises = allPages.map(async (page: any) => {
-    const post = parseNotionPage(page);
-    
-    // If no cover image, try to get first image from page blocks
-    if (!post.coverImage) {
-      try {
-        const blocks = await notion.blocks.children.list({
-          block_id: page.id,
-          page_size: 20, // Check first 20 blocks for performance
-        });
-        
-        // Find first image block
-        const imageBlock = blocks.results.find((block: any) => block.type === "image");
-        if (imageBlock) {
-          const imageUrl = 
-            (imageBlock as any).image?.external?.url ||
-            (imageBlock as any).image?.file?.url;
-          if (imageUrl) {
-            post.coverImage = imageUrl;
-          }
-        }
-      } catch (error) {
-        // Silently fail - cover image is optional
-        console.error(`Error fetching image for page ${page.id}:`, error);
-      }
-    }
-    
-    return post;
-  });
-  
-  const posts = await Promise.all(postsPromises);
+  // Parse pages without fetching blocks for better performance
+  // Only parse metadata - no additional API calls for images
+  const posts = allPages.map((page: any) => parseNotionPage(page));
   
   // Sort by created date (newest first)
   posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
@@ -160,7 +131,7 @@ export async function GET(request: NextRequest) {
     { posts },
     {
       headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Cache-Control": "public, s-maxage=900, stale-while-revalidate=1800",
       },
     }
   );
