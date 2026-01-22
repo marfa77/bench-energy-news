@@ -152,7 +152,7 @@ export default async function ArticlePage({ params }: PageProps) {
           
           <div 
             dangerouslySetInnerHTML={{ __html: article.content }}
-            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-img:rounded-xl prose-img:shadow-lg"
+            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-img:rounded-xl prose-img:shadow-lg prose-h2:border-b prose-h2:border-gray-200 prose-h2:pb-2 prose-h2:mt-10 prose-h2:mb-4 prose-h3:mt-8 prose-h3:mb-3 prose-blockquote:border-l-primary-600 prose-blockquote:bg-gray-50 prose-blockquote:pl-6 prose-blockquote:italic prose-code:text-pink-600 prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200"
           />
         </article>
       </div>
