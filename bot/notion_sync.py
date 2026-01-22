@@ -427,12 +427,20 @@ def sync_notion_to_github():
                         page_date_local = page_date
                     page_date_only = page_date_local.date()
                     # Включаем новости за последние 30 дней
-                    # Также включаем новости за сегодня и вчера (на случай проблем с часовым поясом)
                     if days_ago <= page_date_only <= today:
                         pages.append(page)
-                    # Дополнительно: если новость создана вчера, но время указывает на сегодня (проблема часового пояса)
+                    # Всегда включаем новости за сегодня (дополнительная проверка для надежности)
+                    elif page_date_only == today:
+                        pages.append(page)
+                    # Также включаем новости за вчера, если они созданы поздно вечером (могут быть за сегодня)
                     elif page_date_only == (today - timedelta(days=1)) and page_date_local.hour >= 20:
-                        # Новости созданные поздно вечером вчера могут быть за сегодня
+                        pages.append(page)
+                    # Включаем новости за завтра, если часовой пояс делает их сегодняшними (раннее утро)
+                    elif page_date_only == (today + timedelta(days=1)) and page_date_local.hour < 12:
+                        pages.append(page)
+                    # Дополнительно: если дата в пределах 1 дня от сегодня, включаем (на случай проблем с часовым поясом)
+                    elif abs((page_date_only - today).days) <= 1:
+                        print(f"📅 Включаем новость с датой {page_date_only} (близко к сегодня {today})")
                         pages.append(page)
                 except Exception as e:
                     print(f"⚠️  Ошибка парсинга даты '{date_str}': {e}")
@@ -453,19 +461,44 @@ def sync_notion_to_github():
                         else:
                             created_date_local = created_date
                         created_date_only = created_date_local.date()
-                        # Включаем новости за сегодня и за последние 30 дней
+                        # Включаем новости за последние 30 дней
                         if days_ago <= created_date_only <= today:
                             pages.append(page)
-                        # Также включаем новости за сегодня, даже если время делает их "вчерашними" после конвертации
-                        elif created_date_only == today or (created_date_only == (today - timedelta(days=1)) and created_date_local.hour >= 0):
+                        # Всегда включаем новости за сегодня
+                        elif created_date_only == today:
+                            pages.append(page)
+                        # Включаем новости за вчера, если они созданы поздно вечером
+                        elif created_date_only == (today - timedelta(days=1)) and created_date_local.hour >= 20:
+                            pages.append(page)
+                        # Включаем новости за завтра, если часовой пояс делает их сегодняшними
+                        elif created_date_only == (today + timedelta(days=1)) and created_date_local.hour < 12:
                             pages.append(page)
                     except Exception as e:
                         print(f"⚠️  Ошибка парсинга created_time: {e}")
                         # Если не удалось распарсить created_time, включаем страницу
                         pages.append(page)
                 else:
-                    # Если нет ни Published Date, ни created_time, включаем страницу (может быть новая)
-                    pages.append(page)
+                    # Если нет ни Published Date, ни created_time, проверяем created_time напрямую
+                    created_time = page.get("created_time")
+                    if created_time:
+                        try:
+                            created_date = datetime.fromisoformat(created_time.replace("Z", "+00:00"))
+                            if created_date.tzinfo:
+                                import time
+                                from datetime import timezone
+                                local_offset = time.timezone if (time.daylight == 0) else time.altzone
+                                local_tz = timezone(timedelta(seconds=-local_offset))
+                                created_date_local = created_date.astimezone(local_tz)
+                            else:
+                                created_date_local = created_date
+                            created_date_only = created_date_local.date()
+                            # Включаем если создана сегодня или вчера (может быть новая)
+                            if created_date_only >= (today - timedelta(days=1)):
+                                pages.append(page)
+                        except Exception as e:
+                            print(f"⚠️  Ошибка парсинга created_time для страницы без Published Date: {e}")
+                            # Если не удалось распарсить, не включаем (старая страница без даты)
+                    # Если вообще нет даты, не включаем
     
     if not pages:
         if full_sync:
