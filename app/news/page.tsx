@@ -68,7 +68,7 @@ export default async function NewsPage() {
     <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
       <div className="container">
         <h1 style={{ marginBottom: '1rem' }}>Coal Market News</h1>
-        <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '3rem', maxWidth: '800px' }}>
+        <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '3rem', maxWidth: '800px' }} className="news-intro">
           Latest news and analysis about coal markets, prices, and industry developments with expert insights from Bench Energy.
         </p>
         

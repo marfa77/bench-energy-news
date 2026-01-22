@@ -131,18 +131,18 @@ export default async function ArticlePage({ params }: PageProps) {
           fontSize: '0.95rem',
           marginBottom: '2rem',
           display: 'inline-block',
-        }}>
+        }} className="back-link">
           ← Back to News
         </Link>
         
         <article>
-          <h1 style={{ marginBottom: '1rem' }}>{article.title}</h1>
+          <h1 style={{ marginBottom: '1rem' }} className="article-title">{article.title}</h1>
           <time style={{ 
             color: '#666', 
             fontSize: '0.95rem',
             display: 'block',
             marginBottom: '2rem',
-          }}>
+          }} className="article-date">
             {new Date(article.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -155,6 +155,7 @@ export default async function ArticlePage({ params }: PageProps) {
             style={{
               lineHeight: '1.8',
             }}
+            className="article-content"
           />
         </article>
       </div>

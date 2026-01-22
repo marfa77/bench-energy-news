@@ -1,8 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header style={{
       background: '#fff',
@@ -45,11 +48,13 @@ export default function Header() {
             Bench Energy
           </span>
         </Link>
+        
+        {/* Desktop Navigation */}
         <nav style={{
           display: 'flex',
           gap: '2rem',
           alignItems: 'center',
-        }}>
+        }} className="desktop-nav">
           <Link href="/" style={{
             color: '#666',
             textDecoration: 'none',
@@ -96,7 +101,93 @@ export default function Header() {
             FreightTender
           </Link>
         </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          style={{
+            display: 'none',
+            background: 'none',
+            border: 'none',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            padding: '0.5rem',
+            color: '#1a1a1a',
+          }}
+          className="mobile-menu-button"
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <nav style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0',
+          background: '#fff',
+          borderTop: '1px solid #e0e0e0',
+          padding: '1rem 0',
+        }} className="mobile-nav">
+          <Link href="/" onClick={() => setIsMenuOpen(false)} style={{
+            color: '#666',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: 500,
+            padding: '0.75rem 2rem',
+            display: 'block',
+            transition: 'background 0.2s',
+          }} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+            Home
+          </Link>
+          <Link href="/news" onClick={() => setIsMenuOpen(false)} style={{
+            color: '#666',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: 500,
+            padding: '0.75rem 2rem',
+            display: 'block',
+            transition: 'background 0.2s',
+          }} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+            News
+          </Link>
+          <Link href="/blog" onClick={() => setIsMenuOpen(false)} style={{
+            color: '#666',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: 500,
+            padding: '0.75rem 2rem',
+            display: 'block',
+            transition: 'background 0.2s',
+          }} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+            Blog
+          </Link>
+          <Link href="/topics" onClick={() => setIsMenuOpen(false)} style={{
+            color: '#666',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: 500,
+            padding: '0.75rem 2rem',
+            display: 'block',
+            transition: 'background 0.2s',
+          }} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+            Topics
+          </Link>
+          <Link href="/freighttender/" onClick={() => setIsMenuOpen(false)} style={{
+            color: '#666',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: 500,
+            padding: '0.75rem 2rem',
+            display: 'block',
+            transition: 'background 0.2s',
+          }} onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+            FreightTender
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }

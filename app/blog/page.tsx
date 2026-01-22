@@ -153,10 +153,10 @@ export default function BlogPage() {
           </div>
           
           <h1 style={{ marginBottom: '1rem' }}>Bench Energy Blog</h1>
-          <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '1rem', maxWidth: '800px' }}>
+          <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '1rem', maxWidth: '800px' }} className="blog-intro">
             Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts.
           </p>
-          <p style={{ fontSize: '0.95rem', color: '#888', marginBottom: '3rem', maxWidth: '800px' }}>
+          <p style={{ fontSize: '0.95rem', color: '#888', marginBottom: '3rem', maxWidth: '800px' }} className="blog-topics">
             Topics include: thermal coal prices, coking coal markets, dry bulk shipping, freight rates, port congestion, vessel availability, commodity trading strategies, and energy market analysis.
           </p>
 

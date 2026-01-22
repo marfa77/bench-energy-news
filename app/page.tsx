@@ -15,7 +15,7 @@ export default function HomePage() {
         color: 'white',
       }}>
         <div className="container">
-          <h1 style={{ color: 'white', fontSize: '3rem', marginBottom: '1.5rem' }}>
+          <h1 style={{ color: 'white', fontSize: '3rem', marginBottom: '1.5rem' }} className="hero-title">
             Bench Energy
           </h1>
           <p style={{ 
@@ -23,7 +23,7 @@ export default function HomePage() {
             marginBottom: '2rem', 
             color: 'rgba(255, 255, 255, 0.95)',
             maxWidth: '800px',
-          }}>
+          }} className="hero-subtitle">
             Coal market intelligence and freight tender solutions for commodity traders
           </p>
         </div>
