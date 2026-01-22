@@ -14,12 +14,6 @@ export const metadata: Metadata = {
   description: 'Bench Energy provides coal market news, analysis, and expert insights. FreightTender platform for closed freight tenders in commodity and chemical trading.',
   keywords: ['coal market', 'energy news', 'thermal coal', 'coking coal', 'freight tender', 'commodity trading', 'Bench Energy', '@benchenergy'],
   authors: [{ name: 'Bench Energy' }],
-  openGraph: {
-    title: 'Bench Energy - Coal Market News & Freight Tender Platform',
-    description: 'Latest coal market news, analysis, and expert insights. FreightTender platform for commodity traders.',
-    type: 'website',
-    url: 'https://www.bench.energy',
-  },
   robots: {
     index: true,
     follow: true,
@@ -35,6 +29,30 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.bench.energy',
   },
+  icons: {
+    icon: [
+      { url: '/logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/logo.png',
+  },
+  openGraph: {
+    title: 'Bench Energy - Coal Market News & Freight Tender Platform',
+    description: 'Latest coal market news, analysis, and expert insights. FreightTender platform for commodity traders.',
+    type: 'website',
+    url: 'https://www.bench.energy',
+    images: [
+      {
+        url: 'https://www.bench.energy/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Bench Energy Logo',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -45,6 +63,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Favicon */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        
         {/* Schema.org Organization for LLM optimization */}
         <script
           type="application/ld+json"

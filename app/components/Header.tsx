@@ -28,7 +28,7 @@ export default function Header() {
           color: '#1a1a1a',
         }}>
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Bench Energy"
             width={50}
             height={50}
