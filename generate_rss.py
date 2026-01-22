@@ -45,6 +45,30 @@ def extract_article_metadata(html_file_path):
             else:
                 description = title  # Fallback to title
         
+        # Extract Bench Energy Expert View section and append to description
+        expert_view_match = re.search(
+            r'<h3[^>]*>Bench Energy Expert View</h3>(.*?)(?:<hr\s*/?>|<h2|</div>|</article>)',
+            content,
+            re.DOTALL | re.IGNORECASE
+        )
+        if expert_view_match:
+            expert_content = expert_view_match.group(1)
+            # Remove HTML tags and clean up
+            expert_text = re.sub(r'<[^>]+>', ' ', expert_content)
+            expert_text = re.sub(r'\s+', ' ', expert_text)  # Normalize whitespace
+            expert_text = unescape(expert_text.strip())
+            
+            # Truncate expert view if too long (max 500 chars for RSS)
+            if len(expert_text) > 500:
+                expert_text = expert_text[:497] + "..."
+            
+            # Append expert view to description
+            if expert_text:
+                description = f"{description} 🧭 Bench Energy Expert View: {expert_text}"
+                # Ensure total description doesn't exceed RSS limits (typically 1000-2000 chars)
+                if len(description) > 1500:
+                    description = description[:1497] + "..."
+        
         # Extract published date
         date_match = re.search(r'<meta property="article:published_time" content="([^"]+)"', content)
         if date_match:
