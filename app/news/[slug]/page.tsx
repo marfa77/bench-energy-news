@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { readFile } from 'fs/promises';
+import { readFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import Link from 'next/link';
 
@@ -34,6 +34,20 @@ async function getArticle(slug: string) {
     };
   } catch (error) {
     return null;
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const postsDir = join(process.cwd(), 'posts');
+    const files = await readdir(postsDir);
+    const htmlFiles = files.filter(f => f.endsWith('.html'));
+    
+    return htmlFiles.map(file => ({
+      slug: file.replace('.html', ''),
+    }));
+  } catch {
+    return [];
   }
 }
 
@@ -82,19 +96,4 @@ export default async function ArticlePage({ params }: PageProps) {
       </div>
     </div>
   );
-}
-
-export async function generateStaticParams() {
-  try {
-    const { readdir } = await import('fs/promises');
-    const postsDir = join(process.cwd(), 'posts');
-    const files = await readdir(postsDir);
-    const htmlFiles = files.filter(f => f.endsWith('.html'));
-    
-    return htmlFiles.map(file => ({
-      slug: file.replace('.html', ''),
-    }));
-  } catch {
-    return [];
-  }
 }
