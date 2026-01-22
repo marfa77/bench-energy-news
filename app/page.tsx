@@ -2,7 +2,7 @@ import Link from 'next/link';
 import dynamicImport from 'next/dynamic';
 import { Newspaper, FileText, Ship, TrendingUp, BarChart3, Users } from 'lucide-react';
 
-const Tabs = dynamicImport(() => import('./components/Tabs'), { ssr: false });
+const FeatureTabs = dynamicImport(() => import('./components/FeatureTabs'), { ssr: false });
 
 // Force static generation for home page
 export const dynamic = 'force-static';
@@ -24,6 +24,27 @@ export default function HomePage() {
       name: 'FreightTender',
       description: 'Closed freight tender platform for commodity and chemical traders. Structured offers, closed competition, full auditability.',
       icon: <Ship className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
+    }
+  ];
+
+  const simplifyTabs = [
+    {
+      name: 'Price Trends',
+      description: 'Stay on top of things with always up-to-date price reporting features.',
+      longDescription: 'We track price movements across major coal markets and provide real-time updates on thermal and coking coal prices.',
+      icon: <TrendingUp className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
+    },
+    {
+      name: 'Market Analysis',
+      description: 'Never lose track of market movements with accurate trend tracking.',
+      longDescription: 'Our analysis covers supply chain dynamics, regional demand patterns, and industry developments affecting coal markets.',
+      icon: <BarChart3 className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
+    },
+    {
+      name: 'Expert Network',
+      description: 'Connect with industry experts and get insights from Bench Energy analysts.',
+      longDescription: 'Access our network of market analysts and freight specialists for personalized insights and strategic advice.',
+      icon: <Users className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
     }
   ];
 
@@ -62,11 +83,28 @@ export default function HomePage() {
                 Learn more <span aria-hidden="true">→</span>
               </Link>
             </div>
+            {/* Trusted by section */}
+            <div className="mt-16">
+              <p className="text-xs font-semibold leading-6 text-gray-600 text-center">Trusted by commodity traders worldwide</p>
+              <div className="mt-8 flex items-center justify-center gap-x-8 sm:flex-row sm:gap-x-10">
+                <div className="flex items-center gap-x-4">
+                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs font-semibold text-gray-600">Trader 1</span>
+                  </div>
+                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs font-semibold text-gray-600">Trader 2</span>
+                  </div>
+                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-xs font-semibold text-gray-600">Trader 3</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section with Tabs - Salient Style */}
+      {/* Features Section with Tabs - Exact Salient Structure */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-green-600">Everything you need</h2>
@@ -77,12 +115,12 @@ export default function HomePage() {
             Well everything you need if you aren't that picky about minor details like real-time price feeds from every exchange.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <Tabs tabs={featuresTabs} />
+        <div className="mx-auto max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+          <FeatureTabs tabs={featuresTabs} />
         </div>
       </div>
 
-      {/* Secondary Features */}
+      {/* Secondary Features with Tabs - Exact Salient Structure */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-green-600">Simplify market tracking</h2>
@@ -93,36 +131,8 @@ export default function HomePage() {
             Because you'd probably be a little confused if we suggested you complicate your everyday trading decisions instead.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <TrendingUp className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-                Price Trends
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                <p className="flex-auto">Stay on top of things with always up-to-date price reporting features.</p>
-              </dd>
-            </div>
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <BarChart3 className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-                Market Analysis
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                <p className="flex-auto">Never lose track of market movements with accurate trend tracking.</p>
-              </dd>
-            </div>
-            <div className="flex flex-col">
-              <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <Users className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-                Expert Network
-              </dt>
-              <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                <p className="flex-auto">Connect with industry experts and get insights from Bench Energy analysts.</p>
-              </dd>
-            </div>
-          </dl>
+        <div className="mx-auto max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+          <FeatureTabs tabs={simplifyTabs} />
         </div>
       </div>
 
