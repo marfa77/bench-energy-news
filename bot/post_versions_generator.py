@@ -13,7 +13,8 @@ load_dotenv()
 
 def generate_post_versions(news: Dict, max_retries: int = 3) -> Dict[str, str]:
     """
-    Генерирует три версии поста через Claude 3.5.
+    Генерирует две версии поста через Claude 3.5 (Telegram и Web).
+    LinkedIn версия отключена.
     
     Args:
         news: Словарь с данными новости
