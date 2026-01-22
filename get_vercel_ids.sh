@@ -3,8 +3,9 @@
 # Скрипт для получения VERCEL_ORG_ID и VERCEL_PROJECT_ID
 # Использует Vercel API с токеном
 
-# Vercel токен из GITHUB_SECRETS_SETUP.md
-VERCEL_TOKEN="Tu0x0MhTNWA49HdrXpTrh0MH"
+# Vercel токен - получите из GitHub Secrets или Vercel Dashboard
+# https://vercel.com/account/tokens
+VERCEL_TOKEN="${VERCEL_TOKEN:-}"
 
 echo "🔍 Получение Vercel Organization ID и Project ID..."
 echo ""

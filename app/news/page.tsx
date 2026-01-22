@@ -44,7 +44,7 @@ async function getArticles(): Promise<Article[]> {
           url: `/news/${slug}`,
         });
       } catch (e) {
-        console.error(`Error reading ${file}:`, e);
+        // Error reading file - skip
       }
     }
     
@@ -53,7 +53,7 @@ async function getArticles(): Promise<Article[]> {
     
     return articles;
   } catch (error) {
-    console.error('Error reading articles:', error);
+    // Error reading articles
     return [];
   }
 }

@@ -38,7 +38,7 @@ async function getBlogPosts(): Promise<BlogPost[]> {
           url: `/blog/${slug}`,
         });
       } catch (e) {
-        console.error(`Error reading ${file}:`, e);
+        // Error reading file - skip
       }
     }
     
@@ -47,7 +47,7 @@ async function getBlogPosts(): Promise<BlogPost[]> {
     
     return posts;
   } catch (error) {
-    console.error('Error reading blog posts:', error);
+    // Error reading blog posts
     return [];
   }
 }

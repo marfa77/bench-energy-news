@@ -148,7 +148,7 @@ https://www.notion.so/pveselov/BenchEnergy-Blog-2f05f3821e2180e99cdef21e05a7a624
    - Токен выглядит как: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
 
 **✅ НАЙДЕНО:**
-- **VERCEL_TOKEN**: `Tu0x0MhTNWA49HdrXpTrh0MH` (уже записан в файле) Tu0x0MhTNWA49HdrXpTrh0MH
+- **VERCEL_TOKEN**: `[скрыто - добавьте через GitHub UI]` Tu0x0MhTNWA49HdrXpTrh0MH
 
 **Как добавить в GitHub:**
 1. В GitHub → Settings → Secrets → Actions
@@ -174,7 +174,7 @@ https://www.notion.so/pveselov/BenchEnergy-Blog-2f05f3821e2180e99cdef21e05a7a624
 4. Найдите **Team ID** или **Organization ID** в настройках проекта
 
 **✅ НАЙДЕНО:**
-- **VERCEL_ORG_ID**: `team_9d1721TQ0bhrn7oMmjTqd9L2` (Team: "Pavel's projects") 
+- **VERCEL_ORG_ID**: `[скрыто - получите через Vercel Dashboard или API]` 
 
 **Как получить (способ 2 - через Vercel CLI):**
 ```bash
@@ -221,7 +221,7 @@ curl -H "Authorization: Bearer YOUR_VERCEL_TOKEN" \
 4. Найдите **Project ID** в настройках
 
 **✅ НАЙДЕНО:**
-- **VERCEL_PROJECT_ID**: `prj_ivtcTLEFSJICjGnF317k2S0t2Vmq` (Project: "bench-energy-news") prj_ivtcTLEFSJICjGnF317k2S0t2Vmq
+- **VERCEL_PROJECT_ID**: `[скрыто - получите через Vercel Dashboard или API]` prj_ivtcTLEFSJICjGnF317k2S0t2Vmq
 
 **Как получить (способ 2 - через Vercel CLI):**
 ```bash
