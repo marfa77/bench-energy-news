@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import dynamicImport from 'next/dynamic';
-import { Newspaper, FileText, Ship, TrendingUp, BarChart3, Users } from 'lucide-react';
+import { Newspaper, FileText, Ship } from 'lucide-react';
 
 const FeatureTabs = dynamicImport(() => import('./components/FeatureTabs'), { ssr: false });
 
@@ -13,44 +13,26 @@ export default function HomePage() {
     {
       name: 'Market News',
       description: 'Daily updates on coal markets, prices, and industry analysis with expert insights from Bench Energy.',
+      longDescription: 'Get the latest coal market news with comprehensive analysis. We track price movements, supply chain dynamics, and regional developments across major coal markets including thermal and coking coal.',
       icon: <Newspaper className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
     },
     {
       name: 'Expert Analysis',
       description: 'In-depth articles about coal markets, freight, and energy industry insights from Bench Energy experts.',
+      longDescription: 'Read detailed analysis articles covering market trends, freight logistics, and strategic insights. Our experts provide actionable intelligence for commodity traders and energy market participants.',
       icon: <FileText className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
     },
     {
       name: 'FreightTender',
       description: 'Closed freight tender platform for commodity and chemical traders. Structured offers, closed competition, full auditability.',
+      longDescription: 'Bench Energy FreightTender is a closed tender platform designed for commodity and chemical traders. Submit structured freight offers in a competitive but private environment with full audit trail and transparency.',
       icon: <Ship className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-    }
-  ];
-
-  const simplifyTabs = [
-    {
-      name: 'Price Trends',
-      description: 'Stay on top of things with always up-to-date price reporting features.',
-      longDescription: 'We track price movements across major coal markets and provide real-time updates on thermal and coking coal prices.',
-      icon: <TrendingUp className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-    },
-    {
-      name: 'Market Analysis',
-      description: 'Never lose track of market movements with accurate trend tracking.',
-      longDescription: 'Our analysis covers supply chain dynamics, regional demand patterns, and industry developments affecting coal markets.',
-      icon: <BarChart3 className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
-    },
-    {
-      name: 'Expert Network',
-      description: 'Connect with industry experts and get insights from Bench Energy analysts.',
-      longDescription: 'Access our network of market analysts and freight specialists for personalized insights and strategic advice.',
-      icon: <Users className="h-5 w-5 flex-none text-green-600" aria-hidden="true" />
     }
   ];
 
   return (
     <>
-      {/* Hero Section - Salient Style with highlighted text */}
+      {/* Hero Section */}
       <section className="relative bg-white">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-20 pb-24 sm:pt-32 sm:pb-32">
           <div className="mx-auto max-w-2xl text-center">
@@ -70,49 +52,32 @@ export default function HomePage() {
               for traders.
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Most market intelligence platforms are accurate, but hard to use. We make the opposite trade-off, and provide actionable insights you can actually understand.
+              Daily coal market news, expert analysis, and freight intelligence. Get actionable insights you can actually use in your trading decisions.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
                 href="/news"
                 className="rounded-md bg-green-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
               >
-                Get started
+                View Latest News
               </Link>
               <Link href="/freighttender" className="text-sm font-semibold leading-6 text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
+                Learn about FreightTender <span aria-hidden="true">→</span>
               </Link>
-            </div>
-            {/* Trusted by section */}
-            <div className="mt-16">
-              <p className="text-xs font-semibold leading-6 text-gray-600 text-center">Trusted by commodity traders worldwide</p>
-              <div className="mt-8 flex items-center justify-center gap-x-8 sm:flex-row sm:gap-x-10">
-                <div className="flex items-center gap-x-4">
-                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-xs font-semibold text-gray-600">Trader 1</span>
-                  </div>
-                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-xs font-semibold text-gray-600">Trader 2</span>
-                  </div>
-                  <div className="h-12 w-24 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-xs font-semibold text-gray-600">Trader 3</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section with Tabs - Exact Salient Structure */}
+      {/* Features Section */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-green-600">Everything you need</h2>
+          <h2 className="text-base font-semibold leading-7 text-green-600">Our Services</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to track coal markets.
+            Everything you need to stay informed about coal markets
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Well everything you need if you aren't that picky about minor details like real-time price feeds from every exchange.
+            From daily market news to expert analysis and freight solutions, Bench Energy provides comprehensive intelligence for commodity traders.
           </p>
         </div>
         <div className="mx-auto max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
@@ -120,30 +85,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Secondary Features with Tabs - Exact Salient Structure */}
-      <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-green-600">Simplify market tracking</h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Simplify everyday trading decisions.
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            Because you'd probably be a little confused if we suggested you complicate your everyday trading decisions instead.
-          </p>
-        </div>
-        <div className="mx-auto max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <FeatureTabs tabs={simplifyTabs} />
-        </div>
-      </div>
-
-      {/* CTA Section - Salient Style with Green */}
+      {/* CTA Section */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Get started today
+            Stay updated with Bench Energy
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            It's time to take control of your market intelligence. Follow our Telegram channel for real-time coal market updates and freight insights.
+            Follow our Telegram channel for real-time coal market updates, expert insights, and freight intelligence delivered daily.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
