@@ -9,6 +9,10 @@ interface PageProps {
   };
 }
 
+// Force static generation
+export const dynamic = 'force-static';
+export const revalidate = false;
+
 export async function generateStaticParams() {
   try {
     const blogDir = join(process.cwd(), 'blog');
