@@ -26,6 +26,8 @@ async function getArticles(): Promise<Article[]> {
         // Extract title
         const titleMatch = content.match(/<title>(.*?)<\/title>/s);
         let title = titleMatch ? titleMatch[1].replace(/\s*\|\s*Bench Energy\s*$/i, '').trim() : file.replace('.html', '').replace(/-/g, ' ');
+        // Decode HTML entities (&#x27; -> ', &amp; -> &, etc.)
+        title = title.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
         
         // Extract description
         const descMatch = content.match(/<meta name="description" content="([^"]+)"/);

@@ -25,6 +25,8 @@ async function getBlogPosts(): Promise<BlogPost[]> {
         // Extract title
         const titleMatch = content.match(/<title>(.*?)<\/title>/s);
         let title = titleMatch ? titleMatch[1].replace(/\s*\|\s*Bench Energy Blog\s*$/i, '').trim() : file.replace('.html', '').replace(/-/g, ' ');
+        // Decode HTML entities (&#x27; -> ', &quot; -> ", etc.)
+        title = title.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
         
         // Extract date
         const dateMatch = content.match(/<meta property="article:published_time" content="([^"]+)"/);

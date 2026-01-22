@@ -34,7 +34,9 @@ async function getBlogPost(slug: string) {
     
     // Extract title
     const titleMatch = content.match(/<title>(.*?)<\/title>/s);
-    const title = titleMatch ? titleMatch[1].replace(/\s*\|\s*Bench Energy Blog\s*$/i, '').trim() : slug;
+    let title = titleMatch ? titleMatch[1].replace(/\s*\|\s*Bench Energy Blog\s*$/i, '').trim() : slug;
+    // Decode HTML entities (&#x27; -> ', &quot; -> ", etc.)
+    title = title.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
     
     // Extract article body
     const articleMatch = content.match(/<article[^>]*>(.*?)<\/article>/s);
