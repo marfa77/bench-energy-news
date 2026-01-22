@@ -16,7 +16,25 @@ import requests
 load_dotenv()
 
 NOTION_API_KEY = os.getenv("NOTION_API_KEY")
-NOTION_BLOG_PAGE_ID = os.getenv("NOTION_BLOG_PAGE_ID")  # Не используем fallback - должен быть установлен через секреты
+NOTION_BLOG_PAGE_ID_RAW = os.getenv("NOTION_BLOG_PAGE_ID", "").strip()  # Убираем пробелы по краям
+# Очищаем ID от пробелов и нормализуем формат
+if NOTION_BLOG_PAGE_ID_RAW:
+    # Убираем все пробелы
+    cleaned_id = NOTION_BLOG_PAGE_ID_RAW.replace(" ", "").replace("\t", "").replace("\n", "")
+    # UUID должен быть 32 символа (без дефисов) или 36 (с дефисами)
+    if len(cleaned_id) == 32:
+        # UUID без дефисов - добавляем дефисы
+        NOTION_BLOG_PAGE_ID = f"{cleaned_id[:8]}-{cleaned_id[8:12]}-{cleaned_id[12:16]}-{cleaned_id[16:20]}-{cleaned_id[20:]}"
+    elif len(cleaned_id) == 36 and cleaned_id.count("-") == 4:
+        # UUID с дефисами - используем как есть
+        NOTION_BLOG_PAGE_ID = cleaned_id
+    else:
+        NOTION_BLOG_PAGE_ID = None
+        print(f"⚠️  NOTION_BLOG_PAGE_ID имеет неверный формат (ожидается UUID): длина={len(cleaned_id)}")
+        if len(cleaned_id) > 0:
+            print(f"   Первые символы: {cleaned_id[:20]}...")
+else:
+    NOTION_BLOG_PAGE_ID = None
 NOTION_API_URL = "https://api.notion.com/v1"
 GITHUB_REPO_PATH = os.getenv("GITHUB_REPO_PATH", ".")
 SITE_URL = os.getenv("SITE_URL", "https://www.bench.energy")
@@ -34,8 +52,9 @@ def fetch_blog_pages() -> List[Dict]:
         return []
     
     if not NOTION_BLOG_PAGE_ID:
-        print("❌ NOTION_BLOG_PAGE_ID не установлен")
+        print("❌ NOTION_BLOG_PAGE_ID не установлен или имеет неверный формат")
         print("   Установите секрет NOTION_BLOG_PAGE_ID в GitHub Secrets")
+        print("   Формат: UUID (например, 2f05f382-1e21-8e99-cdef-21e05a7a624)")
         return []
     
     headers = {
@@ -411,8 +430,9 @@ def sync_blog():
         return
     
     if not NOTION_BLOG_PAGE_ID:
-        print("❌ NOTION_BLOG_PAGE_ID не установлен")
+        print("❌ NOTION_BLOG_PAGE_ID не установлен или имеет неверный формат")
         print("   Установите секрет NOTION_BLOG_PAGE_ID в GitHub Secrets")
+        print("   Формат: UUID (например, 2f05f382-1e21-8e99-cdef-21e05a7a624)")
         return
     
     repo_path = Path(GITHUB_REPO_PATH).expanduser().resolve()
