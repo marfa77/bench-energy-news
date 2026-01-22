@@ -72,60 +72,68 @@ export default async function NewsPage() {
           Latest news and analysis about coal markets, prices, and industry developments with expert insights from Bench Energy.
         </p>
         
-        {articles.length === 0 ? (
-          <p style={{ color: '#666' }}>No articles found. Articles will appear here after synchronization.</p>
-        ) : (
-          <div style={{
-            display: 'grid',
-            gap: '2rem',
-          }}>
-            {articles.map((article) => (
-              <article key={article.slug} style={{
-                padding: '2rem',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }} className="hover-card">
-                <h2 style={{ marginBottom: '0.75rem' }}>
-                  <Link href={article.url} style={{
-                    color: '#1a1a1a',
-                    textDecoration: 'none',
-                  }}>
-                    {article.title}
-                  </Link>
-                </h2>
-                <p style={{ 
-                  color: '#666', 
-                  marginBottom: '1rem',
-                  fontSize: '0.95rem',
+              {articles.length === 0 ? (
+                <p style={{ color: '#666' }}>No articles found. Articles will appear here after synchronization.</p>
+              ) : (
+                <div className="news-grid" style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '2rem',
                 }}>
-                  {article.description.length > 200 ? `${article.description.substring(0, 200)}...` : article.description}
-                </p>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                  <time style={{ color: '#999', fontSize: '0.875rem' }}>
-                    {new Date(article.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </time>
-                  <Link href={article.url} style={{
-                    color: '#0066cc',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    fontSize: '0.95rem',
-                  }}>
-                    Read more →
-                  </Link>
+                  {articles.map((article) => (
+                    <article key={article.slug} style={{
+                      padding: '2rem',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                    }} className="hover-card">
+                      <h2 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', lineHeight: '1.3' }}>
+                        <Link href={article.url} style={{
+                          color: '#1a1a1a',
+                          textDecoration: 'none',
+                        }}>
+                          {article.title}
+                        </Link>
+                      </h2>
+                      <p style={{ 
+                        color: '#666', 
+                        marginBottom: '1rem',
+                        fontSize: '0.95rem',
+                        flexGrow: 1,
+                      }}>
+                        {article.description.length > 200 ? `${article.description.substring(0, 200)}...` : article.description}
+                      </p>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginTop: 'auto',
+                        paddingTop: '1rem',
+                        borderTop: '1px solid #eee',
+                      }}>
+                        <time style={{ color: '#999', fontSize: '0.875rem' }}>
+                          {new Date(article.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </time>
+                        <Link href={article.url} style={{
+                          color: '#0066cc',
+                          textDecoration: 'none',
+                          fontWeight: 500,
+                          fontSize: '0.95rem',
+                        }}>
+                          Read more →
+                        </Link>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
-        )}
+              )}
       </div>
     </div>
   );

@@ -172,7 +172,6 @@ footer a:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-
 /* Blog grid - responsive */
 .blog-grid {
   display: grid;
@@ -188,6 +187,19 @@ footer a:hover {
 
 @media (max-width: 767px) {
   .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* News grid - responsive */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .news-grid {
     grid-template-columns: 1fr;
   }
 }
