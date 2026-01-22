@@ -131,6 +131,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
       
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
