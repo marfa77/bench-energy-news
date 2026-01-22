@@ -39,7 +39,7 @@ async function getBlogPost(slug: string) {
   }
 }
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
+export async function generateStaticParams() {
   try {
     const blogDir = join(process.cwd(), 'blog');
     const files = await readdir(blogDir);
@@ -51,26 +51,6 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   } catch {
     return [];
   }
-}
-
-export async function generateMetadata({ params }: PageProps) {
-  const post = await getBlogPost(params.slug);
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
-  
-  return {
-    title: `${post.title} | Bench Energy Blog`,
-    description: `${post.title} - Bench Energy Blog`,
-    openGraph: {
-      title: post.title,
-      type: 'article',
-      publishedTime: post.date,
-    },
-  };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
