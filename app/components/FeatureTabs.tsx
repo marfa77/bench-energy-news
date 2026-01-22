@@ -68,27 +68,27 @@ export default function FeatureTabs({ tabs }: FeatureTabsProps) {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gray-100 lg:aspect-square"
+                  className="w-full"
                 >
                   {tab.image ? (
-                    <Image
-                      src={tab.image}
-                      alt={tab.name}
-                      width={800}
-                      height={600}
-                      className="h-full w-full object-cover"
-                    />
+                    <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gray-100 lg:aspect-square">
+                      <Image
+                        src={tab.image}
+                        alt={tab.name}
+                        width={800}
+                        height={600}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
                   ) : (
-                    <div className="flex h-full items-center justify-center bg-gradient-to-br from-green-50 to-green-100">
-                      <div className="text-center p-8">
-                        <div className="flex justify-center mb-4">
-                          {tab.icon}
-                        </div>
-                        <p className="mt-4 text-sm font-medium text-gray-600">{tab.name}</p>
-                        {tab.longDescription && (
-                          <p className="mt-2 text-sm text-gray-500 max-w-md">{tab.longDescription}</p>
-                        )}
-                      </div>
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-semibold text-gray-900">{tab.name}</h3>
+                      {tab.longDescription && (
+                        <p className="text-lg leading-7 text-gray-600">{tab.longDescription}</p>
+                      )}
+                      {!tab.longDescription && (
+                        <p className="text-lg leading-7 text-gray-600">{tab.description}</p>
+                      )}
                     </div>
                   )}
                 </motion.div>
