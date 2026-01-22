@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f0f7ff;
+  --color-primary-100: #e0efff;
+  --color-primary-200: #b8dfff;
+  --color-primary-300: #7bc5ff;
+  --color-primary-400: #36a7ff;
+  --color-primary-500: #0c8aff;
+  --color-primary-600: #0066cc;
+  --color-primary-700: #0052a3;
+  --color-primary-800: #064686;
+  --color-primary-900: #0a3c6f;
+}
 
 /* Animations */
 @keyframes blob {
