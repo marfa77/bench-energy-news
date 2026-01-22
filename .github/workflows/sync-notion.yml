@@ -70,7 +70,7 @@ jobs:
           if ! git diff --staged --quiet; then
             echo "💾 Создание коммита..."
             # Используем [skip actions] вместо [skip ci] чтобы не отменять workflow
-            if git commit -m "Auto-sync: Update from Notion [skip actions]"; then
+            if git commit -m "Auto-sync: Update from Notion [ci actions]"; then
               echo "🔄 Синхронизация с удаленным репозиторием..."
               git pull --rebase origin main || true
               echo "📡 Отправка изменений в GitHub..."
