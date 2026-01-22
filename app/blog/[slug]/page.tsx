@@ -39,7 +39,7 @@ async function getBlogPost(slug: string) {
   }
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   try {
     const blogDir = join(process.cwd(), 'blog');
     const files = await readdir(blogDir);
