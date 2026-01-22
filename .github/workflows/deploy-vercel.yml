@@ -82,7 +82,7 @@ jobs:
           git add posts/ blog/ sitemap.xml index.html feed.xml || true
           if ! git diff --staged --quiet; then
             echo "💾 Создание коммита..."
-            if git commit -m "Auto-sync: Update from Notion [ci skip]"; then
+            if git commit -m "Auto-sync: Update from Notion"; then
               echo "🔄 Синхронизация с удаленным репозиторием..."
               git pull --rebase origin main || true
               echo "📡 Отправка изменений в GitHub..."
@@ -103,6 +103,7 @@ jobs:
 
   deploy-vercel:
     needs: sync-news
+    if: always() # Запускать даже если sync-news пропущен или завершился с ошибкой
     runs-on: ubuntu-latest
     permissions:
       contents: read
