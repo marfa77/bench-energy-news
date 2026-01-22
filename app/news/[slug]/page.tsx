@@ -22,15 +22,39 @@ async function getArticle(slug: string) {
     
     // Extract article body - ищем <div class="content"> или <article>
     let articleContent = '';
-    const contentDivMatch = content.match(/<div class="content">(.*?)<\/div>/s);
-    const articleMatch = content.match(/<article[^>]*>(.*?)<\/article>/s);
     
-    if (contentDivMatch) {
-      articleContent = contentDivMatch[1];
-    } else if (articleMatch) {
-      articleContent = articleMatch[1];
-    } else {
-      // Fallback: ищем содержимое между <body> и </body>
+    // Используем более надежный подход - находим позиции начала и конца
+    const contentStart = content.indexOf('<div class="content">');
+    if (contentStart !== -1) {
+      const contentStartPos = contentStart + '<div class="content">'.length;
+      // Ищем следующий блок или конец body
+      const sourceLinkPos = content.indexOf('<div class="source-link">', contentStartPos);
+      const bodyEndPos = content.indexOf('</body>', contentStartPos);
+      
+      let contentEndPos = -1;
+      if (sourceLinkPos !== -1 && (bodyEndPos === -1 || sourceLinkPos < bodyEndPos)) {
+        contentEndPos = sourceLinkPos;
+      } else if (bodyEndPos !== -1) {
+        contentEndPos = bodyEndPos;
+      }
+      
+      if (contentEndPos !== -1) {
+        articleContent = content.substring(contentStartPos, contentEndPos).trim();
+        // Убираем закрывающий </div> если есть в конце
+        articleContent = articleContent.replace(/<\/div>\s*$/, '').trim();
+      }
+    }
+    
+    // Fallback: ищем <article>
+    if (!articleContent) {
+      const articleMatch = content.match(/<article[^>]*>(.*?)<\/article>/s);
+      if (articleMatch) {
+        articleContent = articleMatch[1].trim();
+      }
+    }
+    
+    // Fallback: ищем содержимое между <body> и </body>
+    if (!articleContent) {
       const bodyMatch = content.match(/<body[^>]*>(.*?)<\/body>/s);
       if (bodyMatch) {
         // Убираем header, ai-summary и другие служебные элементы
@@ -41,6 +65,8 @@ async function getArticle(slug: string) {
         bodyContent = bodyContent.replace(/<div class="ai-summary">.*?<\/div>/s, '');
         // Убираем source-link
         bodyContent = bodyContent.replace(/<div class="source-link">.*?<\/div>/s, '');
+        // Убираем telegram link блок
+        bodyContent = bodyContent.replace(/<div style="margin-top: 40px.*?<\/div>\s*<\/body>/s, '');
         articleContent = bodyContent.trim();
       }
     }
