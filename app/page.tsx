@@ -1,5 +1,9 @@
 import Link from 'next/link';
 
+// Force static generation for home page
+export const dynamic = 'force-static';
+export const revalidate = false;
+
 export default function HomePage() {
   return (
     <>

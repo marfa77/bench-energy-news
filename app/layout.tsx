@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import dynamic from 'next/dynamic';
+
+// Dynamically import Client Components to prevent SSR blocking
+const Header = dynamic(() => import('./components/Header'), { ssr: true });
+const Footer = dynamic(() => import('./components/Footer'), { ssr: true });
 
 export const metadata: Metadata = {
   title: {

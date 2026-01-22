@@ -43,10 +43,12 @@ export async function generateStaticParams() {
     const files = await readdir(postsDir);
     const htmlFiles = files.filter(f => f.endsWith('.html'));
     
-    return htmlFiles.map(file => ({
+    // Limit to prevent too many pages during build (max 50 pages)
+    return htmlFiles.slice(0, 50).map(file => ({
       slug: file.replace('.html', ''),
     }));
   } catch {
+    // Return empty array if directory doesn't exist or can't be read
     return [];
   }
 }

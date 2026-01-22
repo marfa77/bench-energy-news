@@ -13,8 +13,12 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  // Увеличиваем таймаут для статической генерации
-  staticPageGenerationTimeout: 300,
+  // Увеличиваем таймаут для статической генерации (600 секунд = 10 минут)
+  staticPageGenerationTimeout: 600,
+  // Оптимизация параллельной генерации страниц
+  experimental: {
+    optimizePackageImports: ['next'],
+  },
   // Копируем статические файлы из posts/ в out/
   async generateBuildId() {
     return 'build-' + Date.now();
