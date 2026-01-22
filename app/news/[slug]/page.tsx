@@ -42,6 +42,17 @@ async function getArticle(slug: string) {
         articleContent = content.substring(contentStartPos, contentEndPos).trim();
         // Убираем закрывающий </div> если есть в конце
         articleContent = articleContent.replace(/<\/div>\s*$/, '').trim();
+        // Убираем заголовки версий и разделители, которые не должны отображаться
+        articleContent = articleContent.replace(/<hr\s*\/?>\s*<h2>Web Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/<hr\s*\/?>\s*<h2>Telegram Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/<h2>Web Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/<h2>Telegram Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/---\s*<h2>Web Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/---\s*<h2>Telegram Version<\/h2>\s*/gi, '');
+        articleContent = articleContent.replace(/##\s*Web Version\s*/gi, '');
+        articleContent = articleContent.replace(/##\s*Telegram Version\s*/gi, '');
+        // Убираем лишние разделители
+        articleContent = articleContent.replace(/<hr\s*\/?>\s*<hr\s*\/?>/gi, '<hr />');
       }
     }
     
