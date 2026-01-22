@@ -66,7 +66,7 @@ export default function Header() {
             </Link>
             <Link 
               href="/freighttender/" 
-              className="ml-2 px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white no-underline text-sm font-semibold rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="ml-2 px-5 py-2 bg-green-600 text-white no-underline text-sm font-semibold rounded-lg hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md"
             >
               FreightTender
             </Link>
