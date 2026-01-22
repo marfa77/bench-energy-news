@@ -400,11 +400,11 @@ def sync_notion_to_github():
         print("🔄 РЕЖИМ ПОЛНОЙ СИНХРОНИЗАЦИИ: обновление всех новостей из Notion")
         pages = fetch_notion_pages(today_only=False)
     else:
-        # Синхронизируем новости за последние 7 дней
+        # Синхронизируем новости за последние 30 дней для более полного охвата
         from datetime import timedelta
         today = datetime.now().date()
-        seven_days_ago = today - timedelta(days=7)
-        print(f"📅 Фильтр: новости за последние 7 дней (с {seven_days_ago} по {today})")
+        days_ago = today - timedelta(days=30)
+        print(f"📅 Фильтр: новости за последние 30 дней (с {days_ago} по {today})")
         all_pages = fetch_notion_pages(today_only=False)
         # Фильтруем по дате в коде
         pages = []
@@ -425,15 +425,35 @@ def sync_notion_to_github():
                         page_date_local = page_date.astimezone(local_tz)
                     else:
                         page_date_local = page_date
-                    if seven_days_ago <= page_date_local.date() <= today:
+                    if days_ago <= page_date_local.date() <= today:
                         pages.append(page)
                 except Exception as e:
                     print(f"⚠️  Ошибка парсинга даты '{date_str}': {e}")
-                    # Если не удалось распарсить дату, включаем страницу
+                    # Если не удалось распарсить дату, включаем страницу (на случай старых новостей без даты)
                     pages.append(page)
             else:
-                # Если нет даты, включаем страницу (может быть новая)
-                pages.append(page)
+                # Если нет Published Date, проверяем created_time
+                created_time = page.get("created_time")
+                if created_time:
+                    try:
+                        created_date = datetime.fromisoformat(created_time.replace("Z", "+00:00"))
+                        if created_date.tzinfo:
+                            import time
+                            from datetime import timezone
+                            local_offset = time.timezone if (time.daylight == 0) else time.altzone
+                            local_tz = timezone(timedelta(seconds=-local_offset))
+                            created_date_local = created_date.astimezone(local_tz)
+                        else:
+                            created_date_local = created_date
+                        if days_ago <= created_date_local.date() <= today:
+                            pages.append(page)
+                    except Exception as e:
+                        print(f"⚠️  Ошибка парсинга created_time: {e}")
+                        # Если не удалось распарсить created_time, включаем страницу
+                        pages.append(page)
+                else:
+                    # Если нет ни Published Date, ни created_time, включаем страницу (может быть новая)
+                    pages.append(page)
     
     if not pages:
         if full_sync:

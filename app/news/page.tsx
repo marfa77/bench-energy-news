@@ -18,7 +18,8 @@ async function getArticles(): Promise<Article[]> {
     
     const articles: Article[] = [];
     
-    for (const file of htmlFiles.slice(0, 30)) {
+    // Сначала читаем все файлы, потом сортируем
+    for (const file of htmlFiles) {
       try {
         const filePath = join(postsDir, file);
         const content = await readFile(filePath, 'utf-8');

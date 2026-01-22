@@ -1,27 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Убрали output: 'export' для поддержки API routes (как в CIPLE)
   images: {
     unoptimized: true,
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.notion.so',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.notion-static.com',
+      },
+    ],
   },
   trailingSlash: true,
-  basePath: '',
-  assetPrefix: '',
   // Оптимизация сборки
   swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-  // Увеличиваем таймаут для статической генерации (600 секунд = 10 минут)
-  staticPageGenerationTimeout: 600,
   // Оптимизация параллельной генерации страниц
   experimental: {
     optimizePackageImports: ['next'],
-  },
-  // Копируем статические файлы из posts/ в out/
-  async generateBuildId() {
-    return 'build-' + Date.now();
   },
 }
 
