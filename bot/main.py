@@ -14,8 +14,8 @@ from telegram.error import TelegramError
 
 from news_search import search_coal_news, select_best_news
 from post_generator import create_coal_analysis
-from post_versions_generator import generate_post_versions
-from storage import is_published, mark_as_published, mark_as_published_with_category
+from post_versions_generator import generate_post_versions, generate_freight_post
+from storage import is_published, mark_as_published, mark_as_published_with_category, should_generate_freight_post, increment_post_count, get_post_count, add_freight_topic
 from published_news_db import init_database, is_news_published, save_publication, update_publication_platform
 from image_extractor import extract_image_from_url
 # from linkedin_publisher import publish_to_linkedin  # Отключено
@@ -741,7 +741,96 @@ async def run_once():
         if bot:
             await bot.shutdown()
     
+    # Проверяем, нужно ли генерировать специальный пост о фрахте
+    post_count = get_post_count()
+    
+    if should_generate_freight_post():
+        print(f"🚢 Генерация специального поста о фрахте (счетчик постов: {post_count})...")
+        try:
+            # Генерируем специальный пост о фрахте
+            versions = generate_freight_post()
+            
+            tg_version = versions.get("tg_version", "")
+            web_version = versions.get("web_version", "")
+            
+            if not tg_version:
+                print("❌ Не удалось сгенерировать специальный пост о фрахте")
+                return False
+            
+            print(f"✅ Специальный пост о фрахте сгенерирован")
+            
+            # Публикуем в Telegram
+            bot = None
+            try:
+                bot = Bot(token=TG_BOT_TOKEN)
+                await bot.initialize()
+                
+                telegram_success = await send_message_via_bot_api(tg_version, TG_TARGET_CHANNEL, None)
+                
+                if telegram_success:
+                    print(f"✅ Специальный пост о фрахте опубликован в Telegram")
+                else:
+                    print(f"❌ Не удалось опубликовать специальный пост в Telegram")
+                    return False
+            except Exception as e:
+                print(f"❌ Ошибка публикации специального поста в Telegram: {e}")
+                import traceback
+                print(traceback.format_exc())
+                return False
+            finally:
+                if bot:
+                    await bot.shutdown()
+            
+            # Публикуем в Notion
+            try:
+                from notion_publisher import create_notion_page
+                
+                # Создаем структуру новости для Notion
+                freight_news = {
+                    "title": "Freight Challenges for Bulk Trading Companies",
+                    "summary": "Analytical post about freight logistics challenges and solutions",
+                    "source_url": "",
+                    "source_name": "Bench Energy Analysis",
+                    "category": "Freight"
+                }
+                
+                # LinkedIn версия не нужна, передаем пустую строку
+                notion_page_id = create_notion_page(freight_news, tg_version, web_version, None)
+                if notion_page_id:
+                    print(f"✅ Специальный пост о фрахте опубликован в Notion: {notion_page_id}")
+                else:
+                    print(f"⚠️  Не удалось опубликовать специальный пост в Notion")
+            except Exception as e:
+                print(f"❌ Ошибка публикации специального поста в Notion: {e}")
+                import traceback
+                print(traceback.format_exc())
+            
+            # Отправляем статус администратору
+            await send_status_to_admin(
+                news_title="Специальный пост о фрахте",
+                telegram_status=telegram_success,
+                web_status=notion_page_id is not None,
+                news_url=""
+            )
+            
+            # Сохраняем тему поста, чтобы избежать дублей
+            topic = versions.get("topic", "freight challenges")
+            add_freight_topic(topic)
+            print(f"💾 Тема поста сохранена: {topic[:50]}...")
+            
+            # НЕ увеличиваем счетчик для специальных постов
+            print(f"ℹ️  Счетчик постов остался: {get_post_count()} (специальные посты не учитываются)")
+            
+            return True
+            
+        except Exception as e:
+            print(f"❌ Ошибка генерации специального поста о фрахте: {e}")
+            import traceback
+            print(traceback.format_exc())
+            return False
+    
     print(f"🔍 Поиск новостей по углю за сегодня ({datetime.now().strftime('%Y-%m-%d %H:%M:%S')})...")
+    print(f"📊 Счетчик постов: {post_count}")
     
     try:
         # Ищем новости
@@ -816,6 +905,9 @@ async def run_once():
         
         if success:
             print(f"✅ Новость успешно обработана и опубликована")
+            # Увеличиваем счетчик постов после успешной публикации
+            new_count = increment_post_count()
+            print(f"📊 Счетчик постов обновлен: {new_count} (следующий специальный пост через {6 - (new_count % 6)} постов)")
             return True
         else:
             print(f"⚠️  Не удалось обработать новость")

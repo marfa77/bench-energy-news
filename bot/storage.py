@@ -137,3 +137,86 @@ def get_category_stats() -> dict:
     
     return stats
 
+
+def get_post_count() -> int:
+    """
+    Возвращает количество опубликованных обычных постов (не специальных).
+    
+    Returns:
+        Количество постов
+    """
+    state = get_state()
+    return state.get("post_count", 0)
+
+
+def increment_post_count() -> int:
+    """
+    Увеличивает счетчик постов на 1 и возвращает новое значение.
+    
+    Returns:
+        Новое значение счетчика
+    """
+    ensure_output_dir()
+    state = get_state()
+    
+    current_count = state.get("post_count", 0)
+    new_count = current_count + 1
+    state["post_count"] = new_count
+    
+    try:
+        with open(STATE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(state, f, indent=2, ensure_ascii=False)
+    except IOError as e:
+        print(f"Ошибка при сохранении post_count: {e}")
+    
+    return new_count
+
+
+def should_generate_freight_post() -> bool:
+    """
+    Проверяет, нужно ли генерировать специальный пост о фрахте.
+    Генерируется через каждые 6 постов (после 6-го, 12-го, 18-го и т.д.).
+    
+    Returns:
+        True если нужно генерировать специальный пост
+    """
+    post_count = get_post_count()
+    # Генерируем после каждого 6-го поста (6, 12, 18, 24...)
+    return post_count > 0 and post_count % 6 == 0
+
+
+def get_published_freight_topics() -> list:
+    """
+    Возвращает список уже опубликованных тем специальных постов о фрахте.
+    
+    Returns:
+        Список тем (строк)
+    """
+    state = get_state()
+    return state.get("published_freight_topics", [])
+
+
+def add_freight_topic(topic: str):
+    """
+    Добавляет тему специального поста о фрахте в список опубликованных.
+    
+    Args:
+        topic: Тема поста (краткое описание)
+    """
+    ensure_output_dir()
+    state = get_state()
+    
+    topics = state.get("published_freight_topics", [])
+    if topic not in topics:
+        topics.append(topic)
+        # Храним только последние 20 тем, чтобы не перегружать промпт
+        if len(topics) > 20:
+            topics = topics[-20:]
+        state["published_freight_topics"] = topics
+        
+        try:
+            with open(STATE_FILE, 'w', encoding='utf-8') as f:
+                json.dump(state, f, indent=2, ensure_ascii=False)
+        except IOError as e:
+            print(f"Ошибка при сохранении freight topics: {e}")
+
