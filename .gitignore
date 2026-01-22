@@ -48,3 +48,6 @@ ENV/
 bot/logs/
 bot/.env
 SECRETS.md
+VERCEL_IDS_FOUND.md
+ADD_BLOG_SECRET.md
+get_vercel_ids.sh
