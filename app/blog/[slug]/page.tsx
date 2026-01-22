@@ -9,20 +9,6 @@ interface PageProps {
   };
 }
 
-export async function generateStaticParams() {
-  try {
-    const blogDir = join(process.cwd(), 'blog');
-    const files = await readdir(blogDir);
-    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
-    
-    return htmlFiles.map(file => ({
-      slug: file.replace('.html', ''),
-    }));
-  } catch {
-    return [];
-  }
-}
-
 async function getBlogPost(slug: string) {
   try {
     const filePath = join(process.cwd(), 'blog', `${slug}.html`);
@@ -50,6 +36,20 @@ async function getBlogPost(slug: string) {
     };
   } catch (error) {
     return null;
+  }
+}
+
+export async function generateStaticParams() {
+  try {
+    const blogDir = join(process.cwd(), 'blog');
+    const files = await readdir(blogDir);
+    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
+    
+    return htmlFiles.map(file => ({
+      slug: file.replace('.html', ''),
+    }));
+  } catch {
+    return [];
   }
 }
 
