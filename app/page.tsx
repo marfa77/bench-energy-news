@@ -64,7 +64,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Blog Card */}
+            {/* Blog Card - temporarily disabled
             <div className="service-card" style={{
               padding: '2rem',
               border: '1px solid #e0e0e0',
@@ -88,6 +88,7 @@ export default function HomePage() {
                 Read Blog →
               </Link>
             </div>
+            */}
 
             {/* FreightTender Card */}
             <div className="service-card" style={{

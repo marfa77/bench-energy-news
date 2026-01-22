@@ -68,6 +68,7 @@ export default function Header() {
           }} onMouseEnter={(e) => e.currentTarget.style.color = '#0066cc'} onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
             News
           </Link>
+          {/* Blog temporarily disabled
           <Link href="/blog" style={{
             color: '#666',
             textDecoration: 'none',
@@ -77,6 +78,7 @@ export default function Header() {
           }} onMouseEnter={(e) => e.currentTarget.style.color = '#0066cc'} onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
             Blog
           </Link>
+          */}
           <Link href="/topics" style={{
             color: '#666',
             textDecoration: 'none',
