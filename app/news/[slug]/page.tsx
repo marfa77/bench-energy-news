@@ -123,26 +123,26 @@ export default async function ArticlePage({ params }: PageProps) {
   }
   
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div className="container" style={{ maxWidth: '900px' }}>
-        <Link href="/news" style={{
-          color: '#0066cc',
-          textDecoration: 'none',
-          fontSize: '0.95rem',
-          marginBottom: '2rem',
-          display: 'inline-block',
-        }} className="back-link">
-          ← Back to News
+    <div className="py-12 md:py-16 bg-gray-50">
+      <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <Link 
+          href="/news" 
+          className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium mb-8 no-underline transition-colors"
+        >
+          <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to News
         </Link>
         
-        <article>
-          <h1 style={{ marginBottom: '1rem' }} className="article-title">{article.title}</h1>
-          <time style={{ 
-            color: '#666', 
-            fontSize: '0.95rem',
-            display: 'block',
-            marginBottom: '2rem',
-          }} className="article-date">
+        <article className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+            {article.title}
+          </h1>
+          <time className="inline-flex items-center text-gray-500 text-sm mb-8 block">
+            <svg className="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
             {new Date(article.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
@@ -152,10 +152,7 @@ export default async function ArticlePage({ params }: PageProps) {
           
           <div 
             dangerouslySetInnerHTML={{ __html: article.content }}
-            style={{
-              lineHeight: '1.8',
-            }}
-            className="article-content"
+            className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-strong:text-gray-900 prose-img:rounded-xl prose-img:shadow-lg"
           />
         </article>
       </div>

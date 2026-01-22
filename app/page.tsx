@@ -8,109 +8,80 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="section" style={{ 
-        paddingTop: '6rem', 
-        paddingBottom: '4rem',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-      }}>
-        <div className="container">
-          <h1 style={{ color: 'white', fontSize: '3rem', marginBottom: '1.5rem' }} className="hero-title">
-            Bench Energy
-          </h1>
-          <p style={{ 
-            fontSize: '1.5rem', 
-            marginBottom: '2rem', 
-            color: 'rgba(255, 255, 255, 0.95)',
-            maxWidth: '800px',
-          }} className="hero-subtitle">
-            Coal market intelligence and freight tender solutions for commodity traders
-          </p>
+      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-purple-600 text-white py-24 md:py-32">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              Bench Energy
+            </h1>
+            <p className="text-xl md:text-2xl text-white/95 mb-8 leading-relaxed">
+              Coal market intelligence and freight tender solutions for commodity traders
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="section">
-        <div className="container">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '3rem',
-            marginTop: '2rem',
-          }}>
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* News Card */}
-            <div style={{
-              padding: '2rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }} className="hover-card">
-              <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
-                📰 Coal Market News
+            <div className="group bg-white border border-gray-200 rounded-xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl mb-4">📰</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Coal Market News
               </h2>
-              <p style={{ marginBottom: '1.5rem', color: '#666' }}>
+              <p className="text-gray-600 mb-6 leading-relaxed">
                 Daily updates on coal markets, prices, and industry analysis with expert insights from Bench Energy.
               </p>
-              <Link href="/news" style={{
-                display: 'inline-block',
-                padding: '0.75rem 1.5rem',
-                background: '#0066cc',
-                color: 'white',
-                borderRadius: '4px',
-                textDecoration: 'none',
-                fontWeight: 500,
-              }}>
-                View News →
+              <Link 
+                href="/news" 
+                className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+              >
+                View News
+                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
 
             {/* Blog Card */}
-            <div className="service-card" style={{
-              padding: '2rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-            }}>
-              <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
-                ✍️ Blog
+            <div className="group bg-white border border-gray-200 rounded-xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl mb-4">✍️</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Blog
               </h2>
-              <p style={{ marginBottom: '1.5rem', color: '#666' }}>
+              <p className="text-gray-600 mb-6 leading-relaxed">
                 In-depth articles about coal markets, freight, and energy industry insights from Bench Energy experts.
               </p>
-              <Link href="/blog" style={{
-                display: 'inline-block',
-                padding: '0.75rem 1.5rem',
-                background: '#0066cc',
-                color: 'white',
-                borderRadius: '4px',
-                textDecoration: 'none',
-                fontWeight: 500,
-              }}>
-                Read Blog →
+              <Link 
+                href="/blog" 
+                className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+              >
+                Read Blog
+                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
 
             {/* FreightTender Card */}
-            <div className="service-card" style={{
-              padding: '2rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-            }}>
-              <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
-                🚢 FreightTender
+            <div className="group bg-white border border-gray-200 rounded-xl p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="text-4xl mb-4">🚢</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                FreightTender
               </h2>
-              <p style={{ marginBottom: '1.5rem', color: '#666' }}>
+              <p className="text-gray-600 mb-6 leading-relaxed">
                 Closed freight tender platform for commodity and chemical traders. Structured offers, closed competition, full auditability.
               </p>
-              <Link href="/freighttender" style={{
-                display: 'inline-block',
-                padding: '0.75rem 1.5rem',
-                background: '#0066cc',
-                color: 'white',
-                borderRadius: '4px',
-                textDecoration: 'none',
-                fontWeight: 500,
-              }}>
-                Learn More →
+              <Link 
+                href="/freighttender" 
+                className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors"
+              >
+                Learn More
+                <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
             </div>
           </div>
@@ -118,29 +89,25 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section className="section" style={{ background: '#f8f9fa' }}>
-        <div className="container">
-          <h2 style={{ marginBottom: '1.5rem' }}>About Bench Energy</h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '2rem',
-          }}>
-            <div>
-              <h3 style={{ marginBottom: '0.75rem' }}>Market Intelligence</h3>
-              <p style={{ color: '#666' }}>
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">About Bench Energy</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Market Intelligence</h3>
+              <p className="text-gray-600 leading-relaxed">
                 We provide daily analysis of coal markets, price trends, and industry developments with expert commentary.
               </p>
             </div>
-            <div>
-              <h3 style={{ marginBottom: '0.75rem' }}>Freight Solutions</h3>
-              <p style={{ color: '#666' }}>
+            <div className="bg-white p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Freight Solutions</h3>
+              <p className="text-gray-600 leading-relaxed">
                 FreightTender platform enables structured, transparent, and auditable freight procurement for commodity traders.
               </p>
             </div>
-            <div>
-              <h3 style={{ marginBottom: '0.75rem' }}>Expert Insights</h3>
-              <p style={{ color: '#666' }}>
+            <div className="bg-white p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Expert Insights</h3>
+              <p className="text-gray-600 leading-relaxed">
                 Our team provides actionable market analysis and freight procurement strategies for trading companies.
               </p>
             </div>
@@ -149,28 +116,23 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="section">
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ marginBottom: '1rem' }}>Stay Updated</h2>
-          <p style={{ marginBottom: '2rem', color: '#666', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Follow our Telegram channel for real-time coal market updates and freight insights.
-          </p>
-          <a 
-            href="https://t.me/benchenergy" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              padding: '0.75rem 1.5rem',
-              background: '#0088cc',
-              color: 'white',
-              borderRadius: '4px',
-              textDecoration: 'none',
-              fontWeight: 500,
-            }}
-          >
-            📱 Join @benchenergy on Telegram
-          </a>
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Stay Updated</h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Follow our Telegram channel for real-time coal market updates and freight insights.
+            </p>
+            <a 
+              href="https://t.me/benchenergy" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-8 py-4 bg-[#0088cc] text-white font-medium rounded-lg hover:bg-[#006ba3] transition-colors text-lg"
+            >
+              <span className="mr-2">📱</span>
+              Join @benchenergy on Telegram
+            </a>
+          </div>
         </div>
       </section>
     </>

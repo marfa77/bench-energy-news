@@ -65,75 +65,56 @@ export default async function NewsPage() {
   const articles = await getArticles();
   
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div className="container">
-        <h1 style={{ marginBottom: '1rem' }}>Coal Market News</h1>
-        <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '3rem', maxWidth: '800px' }} className="news-intro">
-          Latest news and analysis about coal markets, prices, and industry developments with expert insights from Bench Energy.
-        </p>
+    <div className="py-12 md:py-16 bg-white">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Coal Market News</h1>
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Latest news and analysis about coal markets, prices, and industry developments with expert insights from Bench Energy.
+          </p>
+        </div>
         
-              {articles.length === 0 ? (
-                <p style={{ color: '#666' }}>No articles found. Articles will appear here after synchronization.</p>
-              ) : (
-                <div className="news-grid" style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '2rem',
-                }}>
-                  {articles.map((article) => (
-                    <article key={article.slug} style={{
-                      padding: '2rem',
-                      border: '1px solid #e0e0e0',
-                      borderRadius: '8px',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: '100%',
-                    }} className="hover-card">
-                      <h2 style={{ marginBottom: '0.75rem', fontSize: '1.25rem', lineHeight: '1.3' }}>
-                        <Link href={article.url} style={{
-                          color: '#1a1a1a',
-                          textDecoration: 'none',
-                        }}>
-                          {article.title}
-                        </Link>
-                      </h2>
-                      <p style={{ 
-                        color: '#666', 
-                        marginBottom: '1rem',
-                        fontSize: '0.95rem',
-                        flexGrow: 1,
-                      }}>
-                        {article.description.length > 200 ? `${article.description.substring(0, 200)}...` : article.description}
-                      </p>
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginTop: 'auto',
-                        paddingTop: '1rem',
-                        borderTop: '1px solid #eee',
-                      }}>
-                        <time style={{ color: '#999', fontSize: '0.875rem' }}>
-                          {new Date(article.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })}
-                        </time>
-                        <Link href={article.url} style={{
-                          color: '#0066cc',
-                          textDecoration: 'none',
-                          fontWeight: 500,
-                          fontSize: '0.95rem',
-                        }}>
-                          Read more →
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
+        {articles.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600">No articles found. Articles will appear here after synchronization.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {articles.map((article) => (
+              <article 
+                key={article.slug} 
+                className="group bg-white border border-gray-200 rounded-xl p-6 md:p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full"
+              >
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                  <Link href={article.url} className="no-underline">
+                    {article.title}
+                  </Link>
+                </h2>
+                <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
+                  {article.description.length > 200 ? `${article.description.substring(0, 200)}...` : article.description}
+                </p>
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
+                  <time className="text-sm text-gray-500">
+                    {new Date(article.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  <Link 
+                    href={article.url} 
+                    className="text-primary-600 font-medium text-sm hover:text-primary-700 no-underline inline-flex items-center"
+                  >
+                    Read more
+                    <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                 </div>
-              )}
+              </article>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -133,167 +133,93 @@ export default function BlogPage() {
           })
         }}
       />
-      <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-        <div className="container">
+      <div className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Answer Capsule for LLM Search */}
-          <div style={{
-            background: '#f0f7ff',
-            borderLeft: '4px solid #0066cc',
-            padding: '1.5rem',
-            marginBottom: '2rem',
-            borderRadius: '4px',
-          }}>
-            <p style={{
-              margin: 0,
-              fontSize: '1.05rem',
-              lineHeight: '1.7',
-              color: '#1a1a1a',
-            }}>
-              <strong>Bench Energy Blog</strong> provides in-depth analysis on coal markets, freight logistics, and energy industry trends. Our expert articles cover thermal coal prices, coking coal markets, dry bulk shipping rates, port operations, and commodity trading strategies. Each article includes specific data points, market analysis, and actionable insights for traders and industry professionals.
+          <div className="bg-primary-50 border-l-4 border-primary-600 p-6 mb-8 rounded-lg">
+            <p className="text-base md:text-lg leading-relaxed text-gray-900 m-0">
+              <strong className="font-semibold">Bench Energy Blog</strong> provides in-depth analysis on coal markets, freight logistics, and energy industry trends. Our expert articles cover thermal coal prices, coking coal markets, dry bulk shipping rates, port operations, and commodity trading strategies. Each article includes specific data points, market analysis, and actionable insights for traders and industry professionals.
             </p>
           </div>
           
-          <h1 style={{ marginBottom: '1rem' }}>Bench Energy Blog</h1>
-          <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '1rem', maxWidth: '800px' }} className="blog-intro">
-            Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts.
-          </p>
-          <p style={{ fontSize: '0.95rem', color: '#888', marginBottom: '3rem', maxWidth: '800px' }} className="blog-topics">
-            Topics include: thermal coal prices, coking coal markets, dry bulk shipping, freight rates, port congestion, vessel availability, commodity trading strategies, and energy market analysis.
-          </p>
+          <div className="mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Bench Energy Blog</h1>
+            <p className="text-lg text-gray-600 mb-2 max-w-3xl">
+              Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts.
+            </p>
+            <p className="text-sm text-gray-500 max-w-3xl">
+              Topics include: thermal coal prices, coking coal markets, dry bulk shipping, freight rates, port congestion, vessel availability, commodity trading strategies, and energy market analysis.
+            </p>
+          </div>
 
         {posts.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '4rem 0' }}>
-            <p style={{ color: '#666' }}>No blog posts found. Posts will appear here after synchronization from Notion.</p>
+          <div className="text-center py-12">
+            <p className="text-gray-600">No blog posts found. Posts will appear here after synchronization from Notion.</p>
           </div>
         ) : (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '2rem',
-            marginTop: '2rem',
-          }}
-          className="blog-grid"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {posts.map((post) => (
-              <article key={post.id} style={{
-                padding: '2rem',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-              }} className="hover-card">
-                <div style={{
-                  width: '100%',
-                  height: '200px',
-                  marginBottom: '1.5rem',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  background: '#f0f0f0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+              <article 
+                key={post.id} 
+                className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full"
+              >
+                <div className="w-full h-48 bg-gray-100 overflow-hidden relative">
                   {post.coverImage ? (
                     <img 
                       src={post.coverImage} 
                       alt={post.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
-                        // Fallback to placeholder if image fails to load
                         (e.target as HTMLImageElement).style.display = 'none';
                         const parent = (e.target as HTMLImageElement).parentElement;
                         if (parent) {
-                          parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.9rem;">📄 ' + post.title.substring(0, 30) + '...</div>';
+                          parent.innerHTML = `<div class="flex items-center justify-center h-full text-gray-400 text-sm p-4">📄 ${post.title.substring(0, 30)}...</div>`;
                         }
                       }}
                     />
                   ) : (
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '100%',
-                      color: '#999',
-                      fontSize: '0.9rem',
-                      textAlign: 'center',
-                      padding: '1rem',
-                    }}>
+                    <div className="flex items-center justify-center h-full text-gray-400 text-sm p-4 text-center">
                       📄 {post.title.substring(0, 40)}...
                     </div>
                   )}
                 </div>
-                {post.tags && post.tags.length > 0 && (
-                  <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '0.5rem',
-                    marginBottom: '1rem',
-                  }}>
-                    {post.tags.slice(0, 3).map((tag, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          fontSize: '0.75rem',
-                          background: '#e3f2fd',
-                          color: '#1976d2',
-                          padding: '0.25rem 0.75rem',
-                          borderRadius: '12px',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                <div className="p-6 flex flex-col flex-grow">
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {post.tags.slice(0, 3).map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                    <Link href={`/blog/${post.slug}`} className="no-underline">
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.excerpt && (
+                    <p className="text-gray-600 mb-4 flex-grow line-clamp-3 text-sm md:text-base">
+                      {post.excerpt.length > 150 ? `${post.excerpt.substring(0, 150)}...` : post.excerpt}
+                    </p>
+                  )}
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
+                    <time className="text-xs text-gray-500">
+                      {formatDate(post.publishedAt)}
+                    </time>
+                    <Link 
+                      href={`/blog/${post.slug}`} 
+                      className="text-primary-600 font-medium text-sm hover:text-primary-700 no-underline inline-flex items-center"
+                    >
+                      Read more
+                      <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
                   </div>
-                )}
-                <h2 style={{ 
-                  marginBottom: '0.75rem',
-                  fontSize: '1.5rem',
-                  lineHeight: '1.3',
-                }}>
-                  <Link href={`/blog/${post.slug}`} style={{
-                    color: '#1a1a1a',
-                    textDecoration: 'none',
-                  }}>
-                    {post.title}
-                  </Link>
-                </h2>
-                {post.excerpt && (
-                  <p style={{ 
-                    color: '#666', 
-                    marginBottom: '1rem',
-                    fontSize: '0.95rem',
-                    lineHeight: '1.6',
-                    flexGrow: 1,
-                  }}>
-                    {post.excerpt.length > 150 ? `${post.excerpt.substring(0, 150)}...` : post.excerpt}
-                  </p>
-                )}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginTop: 'auto',
-                  paddingTop: '1rem',
-                  borderTop: '1px solid #f0f0f0',
-                }}>
-                  <time style={{ color: '#999', fontSize: '0.875rem' }}>
-                    {formatDate(post.publishedAt)}
-                  </time>
-                  <Link href={`/blog/${post.slug}`} style={{
-                    color: '#0066cc',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    fontSize: '0.95rem',
-                  }}>
-                    Read more →
-                  </Link>
                 </div>
               </article>
             ))}
