@@ -99,39 +99,71 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Otherwise, fetch all posts (without loading blocks for performance)
-    const cacheKey = "posts-list";
-    const cached = postsCache.get(cacheKey);
-    
-    // Check cache
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return NextResponse.json(
-        { posts: cached.data },
-        {
-          headers: {
-            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-          },
-        }
-      );
-    }
-
-    const allPages = await getAllPages(parentPageId);
-    const posts = allPages.map((page: any) => parseNotionPage(page));
-    
-    // Sort by created date (newest first)
-    posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-    
-    // Cache the result
-    postsCache.set(cacheKey, { data: posts, timestamp: Date.now() });
-    
+  // Otherwise, fetch all posts (with first image from blocks for better previews)
+  const cacheKey = "posts-list";
+  const cached = postsCache.get(cacheKey);
+  
+  // Check cache
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
     return NextResponse.json(
-      { posts },
+      { posts: cached.data },
       {
         headers: {
           "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
         },
       }
     );
+  }
+
+  const allPages = await getAllPages(parentPageId);
+  
+  // For each page, try to get first image from blocks if no cover image
+  const postsPromises = allPages.map(async (page: any) => {
+    const post = parseNotionPage(page);
+    
+    // If no cover image, try to get first image from page blocks
+    if (!post.coverImage) {
+      try {
+        const blocks = await notion.blocks.children.list({
+          block_id: page.id,
+          page_size: 20, // Check first 20 blocks for performance
+        });
+        
+        // Find first image block
+        const imageBlock = blocks.results.find((block: any) => block.type === "image");
+        if (imageBlock) {
+          const imageUrl = 
+            (imageBlock as any).image?.external?.url ||
+            (imageBlock as any).image?.file?.url;
+          if (imageUrl) {
+            post.coverImage = imageUrl;
+          }
+        }
+      } catch (error) {
+        // Silently fail - cover image is optional
+        console.error(`Error fetching image for page ${page.id}:`, error);
+      }
+    }
+    
+    return post;
+  });
+  
+  const posts = await Promise.all(postsPromises);
+  
+  // Sort by created date (newest first)
+  posts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  
+  // Cache the result
+  postsCache.set(cacheKey, { data: posts, timestamp: Date.now() });
+  
+  return NextResponse.json(
+    { posts },
+    {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+      },
+    }
+  );
   } catch (error: any) {
     console.error("Error fetching blog posts:", error);
     return NextResponse.json(

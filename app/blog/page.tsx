@@ -183,15 +183,18 @@ export default function BlogPage() {
                 flexDirection: 'column',
                 height: '100%',
               }} className="hover-card">
-                {post.coverImage && (
-                  <div style={{
-                    width: '100%',
-                    height: '200px',
-                    marginBottom: '1.5rem',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    background: '#f0f0f0',
-                  }}>
+                <div style={{
+                  width: '100%',
+                  height: '200px',
+                  marginBottom: '1.5rem',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  background: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  {post.coverImage ? (
                     <img 
                       src={post.coverImage} 
                       alt={post.title}
@@ -200,9 +203,30 @@ export default function BlogPage() {
                         height: '100%',
                         objectFit: 'cover',
                       }}
+                      onError={(e) => {
+                        // Fallback to placeholder if image fails to load
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        const parent = (e.target as HTMLImageElement).parentElement;
+                        if (parent) {
+                          parent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-size: 0.9rem;">📄 ' + post.title.substring(0, 30) + '...</div>';
+                        }
+                      }}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100%',
+                      color: '#999',
+                      fontSize: '0.9rem',
+                      textAlign: 'center',
+                      padding: '1rem',
+                    }}>
+                      📄 {post.title.substring(0, 40)}...
+                    </div>
+                  )}
+                </div>
                 {post.tags && post.tags.length > 0 && (
                   <div style={{
                     display: 'flex',
