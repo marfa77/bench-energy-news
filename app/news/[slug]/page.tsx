@@ -18,9 +18,30 @@ async function getArticle(slug: string) {
     const titleMatch = content.match(/<title>(.*?)<\/title>/s);
     const title = titleMatch ? titleMatch[1].replace(/\s*\|\s*Bench Energy\s*$/i, '').trim() : slug;
     
-    // Extract article body
+    // Extract article body - ищем <div class="content"> или <article>
+    let articleContent = '';
+    const contentDivMatch = content.match(/<div class="content">(.*?)<\/div>/s);
     const articleMatch = content.match(/<article[^>]*>(.*?)<\/article>/s);
-    const articleContent = articleMatch ? articleMatch[1] : '';
+    
+    if (contentDivMatch) {
+      articleContent = contentDivMatch[1];
+    } else if (articleMatch) {
+      articleContent = articleMatch[1];
+    } else {
+      // Fallback: ищем содержимое между <body> и </body>
+      const bodyMatch = content.match(/<body[^>]*>(.*?)<\/body>/s);
+      if (bodyMatch) {
+        // Убираем header, ai-summary и другие служебные элементы
+        let bodyContent = bodyMatch[1];
+        // Убираем header
+        bodyContent = bodyContent.replace(/<div class="header">.*?<\/div>/s, '');
+        // Убираем ai-summary
+        bodyContent = bodyContent.replace(/<div class="ai-summary">.*?<\/div>/s, '');
+        // Убираем source-link
+        bodyContent = bodyContent.replace(/<div class="source-link">.*?<\/div>/s, '');
+        articleContent = bodyContent.trim();
+      }
+    }
     
     // Extract date
     const dateMatch = content.match(/<meta property="article:published_time" content="([^"]+)"/);
