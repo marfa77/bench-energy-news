@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { readFile } from 'fs/promises';
+import { readFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import Link from 'next/link';
 
@@ -7,6 +7,20 @@ interface PageProps {
   params: {
     slug: string;
   };
+}
+
+export async function generateStaticParams() {
+  try {
+    const blogDir = join(process.cwd(), 'blog');
+    const files = await readdir(blogDir);
+    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
+    
+    return htmlFiles.map(file => ({
+      slug: file.replace('.html', ''),
+    }));
+  } catch {
+    return [];
+  }
 }
 
 async function getBlogPost(slug: string) {
@@ -82,21 +96,6 @@ export default async function BlogPostPage({ params }: PageProps) {
       </div>
     </div>
   );
-}
-
-export async function generateStaticParams() {
-  try {
-    const { readdir } = await import('fs/promises');
-    const blogDir = join(process.cwd(), 'blog');
-    const files = await readdir(blogDir);
-    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
-    
-    return htmlFiles.map(file => ({
-      slug: file.replace('.html', ''),
-    }));
-  } catch {
-    return [];
-  }
 }
 
 export async function generateMetadata({ params }: PageProps) {
