@@ -82,13 +82,7 @@ export default async function NewsPage() {
                 border: '1px solid #e0e0e0',
                 borderRadius: '8px',
                 transition: 'transform 0.2s, box-shadow 0.2s',
-              }} onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-              }} onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
+              }} className="hover-card">
                 <h2 style={{ marginBottom: '0.75rem' }}>
                   <Link href={article.url} style={{
                     color: '#1a1a1a',

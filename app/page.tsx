@@ -40,13 +40,7 @@ export default function HomePage() {
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
               transition: 'transform 0.2s, box-shadow 0.2s',
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
+            }} className="hover-card">
               <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
                 📰 Coal Market News
               </h2>
@@ -67,17 +61,10 @@ export default function HomePage() {
             </div>
 
             {/* Blog Card */}
-            <div style={{
+            <div className="service-card" style={{
               padding: '2rem',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
             }}>
               <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
                 ✍️ Blog
@@ -99,17 +86,10 @@ export default function HomePage() {
             </div>
 
             {/* FreightTender Card */}
-            <div style={{
+            <div className="service-card" style={{
               padding: '2rem',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
             }}>
               <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>
                 🚢 FreightTender
