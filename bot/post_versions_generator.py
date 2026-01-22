@@ -49,35 +49,91 @@ OUTPUT FORMAT (strict JSON, no markdown):
 }
 
 TELEGRAM VERSION (tg_version):
-- Format: <b>⛏ [COAL] | Headline</b> + content + Bench Energy Expert View + hashtags + source link
+- Optimized for Telegram's star-topology broadcast architecture (2025-2026 blueprint)
+- Design as ultimate destination (depth of 1) - post must be self-contained and complete
 - Max 1024 characters total (including HTML tags and source link)
-- Use HTML: <b>, <i>, <a>
-- Include category emoji and tag: ⛏ [COAL], ⚡️ [ENERGY], etc.
-- MUST include Bench Energy Expert View section before hashtags:
-  <b>🧭 Bench Energy Expert View</b>
-  • What this means: 1-2 sentences explaining deeper significance and implications
-  • Market impact: Price, supply chain, regional effects with specific timelines (1-2 bullets)
-  • Risks & opportunities: What could go wrong and what opportunities exist (1 bullet)
-  Keep expert section concise (~200-250 characters total) to fit within 1024 char limit
-- End with: #Coal #ThermalCoal #Australia #Markets #BenchEnergy
-- Source: <a href="URL">Source: Name</a>
+- Use HTML: <b>, <i>, <a>, <code>
+
+STRUCTURE (Critical for 3-second scroll stop):
+1. **3-Second Trigger Phase** (First line):
+   - Start with clickbait exclamation: "Really", "I swear", "Breaking", "Alert", "Important"
+   - Example: "Really important news for coal traders..." or "Breaking: Coal prices surge..."
+   - Must capture attention immediately
+
+2. **High-Density Scannability** (One line, one point format):
+   - Use bullet points: • or →
+   - Each line = one key fact or insight
+   - Visually enticing, screenshot-friendly
+   - Format:
+     <b>⛏ [COAL] | Headline</b>
+     
+     • Key point 1 (specific number/fact)
+     • Key point 2 (specific number/fact)
+     • Key point 3 (specific number/fact)
+   
+3. **Bench Energy Expert View** (Concise, actionable):
+   <b>🧭 Expert View</b>
+   • What this means: 1 sentence (immediate significance)
+   • Impact: 1 bullet with specific numbers/regions
+   • Action: 1 bullet (what traders should watch)
+   Keep expert section ~150-200 characters
+
+4. **Multimedia Integration** (Optional mention):
+   - If relevant, mention: "📊 Full analysis with charts on bench.energy"
+   - Encourage saves: "💾 Save this post for reference"
+
+5. **SEO Keywords** (For Telegram internal search):
+   - Include clear keywords: coal, prices, Australia, China, freight, shipping
+   - Natural integration in text
+
+6. **Call to Action (CTA)** (Mandatory):
+   - End with specific directive:
+     "👉 Follow @benchenergy for daily updates"
+     OR
+     "🔗 Read full analysis: bench.energy/news"
+     OR
+     "📱 Share with your trading network"
+   - Use visual gesture emoji (👉, 🔗, 📱)
+
+7. **Hashtags** (For discovery):
+   - #Coal #ThermalCoal #Australia #Markets #BenchEnergy #Freight
+   - Max 5-6 hashtags
+
+8. **Source Link**:
+   - <a href="URL">📰 Source: Name</a>
+   - At the very end
+
+KEY PRINCIPLES:
+- Star Topology: Post is complete destination (no "read more" needed)
+- Bridge Nodes: Use keywords that cross-communities (coal + trading + freight)
+- Long-Tail Strategy: Content should be valuable weeks later (timeless insights)
+- High information density: Every character counts
+- Mobile-first: Short lines, easy to read on phone
 
 WEB VERSION (web_version):
-- Full HTML article structure
+- Full HTML article structure optimized for LLM search engines (ChatGPT, Perplexity, Google AI)
+- CRITICAL: Start with an "Answer Capsule" (40-80 words) immediately after <h1> title
+  Format: <div class="answer-capsule"><p>[Direct, standalone answer to: What is this news about?]</p></div>
+  This answer must be self-contained and extractable without context
+- Structure content in "Goldilocks Zone" sections: Each section should be 120-180 words
+- Use explicit, unambiguous nouns and numbers (avoid vague adjectives)
+  Examples: "contains 3g creatine" not "super powerful", "$245 per tonne" not "high prices"
 - Use: <h1>, <h2>, <h3>, <p>, <ul>, <li>, <blockquote>, <strong>, <em>
-- Include structured headings
+- Include structured headings with clear semantic meaning
 - Rich formatting for readability
 - MUST include Bench Energy Expert View section at the end:
   <h3>Bench Energy Expert View</h3>
   <p><strong>What this means:</strong> 2-3 sentences explaining deeper significance and implications</p>
   <p><strong>Market impact:</strong> Price, supply chain, regional effects with specific timelines</p>
   <ul>
-    <li>Price implications: Which markets/regions will see movements?</li>
-    <li>Supply chain effects: Logistics, ports, shipping impacts</li>
-    <li>Regional dynamics: China, India, Australia, Indonesia effects</li>
+    <li>Price implications: Which markets/regions will see movements? Use specific numbers when available</li>
+    <li>Supply chain effects: Logistics, ports, shipping impacts with concrete examples</li>
+    <li>Regional dynamics: China, India, Australia, Indonesia effects with specific regions mentioned</li>
   </ul>
   <p><strong>Risks & Opportunities:</strong> What could go wrong and what opportunities exist</p>
-- Be comprehensive but concise (800-1200 characters for expert section)"""
+- Include expert quotations and statistics when relevant (boosts citation probability by 32%)
+- Be comprehensive but concise (800-1200 characters for expert section)
+- Optimize for "Query Fan-Out": Cover multiple facets (definitions, comparisons, costs) in one article"""
 
     user_prompt = f"""Generate two platform-specific versions of this coal market news:
 
@@ -151,11 +207,13 @@ Return ONLY the JSON object with tg_version and web_version."""
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
             else:
-                # Fallback: создаем версии вручную
+                # Fallback: создаем версии вручную (Telegram blueprint optimized)
                 print(f"⚠️  Использую fallback версии")
-                # Для Telegram версии добавляем экспертное мнение
-                expert_view = "\n\n<b>🧭 Bench Energy Expert View</b>\n• Market analysis based on current trends\n• Regional impact assessment\n• Key risks and opportunities"
-                tg_content = f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:600]}{expert_view}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>"
+                # Для Telegram версии добавляем экспертное мнение с 3-second trigger
+                trigger = "Important news for coal traders:"
+                expert_view = "\n\n<b>🧭 Expert View</b>\n• Market significance\n• Regional impact\n• Key factors to watch"
+                cta = "\n👉 Follow @benchenergy for daily updates"
+                tg_content = f"{trigger}\n\n<b>⛏ [COAL] | {news_title}</b>\n\n• {news_summary[:400]}\n{expert_view}\n\n#Coal #Markets #BenchEnergy{cta}\n<a href=\"{source_url}\">📰 Source: {source_name}</a>"
                 # Обрезаем если превышает 1024 символа
                 if len(tg_content) > 1024:
                     tg_content = f"<b>⛏ [COAL] | {news_title}</b>\n\n{news_summary[:500]}{expert_view}\n\n#Coal #Markets #BenchEnergy\n<a href=\"{source_url}\">Source: {source_name}</a>"
@@ -247,13 +305,61 @@ CRITICAL RULES - NO FAKE DATA:
 - DO mention that Bench Energy's solution - closed freight tender for traders - solves these problems
 
 TELEGRAM VERSION (tg_version):
-- Format: <b>🚢 [FREIGHT] | Problem Title</b> + problem description + solution mention + hashtags
+- Optimized for Telegram's star-topology broadcast architecture (2025-2026 blueprint)
+- Design as ultimate destination (depth of 1) - post must be self-contained and complete
 - Max 1024 characters total (including HTML tags)
-- Use HTML: <b>, <i>, <a>
-- Include category emoji: 🚢 [FREIGHT]
-- MUST mention Bench Energy's closed freight tender solution naturally in the text
-- End with: #Freight #BulkTrading #Logistics #Coal #BenchEnergy
-- Style: Match Bench Energy channel tone - analytical, concise
+- Use HTML: <b>, <i>, <a>, <code>
+
+STRUCTURE (Critical for 3-second scroll stop):
+1. **3-Second Trigger Phase** (First line):
+   - Start with clickbait exclamation: "Really", "I swear", "Breaking", "Alert", "Important"
+   - Example: "Really important for bulk traders..." or "Alert: Freight challenges..."
+   - Must capture attention immediately
+
+2. **High-Density Scannability** (One line, one point format):
+   - Use bullet points: • or →
+   - Each line = one key fact or insight
+   - Visually enticing, screenshot-friendly
+   - Format:
+     <b>🚢 [FREIGHT] | Problem Title</b>
+     
+     • Key challenge 1 (general terms, no specific numbers)
+     • Key challenge 2 (general terms)
+     • Key challenge 3 (general terms)
+   
+3. **Bench Energy Solution** (Concise mention):
+   <b>💡 Solution</b>
+   • Bench Energy's closed freight tender solves these challenges
+   • Mention benefits: structured offers, full auditability, no collusion
+   Keep solution section ~100-150 characters
+
+4. **Multimedia Integration** (Optional mention):
+   - If relevant: "📊 Full analysis: bench.energy/freighttender"
+   - Encourage saves: "💾 Save this post for reference"
+
+5. **SEO Keywords** (For Telegram internal search):
+   - Include clear keywords: freight, bulk trading, logistics, shipping, coal, freight tender
+   - Natural integration in text
+
+6. **Call to Action (CTA)** (Mandatory):
+   - End with specific directive:
+     "👉 Try FreightTender: bench.energy/freighttender"
+     OR
+     "🔗 Learn more: bench.energy/freighttender"
+     OR
+     "📱 Share with your trading network"
+   - Use visual gesture emoji (👉, 🔗, 📱)
+
+7. **Hashtags** (For discovery):
+   - #Freight #BulkTrading #Logistics #Coal #BenchEnergy #FreightTender
+   - Max 5-6 hashtags
+
+KEY PRINCIPLES:
+- Star Topology: Post is complete destination (no "read more" needed)
+- Bridge Nodes: Use keywords that cross-communities (freight + trading + logistics)
+- Long-Tail Strategy: Content should be valuable weeks later (timeless insights)
+- High information density: Every character counts
+- Mobile-first: Short lines, easy to read on phone
 - NO specific numbers - use general terms like "significant", "extended", "premium rates"
 
 WEB VERSION (web_version):

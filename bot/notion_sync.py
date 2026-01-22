@@ -17,7 +17,7 @@ NOTION_API_KEY = os.getenv("NOTION_API_KEY")
 NOTION_DATABASE_ID = os.getenv("NOTION_DATABASE_ID")
 NOTION_API_URL = "https://api.notion.com/v1"
 GITHUB_REPO_PATH = os.getenv("GITHUB_REPO_PATH", ".")
-SITE_URL = os.getenv("SITE_URL", "https://marfa77.github.io/bench-energy-news")
+SITE_URL = os.getenv("SITE_URL", "https://www.bench.energy")
 
 def fetch_notion_pages(today_only: bool = True) -> List[Dict]:
     """

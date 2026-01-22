@@ -317,6 +317,19 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
             padding: 20px;
             color: #333;
         }}
+        .answer-capsule {{
+            background: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 1.25rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }}
+        .answer-capsule p {{
+            margin: 0;
+            color: #1a1a1a;
+        }}
         .header {{
             border-bottom: 2px solid #e0e0e0;
             padding-bottom: 20px;

@@ -12,7 +12,8 @@ load_dotenv()
 
 def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content: str) -> str:
     """
-    Генерирует расширенную Schema.org разметку для SEO и LLM.
+    Генерирует расширенную Schema.org разметку для SEO и LLM (2025-2026).
+    Оптимизировано для Generative Engine Optimisation (GEO/AEO).
     
     Args:
         news_data: Словарь с данными новости
@@ -23,11 +24,17 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
         JSON-LD строка с расширенной разметкой
     """
     from datetime import datetime
+    import os
+    
+    SITE_URL = os.getenv("SITE_URL", "https://www.bench.energy")
     
     # Извлекаем ключевые слова из контента
     keywords = extract_keywords(news_data, html_content)
     
-    # Создаем расширенную Schema.org разметку
+    # Извлекаем Answer Capsule из контента (для LLM)
+    answer_capsule = extract_answer_capsule(html_content)
+    
+    # Создаем расширенную Schema.org разметку для LLM
     schema = {
         "@context": "https://schema.org",
         "@type": "NewsArticle",
@@ -41,17 +48,23 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
             "url": "https://t.me/benchenergy",
             "sameAs": [
                 "https://t.me/benchenergy",
-                article_url
-            ]
+                article_url,
+                f"{SITE_URL}"
+            ],
+            "description": "Bench Energy provides expert analysis on coal markets, freight, and energy industry. Follow @benchenergy on Telegram for daily market insights."
         },
         "publisher": {
             "@type": "Organization",
             "name": "Bench Energy",
-            "url": "https://t.me/benchenergy",
+            "url": f"{SITE_URL}",
             "logo": {
                 "@type": "ImageObject",
-                "url": f"https://marfa77.github.io/bench-energy-news/assets/bench-energy-logo.png"
-            }
+                "url": f"{SITE_URL}/logo.png"
+            },
+            "sameAs": [
+                "https://t.me/benchenergy",
+                f"{SITE_URL}"
+            ]
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -64,11 +77,13 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
             "name": "Coal Market",
             "description": "Global coal market news and analysis"
         },
-        # FAQ для LLM оптимизации
+        # FAQ для LLM оптимизации (критично для извлечения ответов)
         "mainEntity": {
             "@type": "FAQPage",
             "mainEntity": generate_faq_items(news_data, html_content)
         },
+        # Answer Capsule для быстрого извлечения LLM
+        "abstract": answer_capsule if answer_capsule else news_data.get("summary", "")[:200],
         # Breadcrumb для навигации
         "breadcrumb": {
             "@type": "BreadcrumbList",
@@ -77,13 +92,13 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Home",
-                    "item": "https://marfa77.github.io/bench-energy-news/"
+                    "item": f"{SITE_URL}/"
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
                     "name": "News",
-                    "item": "https://marfa77.github.io/bench-energy-news/posts/"
+                    "item": f"{SITE_URL}/news"
                 },
                 {
                     "@type": "ListItem",
@@ -92,6 +107,15 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
                     "item": article_url
                 }
             ]
+        },
+        # E-E-A-T signals для доверия LLM
+        "credential": {
+            "@type": "EducationalOccupationalCredential",
+            "credentialCategory": "Expert Analysis",
+            "recognizedBy": {
+                "@type": "Organization",
+                "name": "Bench Energy"
+            }
         }
     }
     
@@ -100,6 +124,47 @@ def generate_enhanced_schema_org(news_data: Dict, article_url: str, html_content
         schema["sameAs"] = [news_data["source_url"]]
     
     return json.dumps(schema, indent=2, ensure_ascii=False)
+
+def extract_answer_capsule(html_content: str) -> Optional[str]:
+    """
+    Извлекает Answer Capsule (40-80 слов) из HTML контента.
+    Answer Capsule - это прямой ответ, который LLM может извлечь без контекста.
+    
+    Args:
+        html_content: HTML контент статьи
+        
+    Returns:
+        Answer Capsule текст или None
+    """
+    import re
+    
+    # Ищем div с классом answer-capsule
+    pattern = r'<div[^>]*class="answer-capsule"[^>]*>(.*?)</div>'
+    match = re.search(pattern, html_content, re.DOTALL | re.IGNORECASE)
+    
+    if match:
+        capsule_html = match.group(1)
+        # Убираем HTML теги
+        capsule_text = re.sub(r'<[^>]+>', '', capsule_html).strip()
+        # Ограничиваем до 80 слов
+        words = capsule_text.split()
+        if len(words) > 80:
+            capsule_text = ' '.join(words[:80])
+        return capsule_text
+    
+    # Fallback: ищем первый параграф после h1
+    pattern = r'<h1[^>]*>.*?</h1>\s*<p[^>]*>(.*?)</p>'
+    match = re.search(pattern, html_content, re.DOTALL | re.IGNORECASE)
+    
+    if match:
+        first_para = re.sub(r'<[^>]+>', '', match.group(1)).strip()
+        words = first_para.split()
+        if 40 <= len(words) <= 80:
+            return first_para
+        elif len(words) > 80:
+            return ' '.join(words[:80])
+    
+    return None
 
 def extract_keywords(news_data: Dict, html_content: str) -> list:
     """
@@ -139,7 +204,8 @@ def extract_keywords(news_data: Dict, html_content: str) -> list:
 
 def generate_faq_items(news_data: Dict, html_content: str) -> list:
     """
-    Генерирует FAQ элементы для LLM оптимизации.
+    Генерирует FAQ элементы для LLM оптимизации (GEO/AEO).
+    FAQPage schema критичен для извлечения ответов LLM.
     
     Args:
         news_data: Данные новости
@@ -153,27 +219,90 @@ def generate_faq_items(news_data: Dict, html_content: str) -> list:
     title = news_data.get("title", "")
     summary = news_data.get("summary", "")
     
-    # Основной вопрос: Что это за новость?
+    # Основной вопрос: Что это за новость? (Query Fan-Out)
     faq_items.append({
         "@type": "Question",
         "name": f"What is this news about: {title}?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": summary[:500]
+            "text": summary[:500] if len(summary) > 100 else f"{summary}. This news affects global coal markets, including thermal and coking coal prices, supply chains, and regional dynamics in China, India, Australia, and Indonesia."
         }
     })
     
-    # Вопрос о влиянии на рынок
+    # Вопрос о влиянии на рынок (с конкретными числами)
+    market_impact = extract_market_impact(html_content)
     faq_items.append({
         "@type": "Question",
         "name": f"What is the market impact of {title}?",
         "acceptedAnswer": {
             "@type": "Answer",
-            "text": extract_market_impact(html_content)
+            "text": market_impact
         }
     })
     
+    # Вопрос о ценах (если упоминаются)
+    price_info = extract_price_info(html_content)
+    if price_info:
+        faq_items.append({
+            "@type": "Question",
+            "name": f"What are the price implications of {title}?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": price_info
+            }
+        })
+    
+    # Вопрос о регионах (Query Fan-Out)
+    regional_info = extract_regional_info(html_content, news_data)
+    if regional_info:
+        faq_items.append({
+            "@type": "Question",
+            "name": f"Which regions are affected by {title}?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": regional_info
+            }
+        })
+    
     return faq_items
+
+def extract_price_info(html_content: str) -> Optional[str]:
+    """Извлекает информацию о ценах из контента."""
+    import re
+    
+    # Ищем упоминания цен
+    price_patterns = [
+        r'\$(\d+(?:\.\d+)?)\s*(?:per\s+)?(?:tonne|ton|t|metric\s+ton)',
+        r'(\d+(?:\.\d+)?)\s*USD\s*(?:per\s+)?(?:tonne|ton|t)',
+        r'price[s]?\s+(?:of|at|reached|surged\s+to)\s+\$?(\d+(?:\.\d+)?)'
+    ]
+    
+    prices = []
+    for pattern in price_patterns:
+        matches = re.findall(pattern, html_content, re.IGNORECASE)
+        prices.extend(matches)
+    
+    if prices:
+        return f"Coal prices mentioned in this news range from ${prices[0]} to ${prices[-1]} per tonne. Price movements affect global markets including China, India, Australia, and Indonesia."
+    
+    return None
+
+def extract_regional_info(html_content: str, news_data: Dict) -> Optional[str]:
+    """Извлекает региональную информацию."""
+    import re
+    
+    regions = ["China", "India", "Australia", "Indonesia", "Russia", "South Africa", "Colombia"]
+    mentioned_regions = []
+    
+    content_lower = html_content.lower()
+    for region in regions:
+        if region.lower() in content_lower:
+            mentioned_regions.append(region)
+    
+    if mentioned_regions:
+        return f"This news affects {', '.join(mentioned_regions[:3])} and other major coal-producing and consuming regions. Regional dynamics impact global supply chains and pricing."
+    
+    return None
 
 def extract_market_impact(html_content: str) -> str:
     """

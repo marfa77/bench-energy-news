@@ -2,9 +2,9 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://marfa77.github.io/bench-energy-news/sitemap.xml
+Sitemap: https://www.bench.energy/sitemap.xml
 
-# Allow all search engines
+# Traditional search engines
 User-agent: Googlebot
 Allow: /
 
@@ -14,7 +14,7 @@ Allow: /
 User-agent: Slurp
 Allow: /
 
-# Allow LLM crawlers
+# LLM and AI crawlers (2025-2026)
 User-agent: GPTBot
 Allow: /
 
@@ -28,4 +28,25 @@ User-agent: anthropic-ai
 Allow: /
 
 User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Diffbot
 Allow: /

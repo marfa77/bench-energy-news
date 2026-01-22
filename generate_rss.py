@@ -11,7 +11,7 @@ from pathlib import Path
 from html import escape, unescape
 from email.utils import formatdate
 
-SITE_URL = "https://marfa77.github.io/bench-energy-news"
+SITE_URL = "https://www.bench.energy"
 
 def extract_article_metadata(html_file_path):
     """Extract title, description, published date, and URL from HTML article file."""

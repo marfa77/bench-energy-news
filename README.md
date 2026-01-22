@@ -128,7 +128,7 @@ GITHUB_TOKEN=your_github_token
 GITHUB_REPO=marfa77/bench-energy-news
 
 # Site
-SITE_URL=https://marfa77.github.io/bench-energy-news
+SITE_URL=https://www.bench.energy
 ```
 
 ### GitHub Secrets
