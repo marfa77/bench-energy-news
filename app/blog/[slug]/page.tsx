@@ -9,6 +9,21 @@ interface PageProps {
   };
 }
 
+export async function generateStaticParams() {
+  try {
+    const { readdir } = await import('fs/promises');
+    const blogDir = join(process.cwd(), 'blog');
+    const files = await readdir(blogDir);
+    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
+    
+    return htmlFiles.map(file => ({
+      slug: file.replace('.html', ''),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 async function getBlogPost(slug: string) {
   try {
     const filePath = join(process.cwd(), 'blog', `${slug}.html`);
@@ -35,6 +50,26 @@ async function getBlogPost(slug: string) {
   } catch (error) {
     return null;
   }
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const post = await getBlogPost(params.slug);
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+  
+  return {
+    title: `${post.title} | Bench Energy Blog`,
+    description: `${post.title} - Bench Energy Blog`,
+    openGraph: {
+      title: post.title,
+      type: 'article',
+      publishedTime: post.date,
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
@@ -82,39 +117,4 @@ export default async function BlogPostPage({ params }: PageProps) {
       </div>
     </div>
   );
-}
-
-export async function generateStaticParams() {
-  try {
-    const { readdir } = await import('fs/promises');
-    const blogDir = join(process.cwd(), 'blog');
-    const files = await readdir(blogDir);
-    const htmlFiles = files.filter(f => f.endsWith('.html') && f !== 'index.html');
-    
-    return htmlFiles.map(file => ({
-      slug: file.replace('.html', ''),
-    }));
-  } catch {
-    return [];
-  }
-}
-
-export async function generateMetadata({ params }: PageProps) {
-  const post = await getBlogPost(params.slug);
-  
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
-  
-  return {
-    title: `${post.title} | Bench Energy Blog`,
-    description: `${post.title} - Bench Energy Blog`,
-    openGraph: {
-      title: post.title,
-      type: 'article',
-      publishedTime: post.date,
-    },
-  };
 }
