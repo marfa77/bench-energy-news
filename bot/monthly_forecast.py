@@ -465,7 +465,7 @@ def publish_forecast_to_web(forecast_html: str, current_year: int, current_month
         subprocess.run(["git", "add", str(filepath.relative_to(repo_path))], check=True)
         
         # Git commit
-        commit_message = f"Add monthly forecast: {current_year}-{current_month:02d}"
+        commit_message = f"Add monthly forecast: {current_year}-{current_month:02d} [ci skip]"
         subprocess.run(["git", "commit", "-m", commit_message], check=True)
         
         # Git push

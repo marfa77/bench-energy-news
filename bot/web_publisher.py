@@ -535,6 +535,9 @@ def git_add_commit_push(repo_path: str, files: list, commit_message: str):
                 log_info(f"git add {rel_path}")
         
         # Git commit
+        # Автоматически добавляем [ci skip] если его еще нет, чтобы пропустить автоматический запуск GitHub Pages
+        if "[ci skip]" not in commit_message and "[skip ci]" not in commit_message:
+            commit_message = f"{commit_message} [ci skip]"
         log_info(f"ШАГ 8.2: Создание коммита...")
         result = subprocess.run(
             ["git", "commit", "-m", commit_message],
