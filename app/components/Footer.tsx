@@ -4,136 +4,63 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer style={{
-      background: '#f8f9fa',
-      borderTop: '1px solid #e0e0e0',
-      padding: '3rem 0 2rem',
-      marginTop: '4rem',
-    }}>
-      <div className="container" style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '0 2rem',
-      }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '2rem',
-          marginBottom: '2rem',
-        }}>
+    <footer className="bg-gray-50 border-t border-gray-200 py-12 mt-16">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h4 style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              marginBottom: '1rem',
-              color: '#1a1a1a',
-            }}>
+            <h4 className="text-base font-semibold mb-4 text-gray-900">
               Product
             </h4>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-            }}>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <Link href="/news" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                }}>
+            <ul className="list-none p-0 m-0">
+              <li className="mb-2">
+                <Link href="/news" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   News
                 </Link>
               </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <Link href="/freighttender/capabilities" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                }}>
+              <li className="mb-2">
+                <Link href="/freighttender/capabilities" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   FreightTender Capabilities
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              marginBottom: '1rem',
-              color: '#1a1a1a',
-            }}>
+            <h4 className="text-base font-semibold mb-4 text-gray-900">
               Legal
             </h4>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-            }}>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <Link href="/freighttender/privacy/" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                  transition: 'color 0.2s',
-                }} onMouseEnter={(e) => e.currentTarget.style.color = '#0066cc'} onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+            <ul className="list-none p-0 m-0">
+              <li className="mb-2">
+                <Link href="/freighttender/privacy/" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   Privacy Policy
                 </Link>
               </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <Link href="/freighttender/data-collection/" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                  transition: 'color 0.2s',
-                }} onMouseEnter={(e) => e.currentTarget.style.color = '#0066cc'} onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+              <li className="mb-2">
+                <Link href="/freighttender/data-collection/" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   Data Collection
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 style={{
-              fontSize: '1rem',
-              fontWeight: 600,
-              marginBottom: '1rem',
-              color: '#1a1a1a',
-            }}>
+            <h4 className="text-base font-semibold mb-4 text-gray-900">
               Contact
             </h4>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-            }}>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <a href="mailto:support@bench.energy" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                }}>
+            <ul className="list-none p-0 m-0">
+              <li className="mb-2">
+                <a href="mailto:support@bench.energy" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   support@bench.energy
                 </a>
               </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <a href="https://t.me/freightTender_sales" target="_blank" rel="noopener noreferrer" style={{
-                  color: '#666',
-                  textDecoration: 'none',
-                  fontSize: '0.9rem',
-                }}>
+              <li className="mb-2">
+                <a href="https://t.me/freightTender_sales" target="_blank" rel="noopener noreferrer" className="text-gray-600 no-underline text-sm hover:text-primary-600 transition-colors">
                   Telegram: @freightTender_sales
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div style={{
-          borderTop: '1px solid #e0e0e0',
-          paddingTop: '2rem',
-          textAlign: 'center',
-          color: '#999',
-          fontSize: '0.875rem',
-        }}>
-          <p style={{ margin: 0 }}>
+        <div className="border-t border-gray-200 pt-8 text-center text-gray-500 text-sm">
+          <p className="m-0">
             © {new Date().getFullYear()} FreightTender by Bench Energy. All rights reserved.
           </p>
         </div>
