@@ -16,7 +16,7 @@ import requests
 load_dotenv()
 
 NOTION_API_KEY = os.getenv("NOTION_API_KEY")
-NOTION_BLOG_PAGE_ID = os.getenv("NOTION_BLOG_PAGE_ID", "2f05f3821e2180e99cdef21e05a7a624")
+NOTION_BLOG_PAGE_ID = os.getenv("NOTION_BLOG_PAGE_ID")  # Не используем fallback - должен быть установлен через секреты
 NOTION_API_URL = "https://api.notion.com/v1"
 GITHUB_REPO_PATH = os.getenv("GITHUB_REPO_PATH", ".")
 SITE_URL = os.getenv("SITE_URL", "https://www.bench.energy")
@@ -30,6 +30,12 @@ def fetch_blog_pages() -> List[Dict]:
     """
     if not NOTION_API_KEY:
         print("❌ NOTION_API_KEY не установлен")
+        print("   Установите секрет NOTION_API_KEY в GitHub Secrets")
+        return []
+    
+    if not NOTION_BLOG_PAGE_ID:
+        print("❌ NOTION_BLOG_PAGE_ID не установлен")
+        print("   Установите секрет NOTION_BLOG_PAGE_ID в GitHub Secrets")
         return []
     
     headers = {
@@ -401,6 +407,12 @@ def sync_blog():
     
     if not NOTION_API_KEY:
         print("❌ NOTION_API_KEY не установлен")
+        print("   Установите секрет NOTION_API_KEY в GitHub Secrets")
+        return
+    
+    if not NOTION_BLOG_PAGE_ID:
+        print("❌ NOTION_BLOG_PAGE_ID не установлен")
+        print("   Установите секрет NOTION_BLOG_PAGE_ID в GitHub Secrets")
         return
     
     repo_path = Path(GITHUB_REPO_PATH).expanduser().resolve()

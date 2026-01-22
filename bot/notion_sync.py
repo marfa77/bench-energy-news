@@ -31,6 +31,7 @@ def fetch_notion_pages(today_only: bool = True) -> List[Dict]:
     """
     if not NOTION_API_KEY or not NOTION_DATABASE_ID:
         print("❌ NOTION_API_KEY или NOTION_DATABASE_ID не установлены")
+        print("   Установите секреты NOTION_API_KEY и NOTION_DATABASE_ID в GitHub Secrets")
         return []
     
     headers = {
