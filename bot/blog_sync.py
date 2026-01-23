@@ -12,6 +12,7 @@ from datetime import datetime
 from html import escape, unescape
 from dotenv import load_dotenv
 import requests
+import hashlib
 
 load_dotenv()
 
@@ -190,9 +191,73 @@ def fetch_page_blocks(page_id: str) -> List[Dict]:
     
     return all_blocks
 
-def convert_blocks_to_html(blocks: List[Dict]) -> str:
-    """Конвертирует Notion blocks в HTML."""
+def download_and_save_image(image_url: str, repo_path: Path, slug: str, image_index: int = 0) -> Optional[str]:
+    """
+    Скачивает изображение из Notion и сохраняет локально.
+    Возвращает публичный URL для использования в HTML.
+    
+    Args:
+        image_url: URL изображения из Notion
+        repo_path: Путь к репозиторию
+        slug: Slug статьи (для имени файла)
+        image_index: Индекс изображения в статье (если несколько)
+        
+    Returns:
+        Публичный URL изображения или None при ошибке
+    """
+    if not image_url:
+        return None
+    
+    try:
+        # Создаем папку assets если её нет
+        assets_dir = repo_path / "assets"
+        assets_dir.mkdir(exist_ok=True)
+        
+        # Определяем расширение файла из URL
+        parsed_url = image_url.split('?')[0]  # Убираем query параметры
+        ext = ".jpg"  # По умолчанию
+        if ".png" in parsed_url.lower():
+            ext = ".png"
+        elif ".gif" in parsed_url.lower():
+            ext = ".gif"
+        elif ".webp" in parsed_url.lower():
+            ext = ".webp"
+        
+        # Создаем уникальное имя файла на основе slug и индекса
+        image_filename = f"{slug}-{image_index}{ext}" if image_index > 0 else f"{slug}{ext}"
+        dest_path = assets_dir / image_filename
+        
+        # Скачиваем изображение
+        print(f"   📥 Скачиваю изображение: {image_filename}")
+        response = requests.get(image_url, timeout=30, stream=True)
+        response.raise_for_status()
+        
+        # Сохраняем файл
+        with open(dest_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        # Возвращаем публичный URL
+        public_url = f"{SITE_URL}/assets/{image_filename}"
+        print(f"   ✅ Изображение сохранено: {public_url}")
+        return public_url
+        
+    except Exception as e:
+        print(f"   ⚠️  Ошибка скачивания изображения: {e}")
+        # В случае ошибки возвращаем оригинальный URL (может работать временно)
+        return image_url
+
+def convert_blocks_to_html(blocks: List[Dict], repo_path: Optional[Path] = None, slug: Optional[str] = None) -> str:
+    """
+    Конвертирует Notion blocks в HTML.
+    
+    Args:
+        blocks: Список блоков из Notion
+        repo_path: Путь к репозиторию (для сохранения изображений)
+        slug: Slug статьи (для имен файлов изображений)
+    """
     html_parts = []
+    image_index = 0
     
     for block in blocks:
         block_type = block.get("type")
@@ -274,6 +339,14 @@ def convert_blocks_to_html(blocks: List[Dict]) -> str:
             if image_data:
                 image_url = image_data.get("url", "")
                 caption = get_text(block_data.get("caption", []))
+                
+                # Скачиваем и сохраняем изображение локально
+                if repo_path and slug:
+                    saved_url = download_and_save_image(image_url, repo_path, slug, image_index)
+                    if saved_url:
+                        image_url = saved_url
+                        image_index += 1
+                
                 html_parts.append(f'<img src="{image_url}" alt="{escape(caption)}" />')
                 if caption:
                     html_parts.append(f"<p><em>{caption}</em></p>")
@@ -466,7 +539,7 @@ def sync_blog():
         
         # Получаем контент
         blocks = fetch_page_blocks(page_id)
-        html_content = convert_blocks_to_html(blocks)
+        html_content = convert_blocks_to_html(blocks, repo_path, slug)
         
         # Получаем дату публикации
         created_time = page_details.get("created_time", datetime.now().isoformat())
