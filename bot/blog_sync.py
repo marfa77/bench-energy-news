@@ -237,8 +237,8 @@ def download_and_save_image(image_url: str, repo_path: Path, slug: str, image_in
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
         
-        # Возвращаем публичный URL
-        public_url = f"{SITE_URL}/assets/{image_filename}"
+        # Возвращаем публичный URL (используем bench.energy вместо GitHub Pages)
+        public_url = f"https://www.bench.energy/assets/{image_filename}"
         print(f"   ✅ Изображение сохранено: {public_url}")
         return public_url
         
