@@ -585,7 +585,7 @@ async def process_news(news: dict):
             print(traceback.format_exc())
         
         # 2. LinkedIn (отключено)
-                linkedin_post_id = None
+        linkedin_post_id = None
         print(f"\n💼 Публикация в LinkedIn отключена")
         
         # 3. Notion (единый источник правды)
