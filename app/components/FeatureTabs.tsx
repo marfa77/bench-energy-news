@@ -32,21 +32,21 @@ export default function FeatureTabs({ tabs }: FeatureTabsProps) {
                   key={tab.name}
                   value={tab.name}
                   className={`
-                    w-full justify-start text-left px-6 py-6 rounded-lg border-2 transition-all
+                    !whitespace-normal w-full justify-start text-left px-6 py-6 rounded-lg border-2 transition-all
                     data-[state=active]:bg-green-50 data-[state=active]:border-green-600 data-[state=active]:text-green-800 data-[state=active]:shadow-md
                     data-[state=inactive]:bg-white data-[state=inactive]:border-gray-200 data-[state=inactive]:text-gray-900
                     hover:bg-gray-50 hover:border-gray-300
                   `}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 w-full">
                     <div className="flex-shrink-0 mt-0.5">
                       {tab.icon}
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold leading-7 mb-1">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg font-semibold leading-6 mb-1.5">
                         {tab.name}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 leading-relaxed break-words">
                         {tab.description}
                       </p>
                     </div>

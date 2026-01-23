@@ -611,13 +611,13 @@ async def process_news(news: dict):
                 # Временный URL, реальный будет после синхронизации через GitHub Actions
                 web_article_url = f"notion:{notion_page_id}"
                 web_status = True  # Notion публикация считается успешной публикацией на веб
-                    else:
+            else:
                 print(f"❌ Не удалось опубликовать в Notion")
                 web_status = False
-                except Exception as e:
+        except Exception as e:
             print(f"❌ Ошибка публикации в Notion: {e}")
-                    import traceback
-                    print(traceback.format_exc())
+            import traceback
+            print(traceback.format_exc())
             web_status = False
         
         # 4. Синхронизация Notion → GitHub Pages (опционально, можно запускать отдельно)

@@ -75,66 +75,56 @@ export default function TopicPage({ params }: { params: { slug: string } }) {
   }
   
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div className="container" style={{ maxWidth: '900px' }}>
-        <Link href="/topics" style={{
-          color: '#0066cc',
-          textDecoration: 'none',
-          fontSize: '0.95rem',
-          marginBottom: '2rem',
-          display: 'inline-block',
-        }}>
-          ← Back to Topics
+    <div className="py-12 md:py-20 bg-white min-h-screen">
+      <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <Link 
+          href="/topics" 
+          className="inline-flex items-center text-green-600 hover:text-green-700 mb-8 transition-colors"
+        >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Topics
         </Link>
         
-        <article>
-          <h1 style={{ marginBottom: '1rem' }}>{hub.title}</h1>
+        <article className="prose prose-lg max-w-none">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {hub.title}
+          </h1>
           
           {/* Answer Capsule for LLM */}
-          <div className="answer-capsule" style={{
-            background: '#f0f7ff',
-            borderLeft: '4px solid #0066cc',
-            padding: '1.25rem',
-            margin: '2rem 0',
-            borderRadius: '4px',
-            fontSize: '1.05rem',
-            lineHeight: '1.7',
-          }}>
-            <p style={{ margin: 0, color: '#1a1a1a' }}>{hub.answerCapsule}</p>
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-600 p-6 md:p-8 mb-12 rounded-xl shadow-sm">
+            <p className="text-base md:text-lg leading-relaxed text-gray-900 m-0">
+              {hub.answerCapsule}
+            </p>
           </div>
           
           {/* Content sections (120-180 words each) */}
           {hub.sections.map((section: any, idx: number) => (
-            <section key={idx} style={{ marginBottom: '3rem' }}>
-              <h2 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>{section.heading}</h2>
-              <p style={{ 
-                lineHeight: '1.8',
-                color: '#333',
-                marginBottom: '1rem',
-              }}>
+            <section key={idx} className="mb-12">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-10 pb-2 border-b border-gray-200">
+                {section.heading}
+              </h2>
+              <p className="text-gray-700 leading-relaxed mb-4">
                 {section.content}
               </p>
             </section>
           ))}
           
           {/* Expert View */}
-          <section style={{
-            marginTop: '3rem',
-            padding: '2rem',
-            background: '#f8f9fa',
-            borderRadius: '8px',
-            borderLeft: '4px solid #0066cc',
-          }}>
-            <h3 style={{ marginBottom: '1rem', color: '#1a1a1a' }}>Bench Energy Expert View</h3>
-            <p style={{ marginBottom: '1rem' }}>
-              <strong>What this means:</strong> {hub.expertView.whatThisMeans}
-            </p>
-            <p style={{ marginBottom: '1rem' }}>
-              <strong>Market impact:</strong> {hub.expertView.marketImpact}
-            </p>
-            <p>
-              <strong>Risks & Opportunities:</strong> {hub.expertView.risksOpportunities}
-            </p>
+          <section className="mt-12 p-8 bg-gray-50 rounded-xl border-l-4 border-green-600">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Bench Energy Expert View</h3>
+            <div className="space-y-4">
+              <p className="text-gray-700 leading-relaxed">
+                <strong className="text-gray-900">What this means:</strong> {hub.expertView.whatThisMeans}
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                <strong className="text-gray-900">Market impact:</strong> {hub.expertView.marketImpact}
+              </p>
+              <p className="text-gray-700 leading-relaxed">
+                <strong className="text-gray-900">Risks & Opportunities:</strong> {hub.expertView.risksOpportunities}
+              </p>
+            </div>
           </section>
         </article>
       </div>

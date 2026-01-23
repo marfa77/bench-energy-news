@@ -8,11 +8,11 @@ const Footer = dynamic(() => import('./components/Footer'), { ssr: true });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Bench Energy - Coal Market News & Freight Tender Platform',
+    default: 'FreightTender - Closed Freight Tender Platform | Bench Energy',
     template: '%s | Bench Energy',
   },
-  description: 'Bench Energy provides coal market news, analysis, and expert insights. FreightTender platform for closed freight tenders in commodity and chemical trading.',
-  keywords: ['coal market', 'energy news', 'thermal coal', 'coking coal', 'freight tender', 'commodity trading', 'Bench Energy', '@benchenergy'],
+  description: 'FreightTender: Replace email-based freight tendering with structured closed tenders. Designed for commodity and chemical traders. Get better rates through true competition with full privacy and auditability.',
+  keywords: ['freight tender platform', 'closed tender', 'commodity trading', 'freight tendering', 'chemical traders', 'freight offers', 'bulk freight', 'Bench Energy', 'FreightTender', '@Bench_energy'],
   authors: [{ name: 'Bench Energy' }],
   robots: {
     index: true,
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     shortcut: '/logo.png',
   },
   openGraph: {
-    title: 'Bench Energy - Coal Market News & Freight Tender Platform',
-    description: 'Latest coal market news, analysis, and expert insights. FreightTender platform for commodity traders.',
+    title: 'FreightTender - Closed Freight Tender Platform for Commodity Traders',
+    description: 'Replace email-based freight tendering with structured closed tenders. Get better rates through true competition with full privacy and auditability.',
     type: 'website',
     url: 'https://www.bench.energy',
     images: [
@@ -78,15 +78,40 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Bench Energy",
               "url": "https://www.bench.energy",
-              "logo": "https://www.bench.energy/logo.png",
-              "description": "Bench Energy provides expert analysis on coal markets, freight, and energy industry. Follow @benchenergy on Telegram for daily market insights.",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.bench.energy/logo.png",
+                "width": 1200,
+                "height": 630
+              },
+              "description": "Bench Energy provides expert analysis on coal markets, freight logistics, and energy industry. Daily coal market news, expert insights, and FreightTender platform for commodity traders.",
+              "foundingDate": "2024",
               "sameAs": [
-                "https://t.me/benchenergy"
+                "https://t.me/Bench_energy"
               ],
               "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "support@bench.energy",
-                "contactType": "Customer Service"
+                "contactType": "Customer Service",
+                "availableLanguage": ["English"]
+              },
+              "areaServed": {
+                "@type": "Place",
+                "name": "Global"
+              },
+              "knowsAbout": [
+                "Coal Market Analysis",
+                "Thermal Coal",
+                "Coking Coal",
+                "Freight Logistics",
+                "Commodity Trading",
+                "Energy Markets",
+                "Freight Tender Platform"
+              ],
+              "offers": {
+                "@type": "Service",
+                "name": "Coal Market Intelligence",
+                "description": "Daily coal market news, expert analysis, and freight intelligence for commodity traders"
               }
             })
           }}
@@ -94,7 +119,7 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen">
         <Header />
-        <main className="flex-1">
+        <main className="flex-1 pt-16">
           {children}
         </main>
         <Footer />

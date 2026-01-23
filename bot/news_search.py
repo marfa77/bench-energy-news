@@ -339,17 +339,21 @@ AVOID:
 
 For EACH REAL news from sources (ONLY from found sources):
 - title: EXACT headline from source (copy verbatim)
-- summary: REAL content from source (2-3 sentences, MUST include specific numbers, prices, volumes, percentages, dates - NO vague phrases like "limited activity" or "not mentioned")
+- summary: DETAILED content from source for WEB VERSION (approximately 800 characters, 4-6 sentences, MUST include specific numbers, prices, volumes, percentages, dates, context, background, implications - NO vague phrases like "limited activity" or "not mentioned")
 - source_name: real source name (any valid source from internet)
 - source_url: REAL URL of SPECIFIC ARTICLE from search (NOT website section, but specific article with full URL, e.g. https://www.reuters.com/business/energy/coal-prices-rise-2024-01-15/)
 - publication_date: "{today_str}" ONLY if event happened today and it's mentioned in source, otherwise null
 
-CRITICAL REQUIREMENTS FOR SUMMARY:
+CRITICAL REQUIREMENTS FOR SUMMARY (WEB VERSION - 800 characters):
+- MUST be approximately 800 characters (700-900 characters range is acceptable)
 - MUST include specific numbers: prices (USD/ton), volumes (million tons), percentages (%), dates
 - MUST include concrete facts: company names, port names, specific countries, exact figures
+- MUST provide context: background information, market conditions, historical comparison
+- MUST explain implications: what this means for markets, traders, prices, supply chains
+- MUST be comprehensive and detailed - not just a brief summary
 - DO NOT use vague phrases: "limited activity", "not mentioned", "under observation", "no significant", "minimal", "expected", "likely"
 - If article doesn't have specific numbers - DO NOT include this news (skip it)
-- Summary must be at least 100 characters and contain real data
+- Summary must be at least 700 characters and contain real data with context
 
 IMPORTANT: source_url must be URL of SPECIFIC ARTICLE, not website section (not /business/energy/, but full article URL)
 
@@ -357,7 +361,7 @@ Return ONLY JSON:
 {{
     "news": [{{
         "title": "REAL headline from source (verbatim)",
-        "summary": "REAL content from source (facts from article)",
+        "summary": "DETAILED content from source for WEB VERSION (approximately 800 characters with context, background, implications, and specific facts from article)",
         "source_name": "Source name",
         "source_url": "https://full-url-of-specific-article-from-search",
         "publication_date": "{today_str}" or null
@@ -649,8 +653,8 @@ def select_best_news(news_list: List[Dict]) -> Optional[Dict]:
         ]
         has_vague_only = all(phrase in text for phrase in vague_phrases[:2]) and not has_numbers
         
-        # Должна быть достаточная длина summary (минимум 100 символов для качественной новости)
-        if len(summary) < 100:
+        # Должна быть достаточная длина summary (минимум 700 символов для веб-версии)
+        if len(summary) < 700:
             continue
         
         # Пропускаем новости без конкретных данных
@@ -714,10 +718,10 @@ def select_best_news(news_list: List[Dict]) -> Optional[Dict]:
         if news.get("source_url"):
             score += 30
         
-        # 5. Длина и детальность summary (но не слишком длинная)
+        # 5. Длина и детальность summary для веб-версии (800 символов)
         summary_len = len(news.get("summary", ""))
-        if 100 <= summary_len <= 500:
-            score += min(summary_len // 10, 30)  # До +30 за оптимальную длину
+        if 700 <= summary_len <= 1000:
+            score += min(summary_len // 20, 30)  # До +30 за оптимальную длину (800 символов)
         
         # 6. Бонус за наличие цифр и конкретики (признак качественной новости)
         import re

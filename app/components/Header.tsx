@@ -1,76 +1,62 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/app/lib/utils';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const navItems = [
+    { href: '/', label: 'Home' },
+    { href: '/news', label: 'News' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/topics', label: 'Topics' },
+  ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-        : 'bg-white border-b border-gray-100'
-    }`}>
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <Link href="/" className="flex items-center gap-3 text-gray-900 no-underline group">
-            <div className="relative">
-              <img
-                src="/logo.png"
-                alt="Bench Energy"
-                width={48}
-                height={48}
-                className="object-contain block transition-transform duration-300 group-hover:scale-110"
-              />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+    <nav className="fixed top-0 left-0 right-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-md shadow-sm">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center gap-2" aria-label="Bench Energy Home">
+            <Image
+              src="/logo.png"
+              alt="Bench Energy - Coal Market Intelligence Platform Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8 object-contain"
+            />
+            <span className="text-xl font-bold text-gray-900">
               Bench Energy
             </span>
           </Link>
-          
+
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex gap-1 items-center">
-            <Link 
-              href="/" 
-              className="px-4 py-2 text-gray-700 no-underline text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
-            >
-              Home
-            </Link>
-            <Link 
-              href="/news" 
-              className="px-4 py-2 text-gray-700 no-underline text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
-            >
-              News
-            </Link>
-            <Link 
-              href="/blog" 
-              className="px-4 py-2 text-gray-700 no-underline text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
-            >
-              Blog
-            </Link>
-            <Link 
-              href="/topics" 
-              className="px-4 py-2 text-gray-700 no-underline text-sm font-medium rounded-lg hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
-            >
-              Topics
-            </Link>
-            <Link 
-              href="/freighttender/" 
-              className="ml-2 px-5 py-2 bg-green-600 text-white no-underline text-sm font-semibold rounded-lg hover:bg-green-700 transition-all duration-200 shadow-sm hover:shadow-md"
+          <div className="hidden md:flex items-center gap-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'text-sm font-medium transition-colors',
+                  pathname === item.href
+                    ? 'text-green-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/freighttender"
+              className="px-5 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition-colors"
             >
               FreightTender
             </Link>
-          </nav>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -85,44 +71,31 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <nav className="md:hidden flex flex-col bg-white border-t border-gray-200 py-4 animate-fadeIn">
-            <Link 
-              href="/" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="text-gray-700 no-underline text-base font-medium py-3 px-6 block hover:bg-gray-50 hover:text-blue-600 transition-colors rounded-lg mx-2"
-            >
-              Home
-            </Link>
-            <Link 
-              href="/news" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="text-gray-700 no-underline text-base font-medium py-3 px-6 block hover:bg-gray-50 hover:text-blue-600 transition-colors rounded-lg mx-2"
-            >
-              News
-            </Link>
-            <Link 
-              href="/blog" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="text-gray-700 no-underline text-base font-medium py-3 px-6 block hover:bg-gray-50 hover:text-blue-600 transition-colors rounded-lg mx-2"
-            >
-              Blog
-            </Link>
-            <Link 
-              href="/topics" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="text-gray-700 no-underline text-base font-medium py-3 px-6 block hover:bg-gray-50 hover:text-blue-600 transition-colors rounded-lg mx-2"
-            >
-              Topics
-            </Link>
-            <Link 
-              href="/freighttender/" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="mx-2 mt-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white no-underline text-base font-semibold rounded-lg text-center"
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  'text-base font-medium py-3 px-6 block transition-colors rounded-lg mx-2',
+                  pathname === item.href
+                    ? 'text-green-600 bg-green-50'
+                    : 'text-gray-700 hover:bg-gray-50 hover:text-green-600'
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href="/freighttender"
+              onClick={() => setIsMenuOpen(false)}
+              className="mx-2 mt-2 px-6 py-3 bg-green-600 text-white text-base font-semibold rounded-lg text-center hover:bg-green-700"
             >
               FreightTender
             </Link>
           </nav>
         )}
       </div>
-    </header>
+    </nav>
   );
 }

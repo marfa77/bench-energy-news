@@ -1,4 +1,20 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Coal Market Topics - Analysis by Category | Bench Energy',
+  description: 'Explore coal market topics including coal prices, freight logistics, Australia coal market, China and India demand, and more. Comprehensive analysis organized by category.',
+  keywords: ['coal prices', 'freight logistics', 'Australia coal', 'China coal demand', 'India coal', 'coal market topics', 'energy analysis'],
+  openGraph: {
+    title: 'Coal Market Topics - Analysis by Category | Bench Energy',
+    description: 'Explore coal market topics and analysis organized by category.',
+    type: 'website',
+    url: 'https://www.bench.energy/topics',
+  },
+  alternates: {
+    canonical: 'https://www.bench.energy/topics',
+  },
+};
 
 // Content hubs for topical clusters (Query Fan-Out optimization)
 const contentHubs = [
@@ -33,79 +49,92 @@ const contentHubs = [
 ];
 
 export default function TopicsPage() {
+  // Schema.org for Topics/CollectionPage
+  const topicsSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Coal Market Topics",
+    "description": "Explore coal market topics including coal prices, freight logistics, Australia coal market, China and India demand, and more",
+    "url": "https://www.bench.energy/topics",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": contentHubs.map((hub, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Article",
+          "@id": `https://www.bench.energy/topics/${hub.slug}`,
+          "headline": hub.title,
+          "description": hub.description
+        }
+      }))
+    }
+  };
+
   return (
-    <div className="section" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <div className="container">
-        <h1 style={{ marginBottom: '1rem' }}>Coal Market Topics</h1>
-        <p style={{ fontSize: '1.125rem', color: '#666', marginBottom: '3rem', maxWidth: '800px' }}>
-          Comprehensive content hubs covering multiple facets of coal markets, freight, and energy industry. 
-          Each hub provides definitions, comparisons, costs, and expert analysis in one place.
-        </p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(topicsSchema)
+        }}
+      />
+      <div className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 min-h-screen">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-16 text-center">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            Coal Market Topics
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Comprehensive content hubs covering multiple facets of coal markets, freight, and energy industry. 
+            Each hub provides definitions, comparisons, costs, and expert analysis in one place.
+          </p>
+        </div>
         
-        <div style={{
-          display: 'grid',
-          gap: '2rem',
-        }}>
-          {contentHubs.map((hub) => (
-            <article key={hub.slug} style={{
-              padding: '2rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }} className="hover-card">
-              <h2 style={{ marginBottom: '0.75rem' }}>
-                <Link href={`/topics/${hub.slug}`} style={{
-                  color: '#1a1a1a',
-                  textDecoration: 'none',
-                }}>
-                  {hub.title}
-                </Link>
-              </h2>
-              <p style={{ 
-                color: '#666', 
-                marginBottom: '1.5rem',
-                fontSize: '0.95rem',
-              }}>
-                {hub.description}
-              </p>
-              <div style={{ marginBottom: '1rem' }}>
-                <strong style={{ fontSize: '0.9rem', color: '#333' }}>Topics covered:</strong>
-                <ul style={{ 
-                  marginTop: '0.5rem',
-                  paddingLeft: '1.5rem',
-                  color: '#666',
-                  fontSize: '0.9rem',
-                }}>
-                  {hub.topics.map((topic, idx) => (
-                    <li key={idx}>{topic}</li>
-                  ))}
-                </ul>
-              </div>
-              <div style={{
-                display: 'flex',
-                gap: '1rem',
-                flexWrap: 'wrap',
-              }}>
-                {hub.relatedArticles.map((article, idx) => (
-                  <Link 
-                    key={idx}
-                    href={article} 
-                    style={{
-                      color: '#0066cc',
-                      textDecoration: 'none',
-                      fontSize: '0.9rem',
-                    }}
-                  >
-                    {article === '/news' ? 'Latest News' : 
-                     article === '/blog' ? 'Blog Articles' :
-                     article === '/freighttender' ? 'FreightTender' : article}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+          {contentHubs.map((hub, index) => (
+            <article 
+              key={hub.slug} 
+              className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col h-full"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-500/5 to-emerald-500/5 rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500"></div>
+              <div className="relative flex-grow flex flex-col">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 line-clamp-2 group-hover:text-green-600 transition-colors">
+                  <Link href={`/topics/${hub.slug}`} className="no-underline">
+                    {hub.title}
                   </Link>
-                ))}
+                </h2>
+                <p className="text-gray-600 mb-6 flex-grow text-base leading-relaxed">
+                  {hub.description}
+                </p>
+                <div className="mb-6">
+                  <strong className="text-sm font-semibold text-gray-900 block mb-2">Topics covered:</strong>
+                  <ul className="list-disc list-inside space-y-1 text-sm text-gray-600">
+                    {hub.topics.map((topic, idx) => (
+                      <li key={idx}>{topic}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-wrap gap-3 pt-6 border-t border-gray-100 mt-auto">
+                  {hub.relatedArticles.map((article, idx) => (
+                    <Link 
+                      key={idx}
+                      href={article} 
+                      className="text-green-600 font-semibold text-sm hover:text-green-700 no-underline transition-colors"
+                    >
+                      {article === '/news' ? 'Latest News' : 
+                       article === '/blog' ? 'Blog Articles' :
+                       article === '/freighttender' ? 'FreightTender' : article}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </article>
           ))}
         </div>
       </div>
     </div>
+    </>
   );
 }

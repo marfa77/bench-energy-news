@@ -1,75 +1,137 @@
-'use client';
-
 import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="grid grid-cols-2 gap-8 xl:col-span-2">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">Product</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  <li>
-                    <Link href="/news" className="text-sm leading-6 text-gray-600 hover:text-gray-900 no-underline">
-                      News
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/blog" className="text-sm leading-6 text-gray-600 hover:text-gray-900 no-underline">
-                      Blog
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/freighttender/capabilities" className="text-sm leading-6 text-gray-600 hover:text-gray-900 no-underline">
-                      FreightTender Capabilities
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-gray-900">Legal</h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  <li>
-                    <Link href="/freighttender/privacy/" className="text-sm leading-6 text-gray-600 hover:text-gray-900 no-underline">
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/freighttender/data-collection/" className="text-sm leading-6 text-gray-600 hover:text-gray-900 no-underline">
-                      Data Collection
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="mt-10 xl:mt-0">
-            <h3 className="text-sm font-semibold leading-6 text-gray-900">Subscribe to our newsletter</h3>
-            <p className="mt-2 text-sm leading-6 text-gray-600">
-              Follow our Telegram channel for real-time coal market updates.
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SiteNavigationElement",
+            "name": "Footer Navigation",
+            "url": "https://www.bench.energy",
+            "hasPart": [
+              {
+                "@type": "WebPage",
+                "name": "Market News",
+                "url": "https://www.bench.energy/news"
+              },
+              {
+                "@type": "WebPage",
+                "name": "Expert Analysis",
+                "url": "https://www.bench.energy/blog"
+              },
+              {
+                "@type": "WebPage",
+                "name": "FreightTender",
+                "url": "https://www.bench.energy/freighttender"
+              }
+            ]
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Bench Energy",
+            "url": "https://www.bench.energy",
+            "creator": {
+              "@type": "Organization",
+              "name": "PixID Studio",
+              "url": "https://www.pixidstudio.online/",
+              "description": "Expert AI Development & Web Development Services. Innovative Digital Products."
+            }
+          })
+        }}
+      />
+      <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-gray-200">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Bench Energy</h3>
+            <p className="text-sm text-gray-600">
+              Coal market intelligence and freight solutions for commodity traders.
             </p>
-            <div className="mt-6">
-              <a
-                href="https://t.me/benchenergy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-              >
-                Join @benchenergy
-              </a>
-            </div>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Services</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/news" className="text-gray-600 hover:text-green-600 transition-colors">
+                  Market News
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="text-gray-600 hover:text-green-600 transition-colors">
+                  Expert Analysis
+                </Link>
+              </li>
+              <li>
+                <Link href="/freighttender" className="text-gray-600 hover:text-green-600 transition-colors">
+                  FreightTender
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/privacy" className="text-gray-600 hover:text-green-600 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/rules" className="text-gray-600 hover:text-green-600 transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
-        <div className="mt-16 border-t border-gray-200 pt-8 sm:mt-20 lg:mt-24">
-          <p className="text-xs leading-5 text-gray-500">
-            &copy; {new Date().getFullYear()} Bench Energy. All rights reserved.
+        <div className="text-center pt-8 border-t border-gray-200">
+          <p className="text-gray-600">
+            © {new Date().getFullYear()} Bench Energy. All rights reserved.
+          </p>
+          <div className="text-sm text-gray-500 mt-2 space-y-1">
+            <p>
+              <a 
+                href="https://t.me/Bench_energy" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-green-600 transition-colors"
+              >
+                @Bench_energy
+              </a>
+            </p>
+            <p>
+              <a 
+                href="mailto:support@bench.energy" 
+                className="hover:text-green-600 transition-colors"
+              >
+                support@bench.energy
+              </a>
+            </p>
+          </div>
+          <p className="text-xs text-gray-400 mt-4">
+            Website developed by{' '}
+            <a 
+              href="https://www.pixidstudio.online/" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-green-600 transition-colors font-medium"
+            >
+              PixID Studio
+            </a>
           </p>
         </div>
       </div>
     </footer>
+    </>
   );
 }
 
