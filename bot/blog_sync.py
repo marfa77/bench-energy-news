@@ -209,9 +209,9 @@ def download_and_save_image(image_url: str, repo_path: Path, slug: str, image_in
         return None
     
     try:
-        # Создаем папку assets если её нет
-        assets_dir = repo_path / "assets"
-        assets_dir.mkdir(exist_ok=True)
+        # Создаем папку public/assets если её нет (Next.js требует статические файлы в public/)
+        assets_dir = repo_path / "public" / "assets"
+        assets_dir.mkdir(parents=True, exist_ok=True)
         
         # Определяем расширение файла из URL
         parsed_url = image_url.split('?')[0]  # Убираем query параметры
