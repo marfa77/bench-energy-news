@@ -214,13 +214,20 @@ async function getArticles(): Promise<Article[]> {
   }
 
   try {
+    console.log('🔍 Fetching articles from Notion...');
+    console.log('   Database ID:', databaseId ? `${databaseId.substring(0, 8)}...` : 'NOT SET');
+    console.log('   API Key:', apiKey ? 'SET' : 'NOT SET');
+    
     const allArticles = await getAllArticles(databaseId);
+    
+    console.log(`📊 Notion API returned ${allArticles.length} articles`);
     
     if (allArticles.length === 0) {
       console.warn('⚠️ No articles found in Notion database. Check that:');
       console.warn('  1. Articles have "Published" checkbox = true');
       console.warn('  2. Notion integration has access to the database');
       console.warn('  3. Database ID is correct');
+      console.warn('  4. Integration is connected to the database (Connections → Add connections)');
       return [];
     }
     
@@ -237,9 +244,9 @@ async function getArticles(): Promise<Article[]> {
     // Provide more specific error messages
     if (error instanceof Error) {
       if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-        console.error('🔑 Authentication error: Check NOTION_API_KEY');
+        console.error('🔑 Authentication error: Check NOTION_API_KEY and ensure integration is connected to database');
       } else if (error.message.includes('404') || error.message.includes('Not Found')) {
-        console.error('🔍 Database not found: Check NOTION_DATABASE_ID');
+        console.error('🔍 Database not found: Check NOTION_DATABASE_ID format and ensure integration has access');
       } else {
         console.error('💡 Error details:', error.message);
       }
@@ -310,7 +317,19 @@ export default async function NewsPage() {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-4xl">📰</span>
             </div>
-            <p className="text-gray-600 text-lg">No articles found. Articles will appear here after synchronization from Notion.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h2>
+            <p className="text-gray-600 text-lg mb-6">
+              Articles will appear here after synchronization from Notion.
+            </p>
+            <div className="max-w-2xl mx-auto mt-8 p-6 bg-blue-50 border border-blue-200 rounded-lg text-left">
+              <h3 className="font-semibold text-blue-900 mb-3">🔧 Troubleshooting:</h3>
+              <ul className="text-sm text-blue-800 space-y-2 list-disc list-inside">
+                <li>Check that <code className="bg-blue-100 px-1 rounded">NOTION_API_KEY</code> and <code className="bg-blue-100 px-1 rounded">NOTION_DATABASE_ID</code> are set in Vercel environment variables</li>
+                <li>Verify that Notion integration has access to the database</li>
+                <li>Ensure articles in Notion have <code className="bg-blue-100 px-1 rounded">Published</code> checkbox = true</li>
+                <li>See <code className="bg-blue-100 px-1 rounded">VERCEL_ENV_SETUP.md</code> for detailed setup instructions</li>
+              </ul>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

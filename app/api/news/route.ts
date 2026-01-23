@@ -217,7 +217,14 @@ async function getAllArticles(databaseId: string): Promise<NotionPage[]> {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Notion API error:', response.status, errorText);
+        console.error(`❌ Notion API error: ${response.status} ${response.statusText}`);
+        console.error('   Response:', errorText.substring(0, 500));
+        
+        if (response.status === 401) {
+          console.error('   🔑 Authentication failed: Check NOTION_API_KEY and ensure integration is connected to database');
+        } else if (response.status === 404) {
+          console.error('   🔍 Database not found: Check NOTION_DATABASE_ID format');
+        }
         break;
       }
 
