@@ -192,22 +192,59 @@ function parseNotionArticle(article: any): Article {
 
 async function getArticles(): Promise<Article[]> {
   const databaseId = process.env.NOTION_DATABASE_ID;
+  const apiKey = process.env.NOTION_API_KEY;
   
-  if (!process.env.NOTION_API_KEY || !databaseId) {
-    console.error('NOTION_API_KEY or NOTION_DATABASE_ID is not configured');
+  if (!apiKey || !databaseId) {
+    const missingVars = [];
+    if (!apiKey) missingVars.push('NOTION_API_KEY');
+    if (!databaseId) missingVars.push('NOTION_DATABASE_ID');
+    
+    console.error(`❌ Missing environment variables: ${missingVars.join(', ')}`);
+    console.error('📖 See VERCEL_ENV_SETUP.md for setup instructions');
+    
+    // In production, log to help with debugging
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Environment variables check:', {
+        hasApiKey: !!apiKey,
+        hasDatabaseId: !!databaseId,
+      });
+    }
+    
     return [];
   }
 
   try {
     const allArticles = await getAllArticles(databaseId);
+    
+    if (allArticles.length === 0) {
+      console.warn('⚠️ No articles found in Notion database. Check that:');
+      console.warn('  1. Articles have "Published" checkbox = true');
+      console.warn('  2. Notion integration has access to the database');
+      console.warn('  3. Database ID is correct');
+      return [];
+    }
+    
     const articles = allArticles.map((article: any) => parseNotionArticle(article));
     
     // Sort by published date (newest first)
     articles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     
+    console.log(`✅ Loaded ${articles.length} articles from Notion`);
     return articles;
   } catch (error) {
-    console.error('Error fetching articles:', error);
+    console.error('❌ Error fetching articles from Notion:', error);
+    
+    // Provide more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        console.error('🔑 Authentication error: Check NOTION_API_KEY');
+      } else if (error.message.includes('404') || error.message.includes('Not Found')) {
+        console.error('🔍 Database not found: Check NOTION_DATABASE_ID');
+      } else {
+        console.error('💡 Error details:', error.message);
+      }
+    }
+    
     return [];
   }
 }
