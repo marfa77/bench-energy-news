@@ -44,7 +44,7 @@ async function getAllArticles(databaseId: string): Promise<any[]> {
   const apiKey = process.env.NOTION_API_KEY;
 
   if (!apiKey) {
-    console.error('NOTION_API_KEY is not configured');
+    console.error('❌ NOTION_API_KEY is not configured');
     return [];
   }
 
@@ -77,7 +77,23 @@ async function getAllArticles(databaseId: string): Promise<any[]> {
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Notion API error:', response.status, errorText);
+        console.error(`❌ Notion API error: ${response.status} ${response.statusText}`);
+        console.error('   Response:', errorText.substring(0, 500));
+        
+        if (response.status === 401) {
+          console.error('   🔑 Authentication failed:');
+          console.error('      - Check NOTION_API_KEY is correct');
+          console.error('      - Ensure integration is connected to database (Notion → ... → Connections → Add connections)');
+        } else if (response.status === 404) {
+          console.error('   🔍 Database not found:');
+          console.error('      - Check NOTION_DATABASE_ID format (should be 32 characters)');
+          console.error('      - Ensure you copied Database ID, not Page ID');
+          console.error('      - Verify database exists and is accessible');
+        } else if (response.status === 400) {
+          console.error('   ⚠️  Bad request:');
+          console.error('      - Check property names match your Notion database schema');
+          console.error('      - Verify "Published" and "Published Date" properties exist');
+        }
         break;
       }
 
@@ -86,7 +102,13 @@ async function getAllArticles(databaseId: string): Promise<any[]> {
       cursor = data.next_cursor || undefined;
     } while (cursor);
   } catch (error) {
-    console.error('Error fetching articles from Notion:', error);
+    console.error('❌ Error fetching articles from Notion:', error);
+    if (error instanceof Error) {
+      console.error('   Error message:', error.message);
+      if (error.message.includes('fetch')) {
+        console.error('   💡 Network error - check internet connection or Notion API status');
+      }
+    }
   }
 
   return articles;
@@ -223,11 +245,19 @@ async function getArticles(): Promise<Article[]> {
     console.log(`📊 Notion API returned ${allArticles.length} articles`);
     
     if (allArticles.length === 0) {
-      console.warn('⚠️ No articles found in Notion database. Check that:');
-      console.warn('  1. Articles have "Published" checkbox = true');
-      console.warn('  2. Notion integration has access to the database');
-      console.warn('  3. Database ID is correct');
-      console.warn('  4. Integration is connected to the database (Connections → Add connections)');
+      console.warn('⚠️  No articles found in Notion database.');
+      console.warn('');
+      console.warn('📋 Troubleshooting checklist:');
+      console.warn('   1. ✅ Check articles have "Published" checkbox = true in Notion');
+      console.warn('   2. ✅ Verify integration is connected to database:');
+      console.warn('      - Open database in Notion');
+      console.warn('      - Click ... → Connections → Add connections');
+      console.warn('      - Select your integration');
+      console.warn('   3. ✅ Check NOTION_DATABASE_ID format (32 characters, no spaces)');
+      console.warn('   4. ✅ Verify NOTION_API_KEY is correct and not expired');
+      console.warn('   5. ✅ Check Vercel logs for detailed error messages');
+      console.warn('');
+      console.warn('💡 If all checks pass, the database might be empty or all articles are unpublished.');
       return [];
     }
     
