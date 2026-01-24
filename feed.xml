@@ -5,8 +5,8 @@
         <link>https://www.bench.energy</link>
         <description>Latest news and analysis about coal market from Bench Energy. Follow our Telegram channel @benchenergy for real-time market insights.</description>
         <language>en-US</language>
-        <lastBuildDate>Sat, 24 Jan 2026 08:28:45 -0000</lastBuildDate>
-        <pubDate>Sat, 24 Jan 2026 08:28:45 -0000</pubDate>
+        <lastBuildDate>Sat, 24 Jan 2026 09:21:44 -0000</lastBuildDate>
+        <pubDate>Sat, 24 Jan 2026 09:21:44 -0000</pubDate>
         <ttl>60</ttl>
         <atom:link href="https://www.bench.energy/feed.xml" rel="self" type="application/rss+xml"/>
         <image>
@@ -14,6 +14,13 @@
             <title>Bench Energy News</title>
             <link>https://www.bench.energy</link>
         </image>
+        <item>
+            <title>China&#x27;s Dec met coal imports rise 28% MOM to 13.8 mil mt</title>
+            <link>https://www.bench.energy/posts/chinas-dec-met-coal-imports-rise-28-mom-to-138-mil-mt.html</link>
+            <guid isPermaLink="true">https://www.bench.energy/posts/chinas-dec-met-coal-imports-rise-28-mom-to-138-mil-mt.html</guid>
+            <description>China imported 13.77 million metric tons of metallurgical coal in December, up 28.3% from November. Mongolia was the largest supplier to China, with 6.72 millio</description>
+            <pubDate>Sat, 24 Jan 2026 08:31:00 -0000</pubDate>
+        </item>
         <item>
             <title>Why India&#x27;s coal revival looks impossible to achieve - The Economic Times</title>
             <link>https://www.bench.energy/posts/why-indias-coal-revival-looks-impossible-to-achieve-the-economic-times.html</link>
