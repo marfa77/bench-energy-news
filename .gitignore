@@ -51,3 +51,7 @@ SECRETS.md
 VERCEL_IDS_FOUND.md
 ADD_BLOG_SECRET.md
 get_vercel_ids.sh
+
+# Deployment scripts with passwords
+deploy_to_server.sh
+check_server_status.sh
