@@ -55,10 +55,12 @@ TELEGRAM VERSION (tg_version):
 - Use HTML: <b>, <i>, <a>, <code>
 
 STRUCTURE (Critical for 3-second scroll stop):
-1. **3-Second Trigger Phase** (First line):
-   - Start with clickbait exclamation: "Really", "I swear", "Breaking", "Alert", "Important"
-   - Example: "Really important news for coal traders..." or "Breaking: Coal prices surge..."
-   - Must capture attention immediately
+1. **Opening** (First line):
+   - Start with natural, informative opening - NO aggressive clickbait
+   - Avoid: "Alert", "Breaking", "Really", "I swear", "Important" - these are too aggressive
+   - Use soft, professional openings: "Coal market update:", "Freight logistics insight:", "Market analysis:"
+   - Example: "Coal market update: Price movements in Australia..." or "Freight logistics insight: Port congestion challenges..."
+   - Capture attention through value, not alarm
 
 2. **High-Density Scannability** (One line, one point format):
    - Use bullet points: • or →
@@ -86,14 +88,15 @@ STRUCTURE (Critical for 3-second scroll stop):
    - Include clear keywords: coal, prices, Australia, China, freight, shipping
    - Natural integration in text
 
-6. **Call to Action (CTA)** (Mandatory):
-   - End with specific directive:
-     "👉 Follow @benchenergy for daily updates"
+6. **Call to Action (CTA)** (Soft, optional):
+   - End with gentle, helpful invitation (NOT aggressive):
+     "📖 For daily market insights: @benchenergy"
      OR
-     "🔗 Read full analysis: bench.energy/news"
+     "🔗 Full analysis: bench.energy/news"
      OR
-     "📱 Share with your trading network"
-   - Use visual gesture emoji (👉, 🔗, 📱)
+     "💡 Save this post for reference"
+   - Use soft, helpful emoji (📖, 🔗, 💡) - avoid aggressive gestures (👉)
+   - Make it feel like helpful information, not sales pitch
 
 7. **Hashtags** (For discovery):
    - #Coal #ThermalCoal #Australia #Markets #BenchEnergy #Freight
@@ -230,8 +233,8 @@ Return ONLY the JSON object with tg_version and web_version."""
             else:
                 # Fallback: создаем версии вручную (Telegram blueprint optimized)
                 print(f"⚠️  Использую fallback версии")
-                # Для Telegram версии добавляем экспертное мнение с 3-second trigger
-                trigger = "Important news for coal traders:"
+                # Для Telegram версии добавляем экспертное мнение с мягким началом
+                trigger = "Coal market update:"
                 expert_view = "\n\n<b>🧭 Expert View</b>\n• Market significance\n• Regional impact\n• Key factors to watch"
                 cta = "\n👉 Follow @benchenergy for daily updates"
                 tg_content = f"{trigger}\n\n<b>⛏ [COAL] | {news_title}</b>\n\n• {news_summary[:400]}\n{expert_view}\n\n#Coal #Markets #BenchEnergy{cta}\n<a href=\"{source_url}\">📰 Source: {source_name}</a>"
@@ -332,27 +335,32 @@ TELEGRAM VERSION (tg_version):
 - Use HTML: <b>, <i>, <a>, <code>
 
 STRUCTURE (Critical for 3-second scroll stop):
-1. **3-Second Trigger Phase** (First line):
-   - Start with clickbait exclamation: "Really", "I swear", "Breaking", "Alert", "Important"
-   - Example: "Really important for bulk traders..." or "Alert: Freight challenges..."
-   - Must capture attention immediately
+1. **Opening** (First line):
+   - Start with natural, informative opening - NO aggressive clickbait
+   - Avoid: "Alert", "Breaking", "Really", "I swear", "Important" - these are too aggressive
+   - Use soft, professional openings: "Freight logistics insight:", "Bulk trading challenge:", "Industry observation:"
+   - Example: "Freight logistics insight: Rate volatility affects bulk traders..." or "Bulk trading challenge: Port congestion creates delays..."
+   - Capture attention through value and relevance, not alarm
 
 2. **High-Density Scannability** (One line, one point format):
    - Use bullet points: • or →
    - Each line = one key fact or insight
    - Visually enticing, screenshot-friendly
    - Format:
-     <b>🚢 [FREIGHT] | Problem Title</b>
+     <b>🚢 [FREIGHT] | Challenge Title</b>
      
      • Key challenge 1 (general terms, no specific numbers)
      • Key challenge 2 (general terms)
      • Key challenge 3 (general terms)
    
-3. **Bench Energy Solution** (Concise mention):
-   <b>💡 Solution</b>
-   • Bench Energy's closed freight tender solves these challenges
-   • Mention benefits: structured offers, full auditability, no collusion
-   Keep solution section ~100-150 characters
+3. **Bench Energy Solution** (Soft, helpful mention):
+   <b>💡 How we help</b>
+   • If you face these challenges, Bench Energy's FreightTender can help
+   • Our closed tender system provides: structured bidding, full audit trail, no collusion between brokers
+   • Each broker sees only their invitation - no cross-visibility, ensuring genuine competition
+   • All offers in one view for faster decision-making, with complete documentation for compliance
+   • Natural, helpful tone: "есть проблемы с этим? мы поможем" (if you have problems with this, we can help)
+   Keep solution section ~150-200 characters, soft and educational
 
 4. **Multimedia Integration** (Optional mention):
    - If relevant: "📊 Full analysis: bench.energy/freighttender"
@@ -362,14 +370,15 @@ STRUCTURE (Critical for 3-second scroll stop):
    - Include clear keywords: freight, bulk trading, logistics, shipping, coal, freight tender
    - Natural integration in text
 
-6. **Call to Action (CTA)** (Mandatory):
-   - End with specific directive:
-     "👉 Try FreightTender: bench.energy/freighttender"
+6. **Call to Action (CTA)** (Soft, optional):
+   - End with gentle, helpful invitation (NOT aggressive):
+     "💡 If you face similar challenges, we can help: bench.energy/freighttender"
      OR
-     "🔗 Learn more: bench.energy/freighttender"
+     "📖 Learn how closed tender works: bench.energy/freighttender"
      OR
-     "📱 Share with your trading network"
-   - Use visual gesture emoji (👉, 🔗, 📱)
+     "🤝 Interested in structured freight procurement? Let's discuss"
+   - Use soft, helpful emoji (💡, 📖, 🤝) - avoid aggressive gestures (👉)
+   - Make it feel like helpful information, not sales pitch
 
 7. **Hashtags** (For discovery):
    - #Freight #BulkTrading #Logistics #Coal #BenchEnergy #FreightTender
@@ -425,7 +434,13 @@ Write in Bench Energy's analytical style about REAL freight challenges:
 - DO NOT include specific numbers, rates, percentages, or dates
 - Focus on industry trends and challenges that bulk traders actually face
 
-MUST mention that Bench Energy's closed freight tender for traders solves these problems.
+NATURALLY mention that if traders face these challenges, Bench Energy's FreightTender can help. Describe it as a helpful solution, not aggressive sales pitch. Mention key features naturally:
+- Closed tender: only invited brokers can participate, no cross-visibility
+- Structured offers: standardized bid format, all in one view for comparison
+- Full audit trail: complete documentation for compliance
+- No collusion: each broker sees only their own invitation
+- Faster decisions: all offers visible side-by-side
+Use soft tone: "есть проблемы с этим? мы поможем" (if you have problems with this, we can help)
 
 IMPORTANT: Make this post UNIQUE and DIFFERENT from previous freight posts. Use a fresh perspective, different examples, and new scenarios."""
     
@@ -500,13 +515,16 @@ IMPORTANT: Make this post UNIQUE and DIFFERENT from previous freight posts. Use 
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
             else:
-                # Fallback: создаем версии вручную
+                # Fallback: создаем версии вручную (мягкий тон)
                 print(f"⚠️  Использую fallback версии для поста о фрахте")
                 tg_content = """<b>🚢 [FREIGHT] | Freight Rate Volatility Challenges Bulk Traders</b>
 
 Bulk trading companies face increasing freight rate volatility, making cost planning difficult. Port congestion and vessel availability issues compound the problem.
 
-Bench Energy's closed freight tender for traders helps solve these challenges by providing predictable rates and reliable vessel allocation.
+<b>💡 How we help</b>
+If you face similar challenges, Bench Energy's FreightTender can help. Our closed tender system provides structured bidding, full audit trail, and ensures genuine competition without collusion.
+
+💡 Interested? Learn more: bench.energy/freighttender
 
 #Freight #BulkTrading #Logistics #Coal #BenchEnergy"""
                 return {
