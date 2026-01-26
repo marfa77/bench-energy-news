@@ -176,7 +176,8 @@ def main():
     """Main function."""
     script_dir = Path(__file__).parent
     posts_dir = script_dir / 'posts'
-    rss_path = script_dir / 'feed.xml'
+    # Next.js требует статические файлы в public/
+    rss_path = script_dir / 'public' / 'feed.xml'
     
     print("Scanning posts directory...")
     articles = get_all_articles(posts_dir, limit=30)

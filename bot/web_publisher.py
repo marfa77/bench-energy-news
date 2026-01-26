@@ -1061,11 +1061,11 @@ def publish_to_web(news_data: Dict, web_version: str, image_path: Optional[Path]
             files_to_add.append("index.html")
             log_info(f"   📋 Добавляю в git: index.html")
         
-        # feed.xml: если был обновлен скриптом generate_rss.py
-        feed_file = repo_path / "feed.xml"
+        # feed.xml: если был обновлен скриптом generate_rss.py (в public/)
+        feed_file = repo_path / "public" / "feed.xml"
         if feed_file.exists():
-            files_to_add.append("feed.xml")
-            log_info(f"   📡 Добавляю в git: feed.xml")
+            files_to_add.append("public/feed.xml")
+            log_info(f"   📡 Добавляю в git: public/feed.xml")
         
         log_info(f"ШАГ 8: Всего файлов для коммита: {len(files_to_add)}")
         success = git_add_commit_push(str(repo_path), files_to_add, commit_message)
