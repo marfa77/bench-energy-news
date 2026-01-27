@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ContactLink from '@/app/components/ContactLink';
 
 export default function Footer() {
   return (
@@ -99,22 +100,24 @@ export default function Footer() {
           </p>
           <div className="text-sm text-gray-500 mt-2 space-y-1">
             <p>
-              <a 
-                href="https://t.me/Bench_energy" 
+              <ContactLink
+                type="telegram"
+                href="https://t.me/Bench_energy"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-green-600 transition-colors"
               >
                 @Bench_energy
-              </a>
+              </ContactLink>
             </p>
             <p>
-              <a 
-                href="mailto:support@bench.energy" 
+              <ContactLink
+                type="email"
+                href="mailto:support@bench.energy"
                 className="hover:text-green-600 transition-colors"
               >
                 support@bench.energy
-              </a>
+              </ContactLink>
             </p>
           </div>
           <p className="text-xs text-gray-400 mt-4">

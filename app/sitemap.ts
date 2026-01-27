@@ -75,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       let cursor: string | undefined = undefined;
 
       do {
-        const response = await fetch(
+        const response: Response = await fetch(
           `${NOTION_API_URL}/databases/${databaseId}/query`,
           {
             method: 'POST',

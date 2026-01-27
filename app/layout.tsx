@@ -83,6 +83,22 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
         <link rel="shortcut icon" href="/logo.png" />
         
+        {/* Google Analytics */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-F55Q439F8J"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-F55Q439F8J');
+            `,
+          }}
+        />
+        
         {/* Schema.org Organization for LLM optimization */}
         <script
           type="application/ld+json"

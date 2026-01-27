@@ -61,12 +61,37 @@ async function getBlogPost(slug: string) {
     const descMatch = content.match(/<meta[^>]*name="description"[^>]*content="([^"]+)"/i);
     const description = descMatch ? descMatch[1] : title;
     
+    // Извлекаем первое изображение из контента
+    let imageUrl: string | undefined = undefined;
+    const doubleQuoteMatch = content.match(/<img[^>]*src="([^"]+)"[^>]*>/i);
+    if (doubleQuoteMatch) {
+      imageUrl = doubleQuoteMatch[1]
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .trim();
+    } else {
+      const singleQuoteMatch = content.match(/<img[^>]*src='([^']+)'[^>]*>/i);
+      if (singleQuoteMatch) {
+        imageUrl = singleQuoteMatch[1]
+          .replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .trim();
+      }
+    }
+    
     return {
       title,
       slug,
       publishedDate,
       htmlContent,
       description,
+      imageUrl,
     };
   } catch (error) {
     return null;

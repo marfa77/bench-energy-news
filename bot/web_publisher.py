@@ -299,13 +299,13 @@ def create_html_article(news_data: Dict, web_version: str, image_url: Optional[s
     </script>
     
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG6H40QVM0"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F55Q439F8J"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){{dataLayer.push(arguments);}}
       gtag('js', new Date());
 
-      gtag('config', 'G-VG6H40QVM0');
+      gtag('config', 'G-F55Q439F8J');
     </script>
     
     <style>

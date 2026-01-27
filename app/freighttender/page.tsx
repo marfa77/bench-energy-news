@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import ContactLink from '@/app/components/ContactLink';
 
 export default function FreightTenderPage() {
   const videoRef = useRef<HTMLDivElement>(null);
@@ -293,10 +294,10 @@ export default function FreightTenderPage() {
                   Contact us:
                 </p>
                 <p className="text-lg text-gray-700 mb-2">
-                  Email: <a href="mailto:support@bench.energy" className="text-green-600 hover:text-green-700 font-semibold">support@bench.energy</a>
+                  Email: <ContactLink type="email" href="mailto:support@bench.energy" className="text-green-600 hover:text-green-700 font-semibold">support@bench.energy</ContactLink>
                 </p>
                 <p className="text-lg text-gray-700 mb-6">
-                  Telegram: <a href="https://t.me/freightTender_sales" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-semibold">@freightTender_sales</a>
+                  Telegram: <ContactLink type="telegram_sales" href="https://t.me/freightTender_sales" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-semibold">@freightTender_sales</ContactLink>
                 </p>
               </div>
             </div>

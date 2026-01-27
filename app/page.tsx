@@ -3,6 +3,7 @@ import Image from 'next/image';
 import dynamicImport from 'next/dynamic';
 import { Metadata } from 'next';
 import { Newspaper, FileText, Ship, ArrowRight, Sparkles, TrendingUp, Globe, Users } from 'lucide-react';
+import ContactLink from './components/ContactLink';
 
 const FeatureTabs = dynamicImport(() => import('./components/FeatureTabs'), { ssr: false });
 
@@ -540,15 +541,33 @@ export default async function HomePage() {
               Get Started with FreightTender
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a
+            <ContactLink
+              type="email"
               href="mailto:support@bench.energy?subject=FreightTender Demo Request"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white/10 transition-colors text-lg"
             >
               Request Demo
-            </a>
+            </ContactLink>
           </div>
           <p className="mt-8 text-green-100 text-sm">
-            Or contact us: <a href="mailto:support@bench.energy" className="underline font-semibold">support@bench.energy</a> | <a href="https://t.me/Bench_energy" target="_blank" rel="noopener noreferrer" className="underline font-semibold">@Bench_energy</a>
+            Or contact us:{' '}
+            <ContactLink
+              type="email"
+              href="mailto:support@bench.energy"
+              className="underline font-semibold"
+            >
+              support@bench.energy
+            </ContactLink>
+            {' | '}
+            <ContactLink
+              type="telegram"
+              href="https://t.me/Bench_energy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline font-semibold"
+            >
+              @Bench_energy
+            </ContactLink>
           </p>
         </div>
       </section>
@@ -596,7 +615,7 @@ export default async function HomePage() {
                 How do I get started?
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                Contact us at <a href="mailto:support@bench.energy" className="text-green-600 hover:underline font-semibold">support@bench.energy</a> or <a href="https://t.me/Bench_energy" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline font-semibold">@Bench_energy</a> to request a demo. We'll show you how FreightTender works and help you set up your first closed tender.
+                Contact us at <ContactLink type="email" href="mailto:support@bench.energy" className="text-green-600 hover:underline font-semibold">support@bench.energy</ContactLink> or <ContactLink type="telegram" href="https://t.me/Bench_energy" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline font-semibold">@Bench_energy</ContactLink> to request a demo. We'll show you how FreightTender works and help you set up your first closed tender.
               </p>
             </div>
           </div>

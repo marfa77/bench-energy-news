@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ContactLink from '@/app/components/ContactLink';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -149,10 +150,10 @@ export default function RulesPage() {
               <strong className="text-gray-900">Bench Energy</strong>
             </p>
             <p className="text-gray-700 mb-2">
-              Email: <a href="mailto:support@bench.energy" className="text-green-600 hover:text-green-700 font-semibold">support@bench.energy</a>
+              Email: <ContactLink type="email" href="mailto:support@bench.energy" className="text-green-600 hover:text-green-700 font-semibold">support@bench.energy</ContactLink>
             </p>
             <p className="text-gray-700">
-              Telegram: <a href="https://t.me/Bench_energy" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-semibold">@Bench_energy</a>
+              Telegram: <ContactLink type="telegram" href="https://t.me/Bench_energy" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 font-semibold">@Bench_energy</ContactLink>
             </p>
           </div>
         </section>
