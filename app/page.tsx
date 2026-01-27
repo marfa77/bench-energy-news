@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     'port operations',
     'vessel availability',
     'energy market analysis',
+    'coal freight rates',
+    'coal logistics',
+    'coal logistics management',
+    'freight cost reduction',
+    'executive freight solutions',
   ],
   authors: [{ name: 'Bench Energy' }],
   openGraph: {
