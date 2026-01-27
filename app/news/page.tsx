@@ -4,12 +4,31 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Coal Market News - Latest Updates & Analysis | Bench Energy',
   description: 'Latest coal market news, price updates, and industry analysis. Daily updates on thermal coal, coking coal, supply chain dynamics, and regional developments with expert insights from Bench Energy.',
-  keywords: ['coal market news', 'coal prices', 'thermal coal', 'coking coal', 'coal industry', 'energy news', 'market analysis', 'Bench Energy'],
+  keywords: [
+    'coal market news',
+    'coal prices',
+    'thermal coal',
+    'coking coal',
+    'coal industry',
+    'energy news',
+    'market analysis',
+    'Bench Energy',
+    'dry bulk shipping',
+    'freight rates',
+    'port operations',
+    'vessel availability',
+    'coal supply chain',
+    'energy market trends',
+    'commodity trading',
+  ],
+  authors: [{ name: 'Bench Energy' }],
   openGraph: {
     title: 'Coal Market News - Latest Updates & Analysis | Bench Energy',
-    description: 'Latest coal market news, price updates, and industry analysis with expert insights.',
+    description: 'Latest coal market news, price updates, and industry analysis with expert insights. Daily updates on thermal coal, coking coal, and freight logistics.',
     type: 'website',
     url: 'https://www.bench.energy/news',
+    siteName: 'Bench Energy',
+    locale: 'en_US',
     images: [
       {
         url: 'https://www.bench.energy/logo.png',
@@ -19,8 +38,27 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Coal Market News - Latest Updates & Analysis | Bench Energy',
+    description: 'Latest coal market news, price updates, and industry analysis with expert insights.',
+    images: ['https://www.bench.energy/logo.png'],
+    site: '@Bench_energy',
+    creator: '@Bench_energy',
+  },
   alternates: {
     canonical: 'https://www.bench.energy/news',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -315,19 +353,47 @@ export default async function NewsPage() {
                   "datePublished": article.publishedAt,
                   "author": {
                     "@type": "Organization",
-                    "name": "Bench Energy"
+                    "name": "Bench Energy",
+                    "url": "https://www.bench.energy"
                   },
                   "publisher": {
                     "@type": "Organization",
                     "name": "Bench Energy",
                     "logo": {
                       "@type": "ImageObject",
-                      "url": "https://www.bench.energy/logo.png"
+                      "url": "https://www.bench.energy/logo.png",
+                      "width": 1200,
+                      "height": 630
                     }
-                  }
+                  },
+                  "articleSection": article.category || "Coal Market News"
                 }
               }))
             }
+          })
+        }}
+      />
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.bench.energy"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "News",
+                "item": "https://www.bench.energy/news"
+              }
+            ]
           })
         }}
       />

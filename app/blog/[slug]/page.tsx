@@ -101,24 +101,59 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${post.title} | Bench Energy Blog`,
     description: post.description || post.title,
-    keywords: ['coal market', 'energy analysis', 'freight logistics', 'commodity trading', 'Bench Energy'],
+    keywords: [
+      'coal market',
+      'energy analysis',
+      'freight logistics',
+      'commodity trading',
+      'Bench Energy',
+      'thermal coal',
+      'coking coal',
+      'dry bulk shipping',
+      'freight rates',
+      'port operations',
+      'vessel availability',
+    ],
+    authors: [{ name: 'Bench Energy' }],
     openGraph: {
       title: post.title,
       description: post.description || post.title,
       type: 'article',
       publishedTime: post.publishedDate,
+      modifiedTime: post.publishedDate,
       url: `https://www.bench.energy/blog/${post.slug}`,
+      siteName: 'Bench Energy',
+      locale: 'en_US',
       images: [
         {
-          url: 'https://www.bench.energy/logo.png',
+          url: post.imageUrl || 'https://www.bench.energy/logo.png',
           width: 1200,
           height: 630,
           alt: post.title,
         },
       ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description || post.title,
+      images: [post.imageUrl || 'https://www.bench.energy/logo.png'],
+      site: '@Bench_energy',
+      creator: '@Bench_energy',
+    },
     alternates: {
       canonical: `https://www.bench.energy/blog/${post.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   };
 }
@@ -180,6 +215,36 @@ export default async function BlogPostPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(blogPostSchema)
+        }}
+      />
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.bench.energy"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://www.bench.energy/blog"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": `https://www.bench.energy/blog/${post.slug}`
+              }
+            ]
+          })
         }}
       />
       <script

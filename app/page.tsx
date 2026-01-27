@@ -8,19 +8,42 @@ const FeatureTabs = dynamicImport(() => import('./components/FeatureTabs'), { ss
 
 export const metadata: Metadata = {
   title: 'FreightTender - Closed Freight Tender Platform for Commodity Traders | Bench Energy',
-  description: 'FreightTender: Replace email-based freight tendering with structured offers, closed competition, and full auditability. Designed for commodity and chemical traders. Get a demo today.',
-  keywords: ['freight tender platform', 'commodity trading', 'freight tendering', 'closed tender', 'freight offers', 'chemical traders', 'bulk freight', 'freight logistics', 'Bench Energy', 'FreightTender'],
+  description: 'FreightTender: Replace email-based freight tendering with structured offers, closed competition, and full auditability. Designed for commodity and chemical traders. Daily coal market news and expert analysis. Get a demo today.',
+  keywords: [
+    'freight tender platform',
+    'commodity trading',
+    'freight tendering',
+    'closed tender',
+    'freight offers',
+    'chemical traders',
+    'bulk freight',
+    'freight logistics',
+    'Bench Energy',
+    'FreightTender',
+    'coal market news',
+    'coal prices',
+    'thermal coal',
+    'coking coal',
+    'dry bulk shipping',
+    'freight rates',
+    'port operations',
+    'vessel availability',
+    'energy market analysis',
+  ],
+  authors: [{ name: 'Bench Energy' }],
   openGraph: {
     title: 'Bench Energy - Coal Market News & Freight Tender Platform',
-    description: 'Daily coal market news, expert analysis, and freight intelligence for commodity traders.',
+    description: 'Daily coal market news, expert analysis, and freight intelligence for commodity traders. FreightTender platform for closed freight tenders.',
     type: 'website',
     url: 'https://www.bench.energy',
+    siteName: 'Bench Energy',
+    locale: 'en_US',
     images: [
       {
         url: 'https://www.bench.energy/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Bench Energy - Coal Market Intelligence',
+        alt: 'Bench Energy - Coal Market Intelligence & Freight Tender Platform',
       },
     ],
   },
@@ -28,9 +51,23 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Bench Energy - Coal Market News & Freight Tender Platform',
     description: 'Daily coal market news, expert analysis, and freight intelligence for commodity traders.',
+    images: ['https://www.bench.energy/logo.png'],
+    site: '@Bench_energy',
+    creator: '@Bench_energy',
   },
   alternates: {
     canonical: 'https://www.bench.energy',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -157,7 +194,7 @@ export default async function HomePage() {
                 "name": "What services does Bench Energy offer?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Bench Energy provides daily coal market news, expert analysis articles, and the FreightTender platform for closed freight tenders. We specialize in delivering actionable intelligence for commodity traders and energy market participants."
+                  "text": "Bench Energy provides daily coal market news, expert analysis articles, and the FreightTender platform for closed freight tenders. We specialize in delivering actionable intelligence for commodity traders and energy market participants. Our services include thermal coal price analysis, coking coal market insights, freight rate tracking, and a structured freight tender platform."
                 }
               },
               {
@@ -165,7 +202,7 @@ export default async function HomePage() {
                 "name": "How often is the news updated?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "We publish daily market news articles covering coal prices, supply chain dynamics, regional developments, and industry analysis. Our Telegram channel @Bench_energy provides real-time updates throughout the day."
+                  "text": "We publish daily market news articles covering coal prices, supply chain dynamics, regional developments, and industry analysis. Our Telegram channel @Bench_energy provides real-time updates throughout the day. Articles are published multiple times daily with the latest market intelligence."
                 }
               },
               {
@@ -173,16 +210,70 @@ export default async function HomePage() {
                 "name": "What is FreightTender?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "FreightTender is a closed tender platform designed for commodity and chemical traders. It allows you to submit structured freight offers in a competitive but private environment with full audit trail and transparency."
+                  "text": "FreightTender is a closed tender platform designed for commodity and chemical traders. It replaces email-based freight tendering with structured offers, closed competition (brokers can't see each other's bids), and full auditability. You get better rates through true competition while maintaining complete privacy and control."
                 }
               },
               {
                 "@type": "Question",
-                "name": "How can I stay updated?",
+                "name": "How can I stay updated on coal market news?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Follow our Telegram channel @Bench_energy for daily market updates, or visit our website regularly for in-depth analysis articles and news coverage."
+                  "text": "Follow our Telegram channel @Bench_energy for daily market updates, or visit our website regularly for in-depth analysis articles and news coverage. You can also subscribe to our RSS feed at https://www.bench.energy/feed.xml for automatic updates."
                 }
+              },
+              {
+                "@type": "Question",
+                "name": "What types of coal market analysis do you provide?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We provide comprehensive analysis on thermal coal prices, coking coal markets, dry bulk shipping rates, port operations, vessel availability, supply chain dynamics, and regional market developments. Our analysis includes specific data points, price trends, and actionable intelligence for traders."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who can use FreightTender?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "FreightTender is designed for commodity trading companies and chemical trading desks that need to tender freight regularly. If you're currently using email to coordinate freight tenders with multiple brokers, FreightTender will streamline your process significantly with structured offers and closed competition."
+                }
+              }
+            ]
+          })
+        }}
+      />
+      {/* HowTo Schema for FreightTender */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Use FreightTender for Closed Freight Tenders",
+            "description": "Step-by-step guide to using FreightTender platform for structured freight tendering",
+            "step": [
+              {
+                "@type": "HowToStep",
+                "name": "Create a Tender",
+                "text": "Create a new freight tender in FreightTender with vessel specifications, laycan, and technical requirements.",
+                "position": 1
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Invite Brokers",
+                "text": "Invite specific brokers to participate. Each broker sees only their own invitation and cannot see other participants.",
+                "position": 2
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Receive Structured Offers",
+                "text": "Brokers submit structured offers with freight rate, vessel specs, laycan confirmation, and technical compliance in standardized format.",
+                "position": 3
+              },
+              {
+                "@type": "HowToStep",
+                "name": "Compare and Award",
+                "text": "View all offers in a single table view for easy comparison. Select and award the best offer with full audit trail.",
+                "position": 4
               }
             ]
           })

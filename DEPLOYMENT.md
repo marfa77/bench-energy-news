@@ -7,6 +7,15 @@ This project combines:
 - **Automated news sync** from Notion via GitHub Actions
 - **Vercel deployment** for production hosting
 
+## ⚠️ ВАЖНО: Правила деплоя
+
+**Деплой на Vercel происходит ТОЛЬКО через GitHub интеграцию.**
+
+- ✅ Push в ветку `main` → автоматический деплой на Vercel
+- ❌ НЕ использовать Vercel CLI для деплоя (`vercel deploy`)
+- ❌ НЕ использовать ручной деплой через Vercel Dashboard
+- ✅ Все изменения должны быть закоммичены и запушены в GitHub
+
 ## Architecture
 
 ```
@@ -26,10 +35,13 @@ bench-energy-news/
 
 ### 1. Vercel Configuration
 
-1. **Connect repository to Vercel:**
+**⚠️ ВАЖНО: Деплой на Vercel происходит ТОЛЬКО через GitHub интеграцию.**
+
+1. **Connect repository to Vercel (ОБЯЗАТЕЛЬНО через GitHub):**
    - Go to [Vercel Dashboard](https://vercel.com/dashboard)
-   - Import your GitHub repository
+   - Import your GitHub repository (НЕ создавать проект вручную)
    - Configure project settings
+   - Убедитесь, что включен "Automatic deployments from Git"
 
 2. **Set Environment Variables in Vercel:**
    - `NOTION_API_KEY` - Your Notion integration API key
@@ -90,6 +102,8 @@ The build process works as follows:
 
 ### Automatic Deployment Flow
 
+**⚠️ ПРАВИЛО: Деплой на Vercel происходит ТОЛЬКО через GitHub push.**
+
 ```
 1. News published in Notion
    ↓
@@ -103,10 +117,18 @@ The build process works as follows:
    ↓
 6. Commits to GitHub
    ↓
-7. Vercel detects push
+7. Push to GitHub main branch
    ↓
-8. Builds and deploys Next.js site
+8. Vercel автоматически обнаруживает push через GitHub интеграцию
+   ↓
+9. Vercel builds and deploys Next.js site
 ```
+
+**Процесс деплоя:**
+1. Все изменения должны быть закоммичены: `git commit -m "message"`
+2. Отправлены в GitHub: `git push origin main`
+3. Vercel автоматически запускает деплой при push в `main`
+4. НЕ использовать `vercel deploy` или ручной деплой через Dashboard
 
 ### Manual Sync
 

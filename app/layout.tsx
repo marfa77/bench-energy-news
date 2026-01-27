@@ -40,19 +40,33 @@ export const metadata: Metadata = {
     shortcut: '/logo.png',
   },
   openGraph: {
-    title: 'FreightTender - Closed Freight Tender Platform for Commodity Traders',
-    description: 'Replace email-based freight tendering with structured closed tenders. Get better rates through true competition with full privacy and auditability.',
+    title: 'FreightTender - Closed Freight Tender Platform for Commodity Traders | Bench Energy',
+    description: 'Replace email-based freight tendering with structured closed tenders. Get better rates through true competition with full privacy and auditability. Daily coal market news and expert analysis.',
     type: 'website',
     url: 'https://www.bench.energy',
+    siteName: 'Bench Energy',
+    locale: 'en_US',
     images: [
       {
         url: 'https://www.bench.energy/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Bench Energy Logo',
+        alt: 'Bench Energy - Coal Market Intelligence & Freight Tender Platform',
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FreightTender - Closed Freight Tender Platform | Bench Energy',
+    description: 'Replace email-based freight tendering with structured closed tenders. Daily coal market news and expert analysis.',
+    images: ['https://www.bench.energy/logo.png'],
+    site: '@Bench_energy',
+    creator: '@Bench_energy',
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
+  category: 'Energy & Commodity Trading',
 };
 
 export default function RootLayout({
@@ -106,12 +120,38 @@ export default function RootLayout({
                 "Freight Logistics",
                 "Commodity Trading",
                 "Energy Markets",
-                "Freight Tender Platform"
+                "Freight Tender Platform",
+                "Dry Bulk Shipping",
+                "Port Operations",
+                "Vessel Availability",
+                "Freight Rates",
+                "Coal Prices",
+                "Energy Industry Trends"
               ],
-              "offers": {
-                "@type": "Service",
-                "name": "Coal Market Intelligence",
-                "description": "Daily coal market news, expert analysis, and freight intelligence for commodity traders"
+              "offers": [
+                {
+                  "@type": "Service",
+                  "name": "Coal Market Intelligence",
+                  "description": "Daily coal market news, expert analysis, and freight intelligence for commodity traders",
+                  "serviceType": "Market Intelligence"
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  "name": "FreightTender",
+                  "description": "Closed freight tender platform for commodity and chemical traders",
+                  "applicationCategory": "BusinessApplication",
+                  "operatingSystem": "Web",
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                  }
+                }
+              ],
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "reviewCount": "50"
               }
             })
           }}

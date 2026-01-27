@@ -42,7 +42,11 @@ export default function NewsArticlePage() {
         "author": {
           "@type": "Organization",
           "name": "Bench Energy",
-          "url": "https://www.bench.energy"
+          "url": "https://www.bench.energy",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.bench.energy/logo.png"
+          }
         },
         "publisher": {
           "@type": "Organization",
@@ -59,6 +63,17 @@ export default function NewsArticlePage() {
           "@id": `https://www.bench.energy/news/${article.slug}`
         },
         "articleSection": article.category || "Coal Market News",
+        "keywords": [
+          "coal market",
+          "coal prices",
+          "thermal coal",
+          "coking coal",
+          "energy news",
+          "market analysis",
+          "Bench Energy"
+        ],
+        "inLanguage": "en-US",
+        "isAccessibleForFree": true,
         ...(article.sourceUrl && {
           "citation": {
             "@type": "WebPage",
@@ -68,23 +83,64 @@ export default function NewsArticlePage() {
         })
       };
 
-      // Remove existing schema script if any
-      const existingScript = document.getElementById('article-schema');
-      if (existingScript) {
-        existingScript.remove();
+      // Add BreadcrumbList schema
+      const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.bench.energy"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "News",
+            "item": "https://www.bench.energy/news"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": article.title,
+            "item": `https://www.bench.energy/news/${article.slug}`
+          }
+        ]
+      };
+
+      // Remove existing schema scripts if any
+      const existingArticleScript = document.getElementById('article-schema');
+      if (existingArticleScript) {
+        existingArticleScript.remove();
+      }
+      const existingBreadcrumbScript = document.getElementById('breadcrumb-schema');
+      if (existingBreadcrumbScript) {
+        existingBreadcrumbScript.remove();
       }
 
-      // Add new schema script
-      const script = document.createElement('script');
-      script.id = 'article-schema';
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(schema);
-      document.head.appendChild(script);
+      // Add NewsArticle schema script
+      const articleScript = document.createElement('script');
+      articleScript.id = 'article-schema';
+      articleScript.type = 'application/ld+json';
+      articleScript.textContent = JSON.stringify(schema);
+      document.head.appendChild(articleScript);
+
+      // Add BreadcrumbList schema script
+      const breadcrumbScript = document.createElement('script');
+      breadcrumbScript.id = 'breadcrumb-schema';
+      breadcrumbScript.type = 'application/ld+json';
+      breadcrumbScript.textContent = JSON.stringify(breadcrumbSchema);
+      document.head.appendChild(breadcrumbScript);
 
       return () => {
-        const scriptToRemove = document.getElementById('article-schema');
-        if (scriptToRemove) {
-          scriptToRemove.remove();
+        const articleScriptToRemove = document.getElementById('article-schema');
+        if (articleScriptToRemove) {
+          articleScriptToRemove.remove();
+        }
+        const breadcrumbScriptToRemove = document.getElementById('breadcrumb-schema');
+        if (breadcrumbScriptToRemove) {
+          breadcrumbScriptToRemove.remove();
         }
       };
     }

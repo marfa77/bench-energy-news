@@ -158,6 +158,25 @@ python3 notion_sync.py
 python3 update_index.py
 ```
 
+## ⚠️ ПРАВИЛО: Деплой на Vercel
+
+**Деплой на Vercel происходит ТОЛЬКО через GitHub интеграцию.**
+
+- ✅ Push в ветку `main` → автоматический деплой на Vercel
+- ❌ НЕ использовать `vercel deploy` (CLI)
+- ❌ НЕ использовать ручной деплой через Vercel Dashboard
+- ✅ Все изменения должны быть закоммичены и запушены в GitHub
+
+**Процесс деплоя:**
+```bash
+git add .
+git commit -m "Описание изменений"
+git push origin main
+# Vercel автоматически обнаружит push и задеплоит
+```
+
+Подробнее см. `DEPLOYMENT_RULES.md`
+
 ## Деплой на сервер
 
 ### Информация о сервере

@@ -7,23 +7,60 @@ import BlogImage from '../components/BlogImage';
 export const metadata: Metadata = {
   title: 'Bench Energy Blog - Expert Analysis on Coal Markets & Freight',
   description: 'Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts. In-depth analysis on thermal coal, coking coal, freight rates, and commodity trading strategies.',
-  keywords: ['coal market analysis', 'freight logistics', 'energy industry', 'thermal coal', 'coking coal', 'commodity trading', 'freight rates', 'market insights', 'Bench Energy blog'],
+  keywords: [
+    'coal market analysis',
+    'freight logistics',
+    'energy industry',
+    'thermal coal',
+    'coking coal',
+    'commodity trading',
+    'freight rates',
+    'market insights',
+    'Bench Energy blog',
+    'dry bulk shipping',
+    'port operations',
+    'vessel availability',
+    'coal prices',
+    'energy market trends',
+  ],
+  authors: [{ name: 'Bench Energy' }],
   openGraph: {
     title: 'Bench Energy Blog - Expert Analysis on Coal Markets & Freight',
-    description: 'Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts.',
+    description: 'Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts. In-depth analysis with specific data points and actionable intelligence.',
     type: 'website',
     url: 'https://www.bench.energy/blog',
+    siteName: 'Bench Energy',
+    locale: 'en_US',
     images: [
       {
         url: 'https://www.bench.energy/logo.png',
         width: 1200,
         height: 630,
-        alt: 'Bench Energy Blog',
+        alt: 'Bench Energy Blog - Expert Analysis on Coal Markets & Freight',
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bench Energy Blog - Expert Analysis on Coal Markets & Freight',
+    description: 'Expert articles about coal markets, freight logistics, and energy industry insights from Bench Energy analysts.',
+    images: ['https://www.bench.energy/logo.png'],
+    site: '@Bench_energy',
+    creator: '@Bench_energy',
+  },
   alternates: {
     canonical: 'https://www.bench.energy/blog',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -177,6 +214,30 @@ export default async function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(blogSchema)
+        }}
+      />
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.bench.energy"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://www.bench.energy/blog"
+              }
+            ]
+          })
         }}
       />
       <div className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 min-h-screen">
