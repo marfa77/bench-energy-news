@@ -2,9 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://marfa77.github.io/bench-energy-news</loc>
-    <lastmod>2026-01-27</lastmod>
+    <lastmod>2026-01-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/met-coal-pipeline-grows-despite-demand-slide-report-miningcom.html</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://marfa77.github.io/bench-energy-news/posts/smm-coking-coal-and-coke-daily-briefing-hellenic-shipping-news-worldwide.html</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://marfa77.github.io/bench-energy-news/posts/global-coal-exports-fall-for-third-straight-week-as-subdued-market-fundamentals.html</loc>
