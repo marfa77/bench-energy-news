@@ -2,6 +2,8 @@
 
 Автоматизированная система публикации новостей о рынке угля и энергетики от Bench Energy.
 
+**📋 Правила проекта (не обнулять):** [PROJECT_RULES.md](PROJECT_RULES.md)
+
 🌐 **Сайт:** https://marfa77.github.io/bench-energy-news  
 📱 **Telegram:** https://t.me/benchenergy  
 📰 **RSS Feed:** https://marfa77.github.io/bench-energy-news/feed.xml

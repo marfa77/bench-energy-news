@@ -34,7 +34,7 @@ def collect_coal_market_data(max_retries: int = 3) -> Dict:
     
     # Используем REST API напрямую (как в Dubai RE Soft Launch)
     # Это не требует настройки Vertex AI проекта
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
     
     today = datetime.now()
     today_str = today.strftime("%Y-%m-%d")

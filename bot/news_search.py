@@ -344,8 +344,8 @@ For EACH REAL news from sources (ONLY from found sources):
 - source_url: REAL URL of SPECIFIC ARTICLE from search (NOT website section, but specific article with full URL, e.g. https://www.reuters.com/business/energy/coal-prices-rise-2024-01-15/)
 - publication_date: "{today_str}" ONLY if event happened today and it's mentioned in source, otherwise null
 
-CRITICAL REQUIREMENTS FOR SUMMARY (WEB VERSION - 800 characters):
-- MUST be approximately 800 characters (700-900 characters range is acceptable)
+CRITICAL REQUIREMENTS FOR SUMMARY (WEB VERSION - 500+ characters):
+- MUST be at least 500 characters (500-900 characters range is acceptable)
 - MUST include specific numbers: prices (USD/ton), volumes (million tons), percentages (%), dates
 - MUST include concrete facts: company names, port names, specific countries, exact figures
 - MUST provide context: background information, market conditions, historical comparison
@@ -353,7 +353,7 @@ CRITICAL REQUIREMENTS FOR SUMMARY (WEB VERSION - 800 characters):
 - MUST be comprehensive and detailed - not just a brief summary
 - DO NOT use vague phrases: "limited activity", "not mentioned", "under observation", "no significant", "minimal", "expected", "likely"
 - If article doesn't have specific numbers - DO NOT include this news (skip it)
-- Summary must be at least 700 characters and contain real data with context
+- Summary must be at least 500 characters and contain real data with context
 
 IMPORTANT: source_url must be URL of SPECIFIC ARTICLE, not website section (not /business/energy/, but full article URL)
 
@@ -395,7 +395,7 @@ CRITICALLY IMPORTANT:
         try:
             # Используем REST API напрямую (как в Dubai RE Soft Launch)
             # Это работает без настройки Vertex AI проекта
-            model_name = "gemini-2.0-flash-exp"
+            model_name = "gemini-2.0-flash"  # стабильная модель; gemini-2.0-flash-exp даёт 404
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
             
             payload = {
@@ -543,25 +543,15 @@ CRITICALLY IMPORTANT:
                         is_fake = any(pattern in url_lower or pattern in source_lower for pattern in invalid_patterns)
                         
                         if not is_fake:
-                            # ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА: Валидируем URL (проверяем, что он доступен)
-                            # Но делаем это быстро, чтобы не замедлять поиск
-                            try:
-                                from url_validator import validate_news_url
-                                is_valid, error_msg = validate_news_url(source_url, timeout=5)
-                                if is_valid:
-                                    valid_news.append({
-                                        "title": item.get("title", ""),
-                                        "summary": item.get("summary", ""),
-                                        "source_name": source_name,
-                                        "source_url": source_url,
-                                        "publication_date": item.get("publication_date", today_str)
-                                    })
-                                else:
-                                    print(f"⚠️  Пропущена новость с битой ссылкой: {source_name} ({source_url[:50]}...) - {error_msg}")
-                            except Exception as e:
-                                # Если валидация не удалась, пропускаем новость (безопаснее)
-                                print(f"⚠️  Не удалось проверить URL {source_url[:50]}...: {e}")
-                                print(f"   ⚠️  Пропускаем новость (безопаснее не публиковать без проверки)")
+                            # URL проверяется при публикации в process_news(); здесь не валидируем,
+                            # чтобы не отсекать кандидатов из-за 403/таймаутов при HEAD-запросе.
+                            valid_news.append({
+                                "title": item.get("title", ""),
+                                "summary": item.get("summary", ""),
+                                "source_name": source_name,
+                                "source_url": source_url,
+                                "publication_date": item.get("publication_date", today_str)
+                            })
                         else:
                             print(f"⚠️  Пропущена новость из фейкового источника: {source_name} ({source_url[:50]}...)")
                     else:
@@ -653,8 +643,8 @@ def select_best_news(news_list: List[Dict]) -> Optional[Dict]:
         ]
         has_vague_only = all(phrase in text for phrase in vague_phrases[:2]) and not has_numbers
         
-        # Должна быть достаточная длина summary (минимум 700 символов для веб-версии)
-        if len(summary) < 700:
+        # Должна быть достаточная длина summary (минимум 500 символов; было 700 — слишком строго)
+        if len(summary) < 500:
             continue
         
         # Пропускаем новости без конкретных данных
@@ -718,10 +708,10 @@ def select_best_news(news_list: List[Dict]) -> Optional[Dict]:
         if news.get("source_url"):
             score += 30
         
-        # 5. Длина и детальность summary для веб-версии (800 символов)
+        # 5. Длина и детальность summary для веб-версии (500+ символов)
         summary_len = len(news.get("summary", ""))
-        if 700 <= summary_len <= 1000:
-            score += min(summary_len // 20, 30)  # До +30 за оптимальную длину (800 символов)
+        if 500 <= summary_len <= 1000:
+            score += min(summary_len // 20, 30)  # До +30 за оптимальную длину
         
         # 6. Бонус за наличие цифр и конкретики (признак качественной новости)
         import re
@@ -775,7 +765,7 @@ def _process_discovery_engine_results(news_list: List[Dict]) -> List[Dict]:
     
     try:
         # Используем Gemini для улучшения summary
-        model_name = "gemini-2.0-flash-exp"
+        model_name = "gemini-2.0-flash"  # стабильная модель; gemini-2.0-flash-exp даёт 404
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
         
         # Формируем промпт для обработки новостей

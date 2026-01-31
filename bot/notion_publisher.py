@@ -240,7 +240,7 @@ def create_notion_page(news_data: Dict, telegram_version: str, web_version: str,
                 "rich_text": [{"type": "text", "text": {"content": source_name}}]
             },
             "Source URL": {
-                "url": source_url
+                "url": source_url if source_url else None  # Notion требует null, не пустую строку
             },
             "Published": {
                 "checkbox": True
