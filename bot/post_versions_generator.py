@@ -81,7 +81,8 @@ STRUCTURE (Critical for 3-second scroll stop):
    Keep expert section ~150-200 characters
 
 4. **Multimedia Integration** (Optional mention):
-   - If relevant, mention: "📊 Full analysis with charts on bench.energy"
+   - If relevant, use: "📊 Full analysis: https://www.bench.energy/news/"
+   - Do NOT use bench.energy/coal-market (that page does not exist). Always use https://www.bench.energy/news/ for full analysis link.
    - Encourage saves: "💾 Save this post for reference"
 
 5. **SEO Keywords** (For Telegram internal search):
@@ -92,7 +93,7 @@ STRUCTURE (Critical for 3-second scroll stop):
    - End with gentle, helpful invitation (NOT aggressive):
      "📖 For daily market insights: @benchenergy"
      OR
-     "🔗 Full analysis: bench.energy/news"
+     "📊 Full analysis: https://www.bench.energy/news/"
      OR
      "💡 Save this post for reference"
    - Use soft, helpful emoji (📖, 🔗, 💡) - avoid aggressive gestures (👉)
@@ -208,6 +209,11 @@ Return ONLY the JSON object with tg_version and web_version."""
                 
                 # Проверяем наличие всех версий
                 if "tg_version" in versions and "web_version" in versions:
+                    # Нормализуем ссылку: bench.energy/coal-market не существует → https://www.bench.energy/news/
+                    full_analysis_url = "https://www.bench.energy/news/"
+                    for key in ("tg_version", "web_version"):
+                        if key in versions and versions[key]:
+                            versions[key] = versions[key].replace("bench.energy/coal-market", full_analysis_url)
                     print(f"✅ Две версии поста сгенерированы (Telegram, Web)")
                     return versions
                 else:
